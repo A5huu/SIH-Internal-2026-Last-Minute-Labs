@@ -1,0 +1,351 @@
+vessel_id,vessel_name,vessel_class,vessel_type,dwt,capacity,length,beam,draft,age,build_year,engine_power,fuel_type,fuel_consumption,cruising_speed,max_speed,flag,owner_operator,current_port_id,operational_status,availability_date,reliability_score
+V0001,Pacific Sunrise,Handysize,Handysize,26777,34222,173.4,27.8,9.11,5,2021,6282,VLSFO,23.54,13.0,14.9,Marshall Islands,Adani Shipping,3,At Anchor,2026-03-05,0.903
+V0002,Steel Voyager,Handysize,Handysize,25090,30498,171.8,27.2,9.28,10,2016,6318,VLSFO,20.09,12.3,14.5,India,Eagle Bulk,15,Underway,2026-02-28,0.872
+V0003,Bunga Explorer,Handysize,Handysize,31396,39696,179.9,28.5,9.74,12,2014,6905,VLSFO,22.2,13.3,14.9,Liberia,Pacific Basin,15,At Berth,2026-02-25,0.807
+V0004,Ocean Explorer,Handysize,Handysize,31368,39234,180.2,27.8,9.8,9,2017,7050,VLSFO,19.82,12.6,14.1,India,Great Eastern Shipping,28,Underway,2026-03-05,0.849
+V0005,Diana Jewel,Handysize,Handysize,29140,36865,175.8,28.1,9.63,18,2008,6505,VLSFO,18.57,12.0,14.2,Panama,Oldendorff Carriers,13,Underway,2026-03-19,0.773
+V0006,Steel Express,Handysize,Handysize,19752,24808,160.5,26.0,9.02,15,2011,6064,VLSFO,25.2,13.5,15.7,Panama,Berge Bulk,24,At Berth,2026-03-06,0.817
+V0007,Eagle Leader,Handysize,Handysize,35132,43921,184.1,28.8,10.22,8,2018,7141,VLSFO,16.22,12.2,14.1,Marshall Islands,Tata NYK Shipping,6,At Anchor,2026-03-30,0.913
+V0008,Iron Prosperity,Handysize,Handysize,29818,37648,176.2,27.6,9.54,21,2005,7280,VLSFO,23.33,12.8,15.2,Panama,Berge Bulk,10,At Anchor,2026-02-24,0.72
+V0009,Star Pride,Handysize,Handysize,20804,25432,162.4,26.0,8.93,7,2019,6310,VLSFO,27.06,13.6,15.2,Liberia,Golden Ocean Group,26,Underway,2026-03-03,0.939
+V0010,Samudra Jewel,Handysize,Handysize,28301,34062,174.4,27.6,9.71,11,2015,6146,VLSFO,28.88,13.8,16.0,Marshall Islands,Star Bulk Carriers,14,Underway,2026-03-09,0.852
+V0011,Ganga Horizon,Handysize,Handysize,23249,29444,165.5,26.5,9.55,18,2008,5909,VLSFO,21.72,13.0,15.4,India,Jindal Steel & Power,1,Underway,2026-03-05,0.764
+V0012,Ocean Pioneer,Handysize,Handysize,20436,24849,163.3,26.2,8.75,4,2022,6018,VLSFO/Scrubber,20.47,12.4,14.0,Cyprus,Genco Shipping,17,At Anchor,2026-03-06,0.943
+V0013,Safe Pioneer,Handysize,Handysize,29103,35899,175.8,27.6,9.71,2,2024,7173,LNG Dual Fuel,26.33,13.8,15.8,Panama,Berge Bulk,17,At Berth,2026-03-28,0.943
+V0014,Paradip Sunrise,Handysize,Handysize,26251,32454,170.2,27.4,9.11,15,2011,5938,VLSFO,22.59,13.4,15.7,Panama,Pacific Basin,30,At Anchor,2026-03-01,0.835
+V0015,Iron Voyager,Handysize,Handysize,23694,28537,167.8,26.6,9.21,17,2009,5902,VLSFO,22.68,13.0,15.2,India,Navios Maritime,6,Underway,2026-03-03,0.762
+V0016,Maritime Jewel,Handysize,Handysize,26325,31699,170.5,27.1,9.7,3,2023,5809,VLSFO/Scrubber,27.18,13.9,16.4,Marshall Islands,Pacific Basin,11,At Anchor,2026-03-13,0.942
+V0017,Mundra Glory,Handysize,Handysize,25701,31823,171.0,27.4,9.34,11,2015,6788,VLSFO,20.01,12.7,14.6,Singapore,Adani Shipping,16,Underway,2026-03-12,0.874
+V0018,Nordic Vanguard,Handysize,Handysize,31051,37977,179.5,28.2,9.86,6,2020,6451,VLSFO,21.74,13.5,15.9,Malta,Adani Shipping,24,At Anchor,2026-02-28,0.923
+V0019,Baltic Colossus,Handysize,Handysize,29873,36453,177.6,27.9,9.55,8,2018,6485,VLSFO,23.62,13.3,15.0,Liberia,Navios Maritime,16,At Berth,2026-02-28,0.885
+V0020,Samudra Legacy,Handysize,Handysize,20342,25670,165.5,26.5,9.16,7,2019,6054,VLSFO,24.65,13.9,16.2,Malta,Great Eastern Shipping,18,Underway,2026-03-11,0.904
+V0021,Ocean Horizon,Handysize,Handysize,29059,35745,174.2,28.0,9.85,2,2024,6862,LNG Dual Fuel,18.86,12.4,14.8,Panama,Eagle Bulk,27,Underway,2026-03-29,0.958
+V0022,Diana Fortune,Handysize,Handysize,24038,30762,169.2,27.1,9.0,3,2023,5962,VLSFO/Scrubber,19.13,12.4,14.9,Panama,Golden Ocean Group,15,At Berth,2026-03-01,0.955
+V0023,Kaveri Leader,Handysize,Handysize,36212,43604,186.3,29.1,10.23,8,2018,6932,VLSFO,17.43,12.5,14.8,Liberia,Golden Ocean Group,2,Underway,2026-02-27,0.906
+V0024,Ocean Titan,Handysize,Handysize,32903,41417,181.0,28.4,9.87,17,2009,6882,VLSFO,25.5,13.3,15.8,Liberia,Navios Maritime,14,Underway,2026-03-02,0.773
+V0025,Yamuna Leader,Handysize,Handysize,37600,46841,186.5,29.6,10.33,18,2008,7856,VLSFO,21.55,12.4,14.5,Panama,Adani Shipping,16,Underway,2026-03-30,0.761
+V0026,Ocean Dynasty,Handysize,Handysize,24094,29706,167.3,27.2,9.28,12,2014,5632,VLSFO,20.36,13.1,14.9,Marshall Islands,Star Bulk Carriers,19,At Berth,2026-03-20,0.817
+V0027,Iron Jewel,Handysize,Handysize,24324,30406,168.3,27.4,9.08,13,2013,6199,VLSFO,27.17,13.4,15.8,Liberia,Berge Bulk,16,Underway,2026-02-25,0.833
+V0028,Pacific Legacy,Handysize,Handysize,19111,23413,161.1,26.3,8.83,5,2021,5510,VLSFO/Scrubber,23.07,13.8,15.7,Bahamas,Tata NYK Shipping,15,Underway,2026-03-23,0.909
+V0029,Yamuna Titan,Handysize,Handysize,32108,39066,179.3,28.5,9.91,9,2017,7111,VLSFO,21.55,12.4,14.7,Panama,Tata NYK Shipping,13,Underway,2026-03-25,0.868
+V0030,Yamuna Pioneer,Handysize,Handysize,27386,32961,172.6,27.4,9.46,16,2010,6629,VLSFO,22.59,12.9,15.0,Marshall Islands,Golden Ocean Group,14,At Berth,2026-03-19,0.793
+V0031,Steel Trader,Handysize,Handysize,25332,31376,171.3,27.5,9.46,5,2021,6843,VLSFO,27.91,13.9,16.0,Panama,Jindal Steel & Power,30,At Berth,2026-03-09,0.902
+V0032,Baltic Pioneer,Handysize,Handysize,21832,26735,165.1,26.5,9.22,8,2018,5862,VLSFO,20.64,12.6,14.8,Singapore,Berge Bulk,17,In Maintenance,2026-03-21,0.879
+V0033,Steel Sunrise,Handysize,Handysize,35336,43966,185.3,29.6,9.95,7,2019,7716,VLSFO,28.16,14.0,15.8,Liberia,Jindal Steel & Power,16,In Maintenance,2026-03-26,0.87
+V0034,Safe Fortune,Handysize,Handysize,26231,33160,170.7,27.8,9.33,3,2023,6551,VLSFO,18.59,12.9,14.4,Liberia,Jindal Steel & Power,13,Underway,2026-03-24,0.928
+V0035,Indus Explorer,Handysize,Handysize,30437,38173,176.8,28.2,9.85,23,2003,6583,VLSFO,25.25,13.5,15.7,Marshall Islands,Golden Ocean Group,13,Underway,2026-03-15,0.696
+V0036,Paradip Legacy,Handysize,Handysize,19696,25208,163.2,25.8,9.08,14,2012,5568,VLSFO,21.4,12.2,14.3,Panama,Oldendorff Carriers,12,Underway,2026-02-28,0.804
+V0037,Pacific Trader,Handysize,Handysize,22039,27052,166.1,26.4,9.16,11,2015,5396,VLSFO,23.49,13.5,15.5,Marshall Islands,Jindal Steel & Power,24,At Berth,2026-03-17,0.858
+V0038,Bharat Pioneer,Handysize,Handysize,22827,28417,168.0,26.9,9.66,5,2021,5932,VLSFO,22.71,13.1,15.6,Marshall Islands,Star Bulk Carriers,11,At Berth,2026-02-27,0.91
+V0039,Global Dynasty,Handysize,Handysize,28254,34137,174.0,28.1,9.17,22,2004,5829,VLSFO,18.9,11.9,13.9,India,Adani Shipping,23,Underway,2026-03-30,0.715
+V0040,Global Glory,Handysize,Handysize,26332,31600,171.6,27.7,9.26,10,2016,5968,VLSFO,22.16,12.7,14.6,Panama,Golden Ocean Group,28,Underway,2026-03-19,0.814
+V0041,Ganga Fortune,Handysize,Handysize,36607,44369,184.3,28.9,10.38,22,2004,7304,VLSFO,25.28,13.6,15.1,Marshall Islands,Oldendorff Carriers,19,At Anchor,2026-03-13,0.736
+V0042,Star Endeavour,Handysize,Handysize,30382,37076,178.1,28.1,9.61,3,2023,6433,VLSFO,28.37,14.1,16.0,Panama,Adani Shipping,21,Underway,2026-03-07,0.969
+V0043,Paradip Pioneer,Handysize,Handysize,24929,31326,169.8,27.0,9.1,5,2021,6600,VLSFO/Scrubber,20.75,13.3,14.9,India,Jindal Steel & Power,1,In Maintenance,2026-03-16,0.894
+V0044,Iron Master,Handysize,Handysize,35946,43920,185.2,29.1,10.02,22,2004,6919,VLSFO,22.34,12.3,14.5,Panama,Great Eastern Shipping,20,At Berth,2026-03-17,0.737
+V0045,Nordic Master,Handysize,Handysize,31552,40344,180.9,28.7,9.86,11,2015,6920,VLSFO,17.91,12.0,14.3,Marshall Islands,Navios Maritime,5,In Maintenance,2026-03-05,0.84
+V0046,Baltic Titan,Handysize,Handysize,35179,44279,184.5,28.7,9.75,3,2023,7227,VLSFO,25.46,13.6,15.8,Liberia,Oldendorff Carriers,17,Underway,2026-02-27,0.929
+V0047,Diana Horizon,Handysize,Handysize,18462,23465,163.5,26.1,9.19,12,2014,5655,VLSFO,22.93,13.2,15.3,Panama,Berge Bulk,13,Underway,2026-03-07,0.854
+V0048,Baltic Fortune,Handysize,Handysize,24789,31241,170.5,26.9,9.05,3,2023,5970,VLSFO,18.66,12.5,14.5,Marshall Islands,Genco Shipping,22,Underway,2026-03-13,0.958
+V0049,Maritime Endeavour,Handysize,Handysize,23895,30556,168.1,27.0,9.32,2,2024,5737,VLSFO,18.48,12.4,14.2,India,Great Eastern Shipping,9,Underway,2026-02-27,0.945
+V0050,Mundra Champion,Handysize,Handysize,32702,41230,181.3,28.1,10.05,5,2021,7446,LNG Dual Fuel,16.48,12.3,14.7,Panama,Pacific Basin,6,At Berth,2026-03-04,0.928
+V0051,Ocean Legacy,Handysize,Handysize,35491,43284,183.0,29.2,10.47,18,2008,6988,VLSFO,26.72,13.6,15.9,India,Berge Bulk,5,At Anchor,2026-02-27,0.759
+V0052,Safe Legacy,Handysize,Handysize,21271,25576,165.5,26.2,9.04,19,2007,5890,VLSFO,20.98,12.5,14.6,Liberia,Jindal Steel & Power,27,Underway,2026-03-21,0.693
+V0053,Mundra Voyager,Handysize,Handysize,36413,46009,184.0,29.0,10.55,7,2019,7340,VLSFO,27.1,13.6,15.3,Panama,Adani Shipping,2,Underway,2026-03-23,0.869
+V0054,Ocean Prosperity,Handysize,Handysize,30645,38554,178.0,28.4,9.61,10,2016,6640,VLSFO,25.64,13.2,15.2,India,Great Eastern Shipping,32,At Anchor,2026-03-11,0.867
+V0055,Ganga Horizon,Handysize,Handysize,37836,48271,187.3,29.3,10.56,12,2014,7878,VLSFO,22.67,12.8,14.9,Panama,Eagle Bulk,14,Underway,2026-03-05,0.835
+V0056,Ocean Colossus,Supramax,Supramax,60343,73987,195.4,32.3,12.74,17,2009,8851,VLSFO,33.22,13.6,15.3,Marshall Islands,Great Eastern Shipping,30,Underway,2026-03-27,0.788
+V0057,Samudra Navigator,Supramax,Supramax,60767,75961,195.9,31.4,12.72,14,2012,9418,VLSFO,28.54,12.7,14.9,Malta,Adani Shipping,28,Underway,2026-03-25,0.801
+V0058,Eagle Titan,Supramax,Supramax,59902,76309,194.4,31.7,12.51,4,2022,9069,VLSFO/Scrubber,32.48,13.6,15.9,Panama,Navios Maritime,15,Underway,2026-03-16,0.94
+V0059,Global Explorer,Supramax,Supramax,62200,76312,199.5,32.0,12.85,5,2021,9702,VLSFO,36.57,13.6,15.2,Marshall Islands,Adani Shipping,30,In Maintenance,2026-03-18,0.946
+V0060,Golden Dynasty,Supramax,Supramax,61884,74814,197.6,32.2,12.75,4,2022,9419,VLSFO,31.14,13.2,15.2,India,Great Eastern Shipping,22,In Maintenance,2026-03-21,0.931
+V0061,Global Fortune,Supramax,Supramax,57765,70950,194.5,32.0,12.5,5,2021,8223,VLSFO/Scrubber,30.34,12.9,14.7,Singapore,Adani Shipping,4,Underway,2026-03-06,0.922
+V0062,Nordic Endeavour,Supramax,Supramax,52660,63338,188.6,31.3,11.82,7,2019,8426,VLSFO,27.7,12.4,14.0,Panama,Shipping Corporation of India (SCI),18,Underway,2026-03-21,0.924
+V0063,Bunga Sunrise,Supramax,Supramax,58302,70984,194.1,32.4,11.99,16,2010,8711,VLSFO,24.04,12.1,13.7,India,Jindal Steel & Power,21,Underway,2026-03-28,0.807
+V0064,Navios Leader,Supramax,Supramax,64194,80402,196.0,31.9,12.83,14,2012,9103,VLSFO,33.25,13.1,15.2,Panama,Adani Shipping,20,Underway,2026-03-05,0.789
+V0065,Apex Sunrise,Supramax,Supramax,62332,77400,196.8,32.2,12.95,14,2012,9544,VLSFO,31.14,13.3,14.9,Singapore,Great Eastern Shipping,16,Underway,2026-03-25,0.824
+V0066,Samudra Glory,Supramax,Supramax,54689,66563,193.5,31.3,11.89,20,2006,7790,VLSFO,32.06,12.6,14.3,Panama,Shipping Corporation of India (SCI),11,At Berth,2026-03-05,0.722
+V0067,Navios Leader,Supramax,Supramax,63104,76307,197.6,31.4,12.68,7,2019,9040,VLSFO,35.14,13.8,16.1,Panama,Navios Maritime,31,At Berth,2026-03-28,0.906
+V0068,Kaveri Dynasty,Supramax,Supramax,64232,80083,198.0,32.3,13.14,19,2007,9732,VLSFO,27.52,12.2,13.8,Marshall Islands,Oldendorff Carriers,13,At Anchor,2026-03-28,0.773
+V0069,Ganga Master,Supramax,Supramax,56115,70295,193.4,32.2,12.07,9,2017,8204,VLSFO,26.1,12.7,14.6,Marshall Islands,Eagle Bulk,25,Underway,2026-03-14,0.888
+V0070,Mundra Vanguard,Supramax,Supramax,59467,73227,196.1,32.4,12.87,3,2023,8688,VLSFO,21.57,12.2,14.4,Panama,Jindal Steel & Power,15,At Anchor,2026-02-24,0.904
+V0071,Samudra Fortune,Supramax,Supramax,62984,76389,201.5,32.5,12.98,5,2021,8742,VLSFO,33.44,14.0,16.5,Liberia,Navios Maritime,16,At Berth,2026-03-18,0.878
+V0072,Tashkent Horizon,Supramax,Supramax,57312,72418,188.9,31.7,12.12,4,2022,8686,VLSFO,34.58,13.9,15.4,Panama,Pacific Basin,26,Underway,2026-03-17,0.921
+V0073,Iron Glory,Supramax,Supramax,58528,71844,191.9,31.9,12.63,20,2006,9002,VLSFO,27.08,12.6,14.9,Panama,Great Eastern Shipping,14,Underway,2026-03-03,0.736
+V0074,Nordic Champion,Supramax,Supramax,63983,81401,200.0,32.0,13.23,22,2004,9694,VLSFO,38.41,13.4,15.0,Marshall Islands,Jindal Steel & Power,23,Underway,2026-03-09,0.706
+V0075,Tashkent Trader,Supramax,Supramax,64109,81876,200.9,32.2,13.13,20,2006,9917,VLSFO,36.38,13.2,15.5,Marshall Islands,Golden Ocean Group,18,At Anchor,2026-03-03,0.747
+V0076,Tashkent Prosperity,Supramax,Supramax,58036,71460,193.3,31.8,12.08,20,2006,8343,VLSFO,36.21,13.4,15.3,Cyprus,Eagle Bulk,27,At Berth,2026-03-03,0.703
+V0077,Bharat Dynasty,Supramax,Supramax,64214,77382,201.5,32.2,13.03,17,2009,9767,VLSFO,34.49,13.7,15.7,Malta,Great Eastern Shipping,12,Underway,2026-03-12,0.745
+V0078,Maritime Master,Supramax,Supramax,63821,77518,199.4,32.2,12.99,14,2012,9556,VLSFO,34.77,13.3,15.2,India,Golden Ocean Group,19,At Berth,2026-03-13,0.793
+V0079,Star Harmony,Supramax,Supramax,57458,70888,188.8,31.5,12.59,21,2005,8168,VLSFO,30.2,12.2,14.3,India,Tata NYK Shipping,27,At Berth,2026-03-22,0.716
+V0080,Yamuna Pride,Supramax,Supramax,59974,75147,199.1,32.0,12.99,7,2019,8730,VLSFO,28.35,12.8,14.7,Liberia,Golden Ocean Group,12,Underway,2026-02-28,0.867
+V0081,Berge Jewel,Supramax,Supramax,61340,78299,196.7,32.0,13.19,18,2008,9656,VLSFO,29.63,12.4,14.4,Panama,Tata NYK Shipping,5,Underway,2026-03-04,0.782
+V0082,Global Master,Supramax,Supramax,58877,74336,193.0,31.8,12.29,5,2021,9003,VLSFO,31.39,13.7,15.4,Liberia,Great Eastern Shipping,6,Underway,2026-03-06,0.878
+V0083,Berge Voyager,Supramax,Supramax,57485,72491,194.6,31.3,12.03,3,2023,8983,VLSFO,37.47,13.9,16.4,India,Eagle Bulk,1,Underway,2026-03-12,0.966
+V0084,Safe Glory,Supramax,Supramax,59102,71987,196.3,31.6,12.94,5,2021,8316,LNG Dual Fuel,33.69,13.8,16.2,Panama,Golden Ocean Group,32,Underway,2026-03-15,0.915
+V0085,Maritime Leader,Supramax,Supramax,54439,68959,189.3,31.5,11.98,6,2020,7932,VLSFO,27.98,12.4,14.7,Panama,Jindal Steel & Power,9,In Maintenance,2026-03-15,0.885
+V0086,Apex Pioneer,Supramax,Supramax,57406,70624,193.2,31.8,12.43,4,2022,8199,VLSFO,28.87,13.3,15.8,Panama,Golden Ocean Group,11,Underway,2026-03-22,0.918
+V0087,Maritime Leader,Supramax,Supramax,54443,68128,189.7,31.2,11.77,6,2020,8265,VLSFO,27.15,12.9,14.8,Panama,Great Eastern Shipping,7,Underway,2026-03-10,0.931
+V0088,Diana Explorer,Supramax,Supramax,61950,75698,197.2,32.0,12.89,15,2011,9256,VLSFO,39.82,13.8,15.7,Marshall Islands,Star Bulk Carriers,14,Underway,2026-03-23,0.812
+V0089,Berge Dynasty,Supramax,Supramax,62637,79511,194.7,32.7,12.98,14,2012,9082,VLSFO,37.08,13.4,15.0,Marshall Islands,Jindal Steel & Power,24,At Anchor,2026-03-01,0.812
+V0090,Ganga Express,Supramax,Supramax,53473,66660,188.0,31.6,11.93,12,2014,7803,VLSFO,37.66,13.8,15.5,Cyprus,Star Bulk Carriers,1,At Anchor,2026-03-21,0.844
+V0091,Baltic Vanguard,Supramax,Supramax,56400,68103,192.1,32.3,12.5,11,2015,8434,VLSFO,30.1,12.5,14.8,Panama,Star Bulk Carriers,20,At Berth,2026-03-28,0.843
+V0092,Mundra Dynasty,Supramax,Supramax,54751,65943,189.1,31.5,12.33,13,2013,8034,VLSFO,22.33,12.0,13.9,Liberia,Shipping Corporation of India (SCI),24,Underway,2026-03-26,0.796
+V0093,Eagle Harmony,Supramax,Supramax,61740,78822,200.9,31.6,12.85,6,2020,9244,VLSFO,32.94,13.6,15.6,Liberia,Shipping Corporation of India (SCI),12,At Berth,2026-02-28,0.905
+V0094,Ocean Endeavour,Supramax,Supramax,63286,77015,198.0,32.1,13.1,20,2006,9005,VLSFO,23.36,11.9,14.4,Marshall Islands,Jindal Steel & Power,14,At Berth,2026-03-26,0.741
+V0095,Diana Harmony,Supramax,Supramax,60909,73917,195.8,32.3,12.45,5,2021,9116,VLSFO,27.74,12.6,14.9,Panama,Eagle Bulk,7,At Berth,2026-03-18,0.926
+V0096,Indus Carrier,Supramax,Supramax,59110,73818,196.5,32.1,12.88,7,2019,8844,VLSFO,29.25,13.4,15.6,Panama,Star Bulk Carriers,11,At Berth,2026-03-11,0.872
+V0097,Yamuna Explorer,Supramax,Supramax,62371,77336,197.3,32.2,12.62,7,2019,9382,VLSFO,31.07,13.0,15.0,Malta,Berge Bulk,16,Underway,2026-03-29,0.847
+V0098,Samudra Harmony,Supramax,Supramax,54261,66988,191.7,31.1,12.03,5,2021,7569,VLSFO,28.23,13.2,14.9,Panama,Golden Ocean Group,10,Underway,2026-03-22,0.914
+V0099,Maritime Pride,Supramax,Supramax,58252,70946,194.1,32.2,12.06,14,2012,8698,VLSFO,30.14,12.4,14.5,Malta,Berge Bulk,7,At Berth,2026-03-19,0.77
+V0100,Mundra Explorer,Supramax,Supramax,57497,72669,195.6,31.6,12.33,15,2011,8256,VLSFO,32.28,13.0,15.1,Panama,Star Bulk Carriers,17,Underway,2026-02-28,0.782
+V0101,Nordic Legacy,Supramax,Supramax,57578,69191,190.3,31.9,12.16,14,2012,8410,VLSFO,29.4,13.2,15.0,India,Navios Maritime,20,Underway,2026-03-19,0.833
+V0102,Diana Master,Supramax,Supramax,62034,78926,198.1,32.2,12.8,9,2017,9315,VLSFO,26.86,12.4,14.6,Panama,Shipping Corporation of India (SCI),25,Underway,2026-03-08,0.887
+V0103,Ganga Trader,Supramax,Supramax,56402,70588,191.5,31.8,11.86,8,2018,8493,VLSFO,34.32,13.7,15.9,Panama,Pacific Basin,15,Underway,2026-02-26,0.879
+V0104,Baltic Voyager,Supramax,Supramax,63571,80989,200.7,32.4,12.98,2,2024,9475,VLSFO/Scrubber,36.1,14.1,16.5,Marshall Islands,Tata NYK Shipping,16,At Berth,2026-03-10,0.98
+V0105,Nordic Voyager,Supramax,Supramax,61247,75811,195.2,32.4,12.38,10,2016,8773,VLSFO,33.93,13.9,16.1,Liberia,Great Eastern Shipping,7,At Anchor,2026-03-18,0.843
+V0106,Berge Leader,Supramax,Supramax,55021,69075,189.7,31.3,12.13,2,2024,8121,VLSFO,31.45,13.5,15.3,Liberia,Adani Shipping,24,At Anchor,2026-03-14,0.92
+V0107,Star Prosperity,Supramax,Supramax,63912,79195,199.0,32.1,13.07,18,2008,9444,VLSFO,30.85,13.2,14.7,Panama,Golden Ocean Group,2,At Berth,2026-03-06,0.759
+V0108,Berge Fortune,Supramax,Supramax,53358,65711,189.6,32.1,12.04,4,2022,8004,VLSFO,29.78,13.3,14.8,Malta,Genco Shipping,11,At Berth,2026-02-24,0.94
+V0109,Maritime Sunrise,Supramax,Supramax,55560,71032,191.9,31.7,12.06,22,2004,8112,VLSFO,35.59,12.9,14.5,Panama,Shipping Corporation of India (SCI),16,In Maintenance,2026-03-06,0.74
+V0110,Safe Pioneer,Supramax,Supramax,52646,63557,191.0,31.6,11.86,11,2015,8036,VLSFO,30.49,13.0,15.5,Singapore,Great Eastern Shipping,28,At Berth,2026-03-09,0.859
+V0111,Indus Vanguard,Supramax,Supramax,54331,66067,191.2,31.5,12.07,6,2020,8434,VLSFO,30.91,13.4,15.2,Singapore,Shipping Corporation of India (SCI),19,Underway,2026-02-25,0.88
+V0112,Indus Prosperity,Supramax,Supramax,52487,66121,188.0,31.9,12.42,19,2007,8045,VLSFO,39.07,13.7,15.8,Marshall Islands,Berge Bulk,27,Underway,2026-03-14,0.757
+V0113,Diana Express,Supramax,Supramax,52176,63063,189.0,31.5,11.75,16,2010,7746,VLSFO,24.02,11.9,13.7,India,Pacific Basin,1,Underway,2026-03-06,0.77
+V0114,Yamuna Express,Supramax,Supramax,63606,80265,199.0,32.1,12.88,5,2021,9660,VLSFO/Scrubber,27.92,13.0,15.3,Liberia,Jindal Steel & Power,2,At Berth,2026-02-27,0.951
+V0115,Ocean Pioneer,Supramax,Supramax,61627,74434,196.5,32.5,12.59,15,2011,9303,VLSFO,24.49,12.0,13.9,Singapore,Adani Shipping,14,Underway,2026-03-21,0.802
+V0116,Nordic Trader,Supramax,Supramax,55217,68759,191.0,31.8,12.58,11,2015,8583,VLSFO,30.03,12.5,15.0,India,Golden Ocean Group,8,At Berth,2026-03-24,0.853
+V0117,Global Endeavour,Supramax,Supramax,63619,76642,202.0,32.4,12.86,8,2018,9754,VLSFO,25.81,12.2,14.2,India,Star Bulk Carriers,11,At Berth,2026-03-07,0.888
+V0118,Ganga Glory,Supramax,Supramax,53953,68724,188.5,32.0,12.13,20,2006,8925,VLSFO,36.45,13.7,16.1,Singapore,Golden Ocean Group,28,At Berth,2026-03-04,0.716
+V0119,Steel Trader,Supramax,Supramax,52484,63375,188.0,32.2,11.9,2,2024,7347,VLSFO/Scrubber,25.12,12.4,14.2,Panama,Genco Shipping,13,Underway,2026-03-20,0.936
+V0120,Apex Fortune,Supramax,Supramax,56851,69944,191.4,31.6,12.27,8,2018,8822,VLSFO,27.56,13.1,15.5,Panama,Genco Shipping,1,At Berth,2026-02-27,0.904
+V0121,Star Voyager,Supramax,Supramax,61393,76760,196.9,31.9,12.48,8,2018,9178,VLSFO,34.92,13.7,16.1,Panama,Shipping Corporation of India (SCI),7,Underway,2026-03-20,0.89
+V0122,Sagar Fortune,Supramax,Supramax,53169,65046,189.1,31.5,11.74,2,2024,7726,VLSFO,28.57,12.8,14.6,Malta,Oldendorff Carriers,11,Underway,2026-03-22,0.979
+V0123,Maritime Glory,Supramax,Supramax,57451,71690,191.5,31.9,12.42,3,2023,7871,VLSFO,26.78,12.9,14.6,Singapore,Tata NYK Shipping,2,Underway,2026-02-24,0.907
+V0124,Navios Horizon,Supramax,Supramax,55284,68877,188.0,31.3,12.52,10,2016,8643,VLSFO,28.51,12.8,15.1,Marshall Islands,Great Eastern Shipping,21,Underway,2026-02-26,0.906
+V0125,Sagar Trader,Supramax,Supramax,61098,77533,196.1,32.4,12.93,4,2022,8957,VLSFO,24.44,12.2,14.6,Marshall Islands,Adani Shipping,32,Underway,2026-03-16,0.971
+V0126,Mundra Dynasty,Supramax,Supramax,57970,70785,193.8,32.0,12.49,11,2015,9329,VLSFO,29.19,13.0,15.0,Singapore,Shipping Corporation of India (SCI),7,Underway,2026-03-17,0.858
+V0127,Diana Titan,Supramax,Supramax,62595,75350,195.8,32.3,12.9,5,2021,10155,VLSFO,34.85,13.6,15.2,Bahamas,Jindal Steel & Power,9,Underway,2026-03-13,0.936
+V0128,Ocean Master,Supramax,Supramax,59455,75178,196.1,32.0,12.61,15,2011,8918,VLSFO,29.19,12.5,14.3,Panama,Pacific Basin,12,Underway,2026-02-27,0.81
+V0129,Tashkent Harmony,Supramax,Supramax,52842,66645,190.0,31.2,11.84,20,2006,7814,VLSFO,35.6,13.3,14.9,Marshall Islands,Navios Maritime,11,At Berth,2026-03-02,0.756
+V0130,Samudra Trader,Supramax,Supramax,60304,73138,197.7,32.0,12.27,17,2009,9088,VLSFO,29.83,12.8,14.9,Liberia,Pacific Basin,7,At Anchor,2026-03-18,0.767
+V0131,Kaveri Express,Supramax,Supramax,58718,72939,193.2,31.4,12.56,3,2023,8606,VLSFO,32.71,13.3,15.0,Panama,Tata NYK Shipping,28,At Berth,2026-03-08,0.931
+V0132,Nordic Endeavour,Supramax,Supramax,52629,67129,188.8,31.9,12.29,10,2016,8437,VLSFO,24.68,12.2,14.0,Panama,Berge Bulk,7,At Anchor,2026-02-25,0.84
+V0133,Samudra Pride,Supramax,Supramax,58526,72565,192.8,32.1,12.64,23,2003,8602,VLSFO,34.02,13.6,15.9,Marshall Islands,Adani Shipping,15,Underway,2026-03-26,0.696
+V0134,Ocean Endeavour,Supramax,Supramax,54909,68300,188.8,31.6,11.86,16,2010,8086,VLSFO,34.37,13.0,14.9,Liberia,Great Eastern Shipping,9,At Berth,2026-03-18,0.8
+V0135,Steel Jewel,Supramax,Supramax,60631,76547,195.9,32.6,12.52,12,2014,9012,VLSFO,29.63,13.0,15.0,Cyprus,Golden Ocean Group,6,Underway,2026-03-28,0.836
+V0136,Global Navigator,Supramax,Supramax,58241,73117,193.8,31.2,12.34,23,2003,8773,VLSFO,32.24,12.7,14.2,Panama,Pacific Basin,16,Underway,2026-02-25,0.722
+V0137,Diana Jewel,Supramax,Supramax,64444,81595,200.1,32.1,13.1,9,2017,9078,VLSFO,35.66,13.4,15.8,India,Berge Bulk,1,Underway,2026-03-26,0.91
+V0138,Bunga Leader,Supramax,Supramax,57638,72174,194.2,31.9,12.42,19,2007,8350,VLSFO,40.07,13.6,15.2,Panama,Oldendorff Carriers,23,Underway,2026-03-22,0.746
+V0139,Pacific Voyager,Supramax,Supramax,59677,75845,192.8,32.1,12.26,4,2022,8279,VLSFO/Scrubber,29.16,12.7,14.7,Cyprus,Berge Bulk,8,At Anchor,2026-03-27,0.933
+V0140,Eagle Voyager,Supramax,Supramax,59004,71193,192.0,32.1,12.98,10,2016,8863,VLSFO,31.99,13.3,15.3,Liberia,Golden Ocean Group,27,At Berth,2026-03-22,0.84
+V0141,Global Legacy,Supramax,Supramax,55638,69723,191.6,32.2,12.24,4,2022,8971,VLSFO,36.53,13.7,15.9,Panama,Berge Bulk,27,Underway,2026-03-27,0.953
+V0142,Navios Navigator,Supramax,Supramax,58145,72447,192.4,31.8,12.6,10,2016,8931,VLSFO,30.11,12.9,14.8,Liberia,Star Bulk Carriers,3,At Anchor,2026-03-07,0.845
+V0143,Iron Legacy,Supramax,Supramax,53918,65731,189.0,31.6,12.27,7,2019,8063,VLSFO,32.64,13.1,15.5,Liberia,Pacific Basin,2,Underway,2026-03-28,0.91
+V0144,Paradip Legacy,Supramax,Supramax,58659,72588,194.3,31.6,12.3,3,2023,9251,VLSFO,29.54,13.4,15.9,Marshall Islands,Genco Shipping,17,Underway,2026-03-30,0.927
+V0145,Navios Navigator,Supramax,Supramax,58403,70868,194.8,31.6,12.33,5,2021,8595,VLSFO,27.27,12.9,15.3,Panama,Tata NYK Shipping,6,At Berth,2026-03-04,0.911
+V0146,Sagar Carrier,Supramax,Supramax,53163,65329,189.8,31.9,11.88,5,2021,7521,VLSFO,31.18,13.1,14.6,Liberia,Pacific Basin,29,At Berth,2026-03-26,0.919
+V0147,Nordic Titan,Supramax,Supramax,58563,71754,194.9,31.7,12.65,21,2005,9100,VLSFO,33.86,12.7,14.9,India,Oldendorff Carriers,25,Underway,2026-03-18,0.727
+V0148,Bharat Navigator,Supramax,Supramax,55246,69114,191.4,32.0,11.92,13,2013,7747,VLSFO,36.02,13.3,15.5,Liberia,Navios Maritime,8,At Anchor,2026-03-30,0.799
+V0149,Pacific Navigator,Supramax,Supramax,59834,76579,194.9,31.7,12.57,10,2016,8672,VLSFO,30.4,13.2,14.8,India,Oldendorff Carriers,28,At Berth,2026-03-10,0.851
+V0150,Golden Prosperity,Supramax,Supramax,58983,75136,194.9,32.3,12.29,14,2012,9030,VLSFO,26.16,12.0,14.5,Liberia,Shipping Corporation of India (SCI),5,Underway,2026-03-03,0.798
+V0151,Eagle Glory,Supramax,Supramax,62330,76144,198.8,32.1,12.84,12,2014,9454,VLSFO,32.25,13.5,15.4,India,Shipping Corporation of India (SCI),25,Underway,2026-03-17,0.857
+V0152,Berge Endeavour,Supramax,Supramax,62188,77913,200.0,32.1,12.7,11,2015,9469,VLSFO,26.7,12.8,14.8,Marshall Islands,Golden Ocean Group,10,Underway,2026-03-28,0.865
+V0153,Yamuna Express,Supramax,Supramax,57721,70533,193.9,31.5,12.27,12,2014,8463,VLSFO,24.79,12.0,13.7,India,Navios Maritime,31,Underway,2026-03-20,0.805
+V0154,Ocean Leader,Supramax,Supramax,64265,77572,202.0,31.8,13.57,2,2024,9857,VLSFO,26.31,13.0,14.9,Cyprus,Great Eastern Shipping,19,At Anchor,2026-02-26,0.953
+V0155,Navios Navigator,Supramax,Supramax,60804,75184,195.6,31.9,12.87,18,2008,9497,VLSFO,39.41,13.5,15.0,India,Oldendorff Carriers,19,At Berth,2026-03-10,0.757
+V0156,Iron Glory,Supramax,Supramax,60716,77142,194.5,32.2,13.01,7,2019,8502,VLSFO,24.8,12.7,14.3,India,Berge Bulk,22,Underway,2026-03-05,0.885
+V0157,Ocean Fortune,Supramax,Supramax,61979,78225,199.3,32.1,12.9,18,2008,9117,VLSFO,28.07,12.9,14.7,Cyprus,Adani Shipping,4,At Berth,2026-02-27,0.751
+V0158,Apex Dynasty,Supramax,Supramax,56005,69307,191.0,31.3,12.42,7,2019,8389,VLSFO,36.84,13.9,15.9,Marshall Islands,Pacific Basin,27,Underway,2026-03-05,0.896
+V0159,Ganga Express,Supramax,Supramax,52829,64072,188.0,31.8,11.74,8,2018,7726,VLSFO,34.97,13.7,15.5,Cyprus,Eagle Bulk,4,At Anchor,2026-03-18,0.869
+V0160,Iron Glory,Supramax,Supramax,61320,74127,199.1,32.0,12.62,21,2005,9149,VLSFO,29.87,12.4,14.8,India,Star Bulk Carriers,19,Underway,2026-03-07,0.751
+V0161,Navios Master,Supramax,Supramax,61279,74227,193.7,31.8,12.87,15,2011,9721,VLSFO,29.05,13.1,15.0,Liberia,Eagle Bulk,20,Underway,2026-03-06,0.828
+V0162,Eastern Navigator,Supramax,Supramax,56746,71497,191.7,31.8,12.36,2,2024,8248,VLSFO,31.99,14.0,15.7,Panama,Genco Shipping,15,Underway,2026-03-17,0.93
+V0163,Mundra Explorer,Supramax,Supramax,55373,70358,193.3,31.9,12.48,12,2014,8140,VLSFO,29.06,12.8,14.5,Liberia,Great Eastern Shipping,28,At Anchor,2026-03-19,0.85
+V0164,Bunga Pioneer,Supramax,Supramax,59610,74676,194.9,32.2,13.06,5,2021,8931,VLSFO,28.43,12.5,14.5,Cyprus,Pacific Basin,5,Underway,2026-03-12,0.879
+V0165,Apex Carrier,Supramax,Supramax,56878,72619,192.7,32.0,12.04,5,2021,8472,VLSFO/Scrubber,30.5,12.8,14.9,Marshall Islands,Shipping Corporation of India (SCI),15,At Berth,2026-03-01,0.903
+V0166,Baltic Sunrise,Supramax,Supramax,55382,67926,190.7,31.9,12.26,11,2015,8585,VLSFO,27.77,12.4,14.4,India,Genco Shipping,23,At Berth,2026-02-25,0.839
+V0167,Nordic Sunrise,Supramax,Supramax,62538,76563,198.4,32.1,12.9,17,2009,9940,VLSFO,26.7,12.0,14.3,India,Oldendorff Carriers,20,Underway,2026-03-24,0.759
+V0168,Ocean Master,Supramax,Supramax,56146,68777,192.3,31.6,12.14,2,2024,8125,VLSFO,29.49,13.6,15.7,Bahamas,Oldendorff Carriers,22,At Berth,2026-03-19,0.933
+V0169,Eagle Vanguard,Supramax,Supramax,60475,72591,195.4,32.3,12.89,10,2016,9247,VLSFO,24.53,12.5,14.5,India,Pacific Basin,10,Underway,2026-03-17,0.876
+V0170,Star Explorer,Supramax,Supramax,60749,73356,196.9,32.1,12.85,18,2008,9226,VLSFO,35.98,13.4,15.8,India,Pacific Basin,7,Underway,2026-02-27,0.765
+V0171,Steel Champion,Panamax,Panamax,79921,100687,227.1,32.8,14.02,13,2013,11095,VLSFO,34.94,12.5,14.3,Liberia,Jindal Steel & Power,22,Underway,2026-03-06,0.829
+V0172,Bharat Champion,Panamax,Panamax,75468,91553,228.0,32.1,13.3,19,2007,10594,VLSFO,34.25,12.4,14.3,India,Navios Maritime,29,Underway,2026-03-15,0.734
+V0173,Apex Colossus,Panamax,Panamax,82950,101337,229.1,31.7,14.56,10,2016,11776,VLSFO,37.13,13.6,15.2,India,Shipping Corporation of India (SCI),16,Underway,2026-02-26,0.84
+V0174,Maritime Glory,Panamax,Panamax,80977,101025,225.1,32.2,14.39,7,2019,11644,VLSFO,37.87,13.5,15.8,India,Oldendorff Carriers,2,Underway,2026-03-05,0.889
+V0175,Baltic Leader,Panamax,Panamax,78858,97363,225.7,32.4,13.74,13,2013,10593,VLSFO,39.81,13.1,15.1,India,Great Eastern Shipping,31,Underway,2026-03-11,0.787
+V0176,Apex Legacy,Panamax,Panamax,80217,100108,227.4,31.8,14.0,21,2005,11473,VLSFO,41.19,13.7,15.7,India,Jindal Steel & Power,26,Underway,2026-03-06,0.75
+V0177,Tashkent Prosperity,Panamax,Panamax,80030,98638,225.1,31.8,14.25,4,2022,11167,VLSFO,41.36,14.0,15.8,Singapore,Tata NYK Shipping,10,At Berth,2026-03-02,0.925
+V0178,Bunga Horizon,Panamax,Panamax,70679,89312,220.0,32.1,13.02,8,2018,9543,VLSFO,32.91,12.8,14.3,Marshall Islands,Tata NYK Shipping,30,At Berth,2026-03-12,0.869
+V0179,Baltic Titan,Panamax,Panamax,73407,89936,221.8,32.5,13.1,13,2013,9782,VLSFO,34.86,13.2,14.8,Marshall Islands,Eagle Bulk,14,Underway,2026-03-19,0.833
+V0180,Indus Harmony,Panamax,Panamax,84222,104818,230.1,33.2,14.62,17,2009,11569,VLSFO,35.18,13.0,15.4,India,Golden Ocean Group,8,At Anchor,2026-03-21,0.793
+V0181,Mundra Trader,Panamax,Panamax,69872,88510,220.5,32.2,13.15,9,2017,9683,VLSFO,42.5,13.8,16.1,India,Pacific Basin,17,Underway,2026-03-12,0.864
+V0182,Global Express,Panamax,Panamax,78540,99656,225.1,32.5,14.25,13,2013,10866,VLSFO,37.38,12.7,14.4,Marshall Islands,Star Bulk Carriers,6,In Maintenance,2026-03-15,0.841
+V0183,Diana Explorer,Panamax,Panamax,69291,83188,220.0,31.8,12.97,8,2018,9477,VLSFO,30.16,12.4,13.9,Panama,Jindal Steel & Power,27,At Berth,2026-03-24,0.886
+V0184,Eagle Jewel,Panamax,Panamax,68596,87266,221.3,32.0,12.67,23,2003,9395,VLSFO,38.25,12.6,14.9,Panama,Shipping Corporation of India (SCI),16,In Maintenance,2026-03-06,0.68
+V0185,Kaveri Prosperity,Panamax,Panamax,75601,93335,224.9,32.4,13.42,4,2022,10303,LNG Dual Fuel,36.56,13.2,15.1,Panama,Genco Shipping,16,At Berth,2026-03-30,0.965
+V0186,Star Dynasty,Panamax,Panamax,78370,98798,225.7,32.1,13.68,12,2014,11191,VLSFO,36.76,12.8,14.9,Liberia,Adani Shipping,20,Underway,2026-03-19,0.892
+V0187,Nordic Vanguard,Panamax,Panamax,80023,100863,224.0,32.7,14.0,8,2018,11338,VLSFO,33.45,13.1,15.4,Panama,Genco Shipping,4,Underway,2026-03-09,0.885
+V0188,Mundra Vanguard,Panamax,Panamax,68828,86476,220.4,31.6,13.03,5,2021,9774,VLSFO,32.98,12.4,14.2,Panama,Navios Maritime,14,In Maintenance,2026-03-12,0.894
+V0189,Baltic Carrier,Panamax,Panamax,82483,102405,229.8,32.6,14.02,14,2012,11750,VLSFO,38.06,12.9,15.3,India,Star Bulk Carriers,32,At Anchor,2026-03-23,0.802
+V0190,Paradip Pioneer,Panamax,Panamax,82232,100698,227.9,32.3,14.26,11,2015,11459,VLSFO,31.79,12.8,15.1,Panama,Navios Maritime,19,At Anchor,2026-03-21,0.86
+V0191,Indus Colossus,Panamax,Panamax,74637,94364,226.0,32.1,13.59,13,2013,10446,VLSFO,32.67,12.1,13.6,Panama,Star Bulk Carriers,5,At Berth,2026-03-30,0.818
+V0192,Maritime Prosperity,Panamax,Panamax,68068,82911,220.0,31.6,12.62,7,2019,8814,VLSFO,36.65,13.3,15.7,Cyprus,Jindal Steel & Power,17,Underway,2026-03-17,0.905
+V0193,Ganga Prosperity,Panamax,Panamax,82203,103065,227.8,32.4,14.27,7,2019,11344,VLSFO,30.86,12.3,14.8,Panama,Star Bulk Carriers,26,At Berth,2026-03-18,0.917
+V0194,Apex Horizon,Panamax,Panamax,81869,100535,226.1,32.5,14.29,12,2014,11898,VLSFO,39.89,13.7,15.5,India,Shipping Corporation of India (SCI),29,At Anchor,2026-03-10,0.852
+V0195,Nordic Trader,Panamax,Panamax,71615,87315,222.4,32.2,13.29,11,2015,10411,VLSFO,31.22,12.2,14.1,Liberia,Tata NYK Shipping,29,Underway,2026-03-28,0.832
+V0196,Iron Fortune,Panamax,Panamax,68906,85372,224.2,32.0,12.78,17,2009,9639,VLSFO,31.51,12.6,15.1,Marshall Islands,Star Bulk Carriers,8,Underway,2026-03-22,0.805
+V0197,Apex Fortune,Panamax,Panamax,68805,86332,220.0,31.6,13.06,21,2005,9437,VLSFO,36.91,12.4,14.6,Liberia,Adani Shipping,28,At Anchor,2026-03-09,0.768
+V0198,Ganga Master,Panamax,Panamax,83889,106378,227.4,32.2,14.45,11,2015,12217,VLSFO,43.58,13.6,16.1,Marshall Islands,Tata NYK Shipping,22,Underway,2026-03-16,0.843
+V0199,Ganga Vanguard,Panamax,Panamax,72335,88024,224.4,32.2,13.43,17,2009,10018,VLSFO,40.17,12.9,14.5,India,Eagle Bulk,17,Underway,2026-03-01,0.767
+V0200,Yamuna Jewel,Panamax,Panamax,73844,89588,223.3,32.3,13.52,2,2024,9754,VLSFO,30.8,12.7,14.3,Malta,Navios Maritime,12,At Berth,2026-03-29,0.959
+V0201,Bharat Colossus,Panamax,Panamax,81471,102705,231.0,32.7,14.37,2,2024,11022,VLSFO/Scrubber,45.91,14.0,15.7,Marshall Islands,Shipping Corporation of India (SCI),8,Underway,2026-02-24,0.938
+V0202,Star Colossus,Panamax,Panamax,77559,95647,224.8,32.1,13.91,15,2011,10798,VLSFO,29.83,12.3,14.1,Malta,Great Eastern Shipping,9,At Berth,2026-03-23,0.801
+V0203,Mundra Voyager,Panamax,Panamax,77589,95762,225.4,32.4,13.87,15,2011,10989,VLSFO,38.4,13.6,15.9,Panama,Great Eastern Shipping,11,At Anchor,2026-03-18,0.787
+V0204,Steel Express,Panamax,Panamax,78555,97030,225.0,31.7,14.1,6,2020,10853,VLSFO,41.96,13.7,15.5,Liberia,Navios Maritime,21,Underway,2026-03-20,0.905
+V0205,Pacific Endeavour,Panamax,Panamax,75208,93882,224.3,32.4,13.55,16,2010,10521,VLSFO,32.62,12.8,15.0,Malta,Pacific Basin,11,At Berth,2026-02-24,0.81
+V0206,Apex Voyager,Panamax,Panamax,75939,91855,221.4,31.9,13.91,2,2024,10408,VLSFO,46.43,14.1,15.6,Cyprus,Genco Shipping,8,In Maintenance,2026-02-25,0.926
+V0207,Pacific Legacy,Panamax,Panamax,83791,104007,228.3,32.2,14.32,9,2017,12095,VLSFO,35.82,13.3,15.1,Liberia,Star Bulk Carriers,17,Underway,2026-03-13,0.866
+V0208,Bharat Carrier,Panamax,Panamax,82980,102726,228.2,32.7,14.33,3,2023,11648,VLSFO,31.67,12.7,14.7,Panama,Tata NYK Shipping,9,Underway,2026-03-28,0.925
+V0209,Global Navigator,Panamax,Panamax,77122,95825,225.7,32.2,13.7,8,2018,10676,VLSFO,30.07,12.1,14.1,India,Jindal Steel & Power,6,Underway,2026-03-07,0.901
+V0210,Steel Colossus,Panamax,Panamax,82989,101547,225.1,31.9,14.39,11,2015,11304,VLSFO,48.45,13.9,16.1,Panama,Oldendorff Carriers,11,Underway,2026-03-07,0.881
+V0211,Ocean Titan,Panamax,Panamax,72655,89697,220.6,31.8,13.37,18,2008,9576,VLSFO,29.4,12.1,14.1,Panama,Jindal Steel & Power,21,Underway,2026-03-16,0.765
+V0212,Diana Trader,Panamax,Panamax,71981,89064,220.0,31.8,13.35,2,2024,10392,LNG Dual Fuel,30.58,13.0,14.6,Panama,Pacific Basin,5,At Berth,2026-03-02,0.99
+V0213,Apex Champion,Panamax,Panamax,82481,102245,231.0,32.1,14.07,18,2008,11490,VLSFO,35.42,13.1,14.9,Panama,Tata NYK Shipping,15,Underway,2026-03-07,0.777
+V0214,Ganga Pride,Panamax,Panamax,71287,90944,220.2,32.4,13.22,7,2019,9803,VLSFO,36.41,13.0,15.4,Panama,Oldendorff Carriers,27,Underway,2026-03-25,0.879
+V0215,Golden Colossus,Panamax,Panamax,75520,93527,223.9,32.2,13.45,15,2011,10316,VLSFO,34.03,12.4,14.3,Liberia,Berge Bulk,28,Underway,2026-03-06,0.783
+V0216,Samudra Carrier,Panamax,Panamax,81601,101747,225.7,31.9,14.12,19,2007,11505,VLSFO,33.05,12.4,14.6,India,Golden Ocean Group,4,Underway,2026-02-25,0.767
+V0217,Diana Jewel,Panamax,Panamax,77757,95014,224.0,32.0,13.61,6,2020,10534,VLSFO,33.37,13.2,15.6,Liberia,Pacific Basin,27,Underway,2026-03-01,0.928
+V0218,Maritime Leader,Panamax,Panamax,78048,95499,228.7,32.6,13.8,7,2019,10603,VLSFO,34.72,12.7,15.1,Panama,Berge Bulk,20,At Berth,2026-03-24,0.894
+V0219,Steel Harmony,Panamax,Panamax,81053,99325,227.5,31.8,13.87,10,2016,11156,VLSFO,38.07,13.6,16.0,Liberia,Navios Maritime,30,At Berth,2026-03-23,0.872
+V0220,Steel Trader,Panamax,Panamax,76675,97260,224.7,32.2,13.71,6,2020,10584,VLSFO,34.17,12.9,14.9,Marshall Islands,Golden Ocean Group,26,Underway,2026-03-11,0.916
+V0221,Tashkent Explorer,Panamax,Panamax,77143,92610,226.1,32.4,13.89,3,2023,11024,VLSFO,30.75,12.6,14.6,India,Jindal Steel & Power,13,At Berth,2026-03-18,0.9
+V0222,Diana Pride,Panamax,Panamax,80016,99575,222.4,32.1,13.99,8,2018,11437,VLSFO,39.58,13.3,15.7,Liberia,Jindal Steel & Power,21,Underway,2026-02-27,0.875
+V0223,Baltic Trader,Panamax,Panamax,76385,96769,225.3,31.7,13.8,15,2011,10515,VLSFO,28.8,12.1,14.5,Marshall Islands,Shipping Corporation of India (SCI),24,At Berth,2026-03-04,0.752
+V0224,Eastern Titan,Panamax,Panamax,75629,93473,224.9,31.9,13.49,19,2007,10244,VLSFO,33.55,12.2,14.4,Panama,Shipping Corporation of India (SCI),16,Underway,2026-03-01,0.75
+V0225,Eagle Legacy,Panamax,Panamax,78254,100016,224.3,32.3,13.87,23,2003,11303,VLSFO,45.53,13.3,14.9,Liberia,Jindal Steel & Power,27,Underway,2026-03-12,0.71
+V0226,Nordic Harmony,Panamax,Panamax,72476,91610,220.0,32.0,13.56,13,2013,9731,VLSFO,28.57,12.3,14.3,Panama,Eagle Bulk,19,At Anchor,2026-03-29,0.797
+V0227,Diana Endeavour,Panamax,Panamax,81888,103607,225.8,32.2,14.37,5,2021,11509,LNG Dual Fuel,32.19,13.1,15.4,Panama,Pacific Basin,23,Underway,2026-03-30,0.878
+V0228,Bunga Voyager,Panamax,Panamax,70205,85461,221.7,32.2,12.96,2,2024,9864,VLSFO,28.56,12.3,13.9,Marshall Islands,Genco Shipping,10,Underway,2026-03-20,0.915
+V0229,Apex Horizon,Panamax,Panamax,84954,105706,231.0,32.2,14.6,13,2013,11889,VLSFO,41.18,13.2,15.2,Malta,Tata NYK Shipping,26,At Anchor,2026-03-22,0.852
+V0230,Navios Express,Panamax,Panamax,77364,96246,229.9,31.9,13.65,22,2004,11327,VLSFO,39.01,13.4,15.8,India,Tata NYK Shipping,9,Underway,2026-02-24,0.741
+V0231,Kaveri Harmony,Panamax,Panamax,81797,104370,227.4,32.0,14.05,5,2021,11464,VLSFO,37.33,13.8,15.5,Cyprus,Navios Maritime,11,Underway,2026-03-17,0.883
+V0232,Ganga Horizon,Panamax,Panamax,77211,95589,225.3,32.5,13.68,8,2018,10573,VLSFO,32.44,12.9,14.7,Liberia,Star Bulk Carriers,24,At Anchor,2026-03-02,0.892
+V0233,Maritime Pioneer,Panamax,Panamax,76873,97425,224.1,31.9,14.02,3,2023,10522,VLSFO,39.08,13.6,15.7,Panama,Pacific Basin,6,At Berth,2026-03-07,0.913
+V0234,Baltic Legacy,Panamax,Panamax,81566,100935,229.7,32.2,14.15,8,2018,11255,VLSFO,30.94,12.8,15.2,Panama,Tata NYK Shipping,31,At Berth,2026-03-23,0.891
+V0235,Samudra Pioneer,Panamax,Panamax,68037,84984,220.0,32.3,12.7,16,2010,8991,VLSFO,31.22,12.6,14.3,Liberia,Great Eastern Shipping,12,At Berth,2026-02-24,0.797
+V0236,Eagle Colossus,Panamax,Panamax,72016,88232,223.0,31.9,13.26,3,2023,9786,VLSFO,31.53,13.1,15.0,Marshall Islands,Tata NYK Shipping,29,At Berth,2026-03-19,0.899
+V0237,Maritime Champion,Panamax,Panamax,70532,87013,220.0,31.8,12.92,11,2015,9482,VLSFO,45.42,13.9,15.6,Singapore,Jindal Steel & Power,9,At Berth,2026-02-26,0.867
+V0238,Golden Dynasty,Panamax,Panamax,79127,101093,224.2,32.8,14.15,11,2015,10992,VLSFO,43.74,13.6,15.3,Marshall Islands,Navios Maritime,32,At Anchor,2026-03-14,0.862
+V0239,Eastern Vanguard,Panamax,Panamax,69822,86545,221.2,32.5,12.78,4,2022,9575,VLSFO,33.83,13.0,15.1,Liberia,Great Eastern Shipping,11,At Berth,2026-03-23,0.963
+V0240,Nordic Legacy,Panamax,Panamax,70074,85762,223.2,32.1,13.17,5,2021,9281,VLSFO,34.51,12.9,15.2,Panama,Adani Shipping,32,At Berth,2026-03-15,0.906
+V0241,Steel Fortune,Panamax,Panamax,79117,99157,223.6,32.2,13.65,3,2023,11085,VLSFO,27.85,12.2,13.7,Panama,Great Eastern Shipping,24,Underway,2026-03-03,0.901
+V0242,Golden Glory,Panamax,Panamax,68027,85821,222.1,32.1,12.65,6,2020,9326,VLSFO,41.58,13.5,16.0,Liberia,Genco Shipping,7,At Berth,2026-02-25,0.916
+V0243,Indus Navigator,Panamax,Panamax,73158,92756,222.7,32.1,13.83,17,2009,9824,VLSFO,32.26,12.0,14.0,Marshall Islands,Pacific Basin,25,At Berth,2026-03-10,0.791
+V0244,Indus Trader,Panamax,Panamax,83020,100970,227.0,32.8,14.18,16,2010,12201,VLSFO,36.31,12.7,14.4,Marshall Islands,Genco Shipping,12,Underway,2026-03-20,0.745
+V0245,Samudra Legacy,Panamax,Panamax,71702,87784,223.2,31.9,13.51,7,2019,9534,VLSFO,32.77,12.7,14.5,Malta,Eagle Bulk,21,At Anchor,2026-03-13,0.915
+V0246,Ocean Jewel,Panamax,Panamax,82440,100728,226.1,32.4,14.3,11,2015,11222,VLSFO,33.95,12.5,14.6,Panama,Genco Shipping,4,Underway,2026-02-24,0.884
+V0247,Diana Pioneer,Panamax,Panamax,72639,88968,220.8,32.4,13.5,10,2016,9674,VLSFO,44.23,13.6,15.2,Marshall Islands,Golden Ocean Group,5,At Berth,2026-03-24,0.844
+V0248,Indus Master,Panamax,Panamax,69412,85184,221.3,32.3,13.11,3,2023,9340,VLSFO,30.39,12.8,14.3,India,Golden Ocean Group,26,At Anchor,2026-03-26,0.948
+V0249,Samudra Trader,Panamax,Panamax,80921,102650,229.3,32.3,14.26,6,2020,11058,VLSFO,33.3,12.6,14.8,Marshall Islands,Adani Shipping,25,In Maintenance,2026-03-30,0.934
+V0250,Diana Sunrise,Panamax,Panamax,74351,91766,223.1,32.4,13.78,18,2008,10473,VLSFO,37.89,13.1,15.5,India,Berge Bulk,14,At Berth,2026-03-11,0.765
+V0251,Ganga Endeavour,Panamax,Panamax,78411,95719,227.5,31.9,13.82,8,2018,10787,VLSFO,36.24,12.7,15.1,India,Berge Bulk,5,At Berth,2026-03-16,0.896
+V0252,Eastern Pioneer,Panamax,Panamax,81245,100374,226.2,32.5,14.06,8,2018,10911,VLSFO,30.42,12.3,14.0,Panama,Oldendorff Carriers,21,Underway,2026-03-30,0.875
+V0253,Indus Dynasty,Panamax,Panamax,76528,94517,224.5,31.9,13.69,15,2011,10533,VLSFO,36.72,13.0,14.7,India,Tata NYK Shipping,3,Underway,2026-03-12,0.783
+V0254,Pacific Sunrise,Panamax,Panamax,79143,98677,224.9,33.0,14.16,2,2024,11591,VLSFO,35.44,13.7,15.3,Panama,Star Bulk Carriers,8,Underway,2026-03-02,0.982
+V0255,Diana Glory,Panamax,Panamax,82325,99093,227.7,32.1,14.19,10,2016,11174,VLSFO,40.88,13.5,15.4,Marshall Islands,Golden Ocean Group,31,Underway,2026-02-25,0.845
+V0256,Star Explorer,Panamax,Panamax,76510,93493,225.7,32.1,13.34,7,2019,10774,VLSFO,36.69,12.9,14.8,Panama,Star Bulk Carriers,2,At Berth,2026-03-19,0.918
+V0257,Baltic Fortune,Panamax,Panamax,82051,99485,227.9,32.3,13.74,3,2023,11407,VLSFO,35.42,13.0,14.9,Panama,Berge Bulk,24,At Anchor,2026-03-07,0.938
+V0258,Ocean Legacy,Panamax,Panamax,84142,102846,229.8,32.3,14.46,10,2016,11835,VLSFO,31.02,12.5,14.8,Marshall Islands,Great Eastern Shipping,12,Underway,2026-03-11,0.877
+V0259,Nordic Titan,Panamax,Panamax,77936,97765,225.5,32.5,13.65,12,2014,11693,VLSFO,33.81,12.3,14.4,Marshall Islands,Tata NYK Shipping,13,In Maintenance,2026-03-07,0.806
+V0260,Maritime Vanguard,Panamax,Panamax,75515,91952,223.6,32.4,13.43,10,2016,10447,VLSFO,44.3,13.6,15.6,Singapore,Star Bulk Carriers,17,At Berth,2026-02-28,0.834
+V0261,Diana Explorer,Panamax,Panamax,70049,85874,222.2,32.1,13.25,4,2022,9791,LNG Dual Fuel,36.52,12.9,14.8,Panama,Genco Shipping,16,At Berth,2026-03-08,0.923
+V0262,Global Harmony,Panamax,Panamax,78706,95415,225.1,32.2,13.93,13,2013,11527,VLSFO,39.37,13.2,14.9,Liberia,Eagle Bulk,2,At Anchor,2026-03-16,0.812
+V0263,Kaveri Jewel,Panamax,Panamax,79749,101955,223.4,31.8,13.65,16,2010,10650,VLSFO,39.82,13.6,15.3,Panama,Oldendorff Carriers,8,Underway,2026-02-24,0.768
+V0264,Berge Pioneer,Panamax,Panamax,68529,83972,220.0,32.1,12.79,3,2023,8758,VLSFO,38.06,13.1,14.8,India,Berge Bulk,8,Underway,2026-03-06,0.956
+V0265,Iron Jewel,Panamax,Panamax,71223,90338,221.2,32.8,13.16,6,2020,9325,VLSFO,36.28,13.3,15.0,Marshall Islands,Star Bulk Carriers,25,Underway,2026-03-28,0.886
+V0266,Golden Jewel,Panamax,Panamax,81158,98915,227.3,32.7,14.16,9,2017,10927,VLSFO,39.8,13.5,15.2,Singapore,Golden Ocean Group,12,At Anchor,2026-03-25,0.878
+V0267,Safe Jewel,Panamax,Panamax,78795,98285,228.9,32.6,14.1,23,2003,10949,VLSFO,40.45,13.4,14.9,Singapore,Jindal Steel & Power,25,Underway,2026-03-03,0.68
+V0268,Baltic Leader,Panamax,Panamax,74765,94686,221.6,31.8,13.74,18,2008,10762,VLSFO,34.99,12.3,14.2,Marshall Islands,Berge Bulk,32,Underway,2026-03-17,0.751
+V0269,Eagle Leader,Panamax,Panamax,70740,87790,220.7,32.1,12.94,7,2019,10066,VLSFO,32.09,12.6,14.6,Panama,Golden Ocean Group,16,Underway,2026-02-27,0.86
+V0270,Bunga Pride,Panamax,Panamax,70965,90455,220.6,32.3,13.16,11,2015,9726,VLSFO,36.79,12.8,15.2,Bahamas,Eagle Bulk,1,At Berth,2026-03-15,0.868
+V0271,Indus Jewel,Panamax,Panamax,82074,98638,229.1,32.1,14.41,8,2018,12088,VLSFO,37.34,12.9,14.6,Liberia,Berge Bulk,30,Underway,2026-02-24,0.853
+V0272,Indus Leader,Panamax,Panamax,81033,99228,228.1,32.3,14.0,11,2015,11137,VLSFO,40.48,13.1,14.6,India,Pacific Basin,22,Underway,2026-03-03,0.854
+V0273,Berge Legacy,Panamax,Panamax,76500,96957,225.0,32.1,13.51,7,2019,10865,VLSFO,35.88,12.7,15.1,Panama,Shipping Corporation of India (SCI),22,Underway,2026-03-30,0.894
+V0274,Safe Jewel,Panamax,Panamax,69066,85394,220.5,32.4,12.62,14,2012,8880,VLSFO,46.18,13.8,15.4,India,Oldendorff Carriers,29,At Berth,2026-03-07,0.839
+V0275,Mundra Jewel,Panamax,Panamax,82232,99942,228.2,32.3,14.53,24,2002,11538,VLSFO,39.62,12.8,15.0,India,Eagle Bulk,17,At Anchor,2026-03-06,0.68
+V0276,Iron Horizon,Panamax,Panamax,79587,101707,228.0,32.1,14.02,11,2015,11480,VLSFO,37.72,13.5,15.5,India,Pacific Basin,32,At Anchor,2026-02-25,0.835
+V0277,Baltic Trader,Panamax,Panamax,69244,88139,220.0,31.7,13.34,12,2014,9002,VLSFO,31.53,12.7,14.2,India,Golden Ocean Group,16,Underway,2026-03-28,0.816
+V0278,Ocean Trader,Panamax,Panamax,71280,87850,223.1,32.0,13.1,12,2014,9669,VLSFO,38.84,13.2,14.9,Panama,Shipping Corporation of India (SCI),29,Underway,2026-03-05,0.822
+V0279,Paradip Jewel,Panamax,Panamax,76659,94930,223.8,32.6,13.81,21,2005,10650,VLSFO,41.91,13.4,15.7,Marshall Islands,Berge Bulk,19,Underway,2026-03-26,0.736
+V0280,Paradip Legacy,Panamax,Panamax,68845,85314,222.1,31.6,12.91,2,2024,9339,VLSFO/Scrubber,42.94,13.9,15.8,Cyprus,Berge Bulk,11,In Maintenance,2026-03-06,0.943
+V0281,Eastern Master,Panamax,Panamax,71395,87428,224.2,32.2,12.98,8,2018,9429,VLSFO,35.49,12.9,15.3,Panama,Tata NYK Shipping,3,At Berth,2026-02-26,0.925
+V0282,Steel Sunrise,Panamax,Panamax,73702,89526,222.9,32.1,14.0,14,2012,10324,VLSFO,31.93,12.4,14.2,Panama,Eagle Bulk,25,Underway,2026-03-07,0.819
+V0283,Kaveri Jewel,Panamax,Panamax,82685,103205,226.9,32.2,14.41,3,2023,11262,VLSFO,38.55,13.7,15.9,Marshall Islands,Star Bulk Carriers,27,Underway,2026-03-26,0.959
+V0284,Bunga Titan,Panamax,Panamax,82768,104111,229.1,32.5,14.55,5,2021,11749,VLSFO,45.57,13.9,16.2,Panama,Shipping Corporation of India (SCI),21,At Anchor,2026-03-08,0.888
+V0285,Navios Jewel,Panamax,Panamax,69313,88453,221.2,31.9,12.9,11,2015,9652,VLSFO,37.3,13.6,15.4,Marshall Islands,Star Bulk Carriers,9,At Berth,2026-03-01,0.854
+V0286,Maritime Express,Panamax,Panamax,71724,87434,220.1,32.3,12.95,5,2021,9970,VLSFO,38.32,13.0,15.4,Panama,Tata NYK Shipping,10,Underway,2026-03-06,0.935
+V0287,Berge Titan,Panamax,Panamax,68694,83238,220.0,31.6,12.9,9,2017,9906,VLSFO,32.01,12.7,14.4,India,Eagle Bulk,24,Underway,2026-03-07,0.853
+V0288,Star Voyager,Panamax,Panamax,70511,89043,225.0,32.2,13.36,24,2002,9799,VLSFO,40.77,13.0,15.5,Marshall Islands,Jindal Steel & Power,11,At Berth,2026-03-10,0.728
+V0289,Apex Carrier,Panamax,Panamax,82109,99379,225.9,32.4,14.26,4,2022,11751,VLSFO/Scrubber,42.88,14.0,15.8,Marshall Islands,Navios Maritime,24,Underway,2026-03-29,0.932
+V0290,Samudra Express,Panamax,Panamax,71030,89130,222.2,32.2,13.46,19,2007,9937,VLSFO,38.06,13.3,14.9,Marshall Islands,Navios Maritime,21,At Anchor,2026-02-26,0.712
+V0291,Kaveri Leader,Capesize,Capesize,192778,240172,295.2,44.5,17.88,2,2024,19720,VLSFO,47.16,12.9,14.8,Liberia,Navios Maritime,11,At Berth,2026-03-26,0.959
+V0292,Maritime Legacy,Capesize,Capesize,201300,241938,297.9,45.7,18.24,15,2011,20835,VLSFO,52.26,12.9,14.5,Liberia,Berge Bulk,6,Underway,2026-03-16,0.795
+V0293,Bharat Harmony,Capesize,Capesize,182468,221531,294.3,44.5,17.25,17,2009,18196,VLSFO,55.46,13.0,14.9,Panama,Great Eastern Shipping,7,At Anchor,2026-03-26,0.788
+V0294,Kaveri Horizon,Capesize,Capesize,200388,252523,297.2,45.3,17.8,14,2012,21236,VLSFO,54.16,12.7,14.2,Panama,Berge Bulk,2,At Berth,2026-03-30,0.801
+V0295,Yamuna Titan,Capesize,Capesize,181830,220757,291.4,43.8,17.67,7,2019,18171,VLSFO,49.1,12.7,14.5,India,Jindal Steel & Power,30,Underway,2026-03-17,0.866
+V0296,Bharat Legacy,Capesize,Capesize,169316,209968,287.8,43.6,17.19,4,2022,16576,VLSFO,64.58,14.1,16.3,Liberia,Oldendorff Carriers,24,At Anchor,2026-03-21,0.928
+V0297,Eastern Navigator,Capesize,Capesize,174141,219990,286.6,44.1,17.37,8,2018,17013,VLSFO,56.36,13.2,15.3,India,Star Bulk Carriers,29,At Anchor,2026-03-14,0.891
+V0298,Eagle Prosperity,Capesize,Capesize,162762,195928,285.0,42.9,17.01,6,2020,15603,VLSFO,59.39,13.4,15.5,Panama,Pacific Basin,9,At Berth,2026-03-06,0.894
+V0299,Baltic Express,Capesize,Capesize,160499,193356,285.0,43.3,16.89,14,2012,15289,VLSFO,46.31,12.3,14.2,India,Oldendorff Carriers,19,Underway,2026-02-28,0.793
+V0300,Kaveri Jewel,Capesize,Capesize,178026,216233,288.3,43.8,17.28,3,2023,18056,VLSFO,47.43,12.9,14.7,Panama,Tata NYK Shipping,17,At Berth,2026-02-24,0.916
+V0301,Ocean Voyager,Capesize,Capesize,170076,213032,289.1,43.5,17.15,4,2022,16201,VLSFO/Scrubber,51.17,12.8,14.8,Panama,Tata NYK Shipping,28,Underway,2026-03-26,0.931
+V0302,Baltic Horizon,Capesize,Capesize,180187,227314,291.1,44.2,17.3,3,2023,18017,VLSFO,58.79,13.2,15.6,India,Pacific Basin,12,Underway,2026-03-24,0.918
+V0303,Mundra Trader,Capesize,Capesize,196412,248882,296.7,45.2,17.87,22,2004,20647,VLSFO,60.15,13.3,15.4,Bahamas,Great Eastern Shipping,4,Underway,2026-03-21,0.726
+V0304,Yamuna Fortune,Capesize,Capesize,163290,204445,285.7,42.9,16.92,13,2013,15597,VLSFO,47.04,12.5,14.3,Marshall Islands,Shipping Corporation of India (SCI),31,At Anchor,2026-03-19,0.858
+V0305,Baltic Master,Capesize,Capesize,194539,244030,295.5,44.8,17.93,21,2005,19829,VLSFO,72.5,13.7,16.2,India,Berge Bulk,20,Underway,2026-03-22,0.729
+V0306,Safe Prosperity,Capesize,Capesize,162551,200435,287.6,43.3,16.0,13,2013,14773,VLSFO,51.86,12.6,14.8,India,Star Bulk Carriers,23,At Berth,2026-03-20,0.847
+V0307,Berge Horizon,Capesize,Capesize,164205,208422,288.9,43.6,16.53,15,2011,15135,VLSFO,68.63,13.7,16.0,India,Adani Shipping,25,At Berth,2026-03-19,0.797
+V0308,Nordic Express,Capesize,Capesize,191660,241649,294.5,44.7,17.99,8,2018,19561,VLSFO,60.47,13.5,15.7,Marshall Islands,Adani Shipping,17,At Berth,2026-03-21,0.877
+V0309,Iron Colossus,Capesize,Capesize,174411,219003,288.7,44.3,17.17,4,2022,16581,VLSFO,54.45,12.9,14.6,Panama,Tata NYK Shipping,11,At Berth,2026-03-17,0.961
+V0310,Eagle Explorer,Capesize,Capesize,201951,248431,297.7,45.5,18.23,13,2013,21185,VLSFO,53.01,13.1,15.1,Bahamas,Great Eastern Shipping,28,Underway,2026-03-26,0.832
+V0311,Samudra Endeavour,Capesize,Capesize,162080,201685,287.2,43.3,16.9,15,2011,16257,VLSFO,48.57,12.0,14.1,India,Oldendorff Carriers,7,At Berth,2026-03-15,0.757
+V0312,Global Navigator,Capesize,Capesize,167438,203288,288.3,42.9,17.26,6,2020,16259,VLSFO,45.57,12.7,14.4,India,Great Eastern Shipping,24,Underway,2026-03-25,0.905
+V0313,Ocean Vanguard,Capesize,Capesize,188248,237601,294.2,44.2,17.65,19,2007,19842,VLSFO,60.85,12.9,14.5,Singapore,Pacific Basin,21,At Berth,2026-03-16,0.785
+V0314,Global Sunrise,Capesize,Capesize,206136,251719,302.0,45.5,18.27,8,2018,21548,VLSFO,64.55,13.6,16.0,Marshall Islands,Great Eastern Shipping,16,At Anchor,2026-03-01,0.895
+V0315,Ganga Colossus,Capesize,Capesize,202117,247543,297.5,45.5,17.92,15,2011,21067,VLSFO,59.28,13.0,14.7,India,Berge Bulk,27,Underway,2026-03-12,0.822
+V0316,Apex Leader,Capesize,Capesize,192036,237444,297.8,44.8,17.92,11,2015,19547,VLSFO,51.14,12.8,14.9,India,Shipping Corporation of India (SCI),32,Underway,2026-03-13,0.851
+V0317,Tashkent Titan,Capesize,Capesize,171551,216829,288.0,43.4,16.94,12,2014,16441,VLSFO,54.2,13.0,15.5,Marshall Islands,Adani Shipping,17,At Berth,2026-03-04,0.824
+V0318,Mundra Express,Capesize,Capesize,192020,245018,297.2,44.8,17.79,10,2016,19864,VLSFO,60.91,13.4,15.9,Singapore,Berge Bulk,12,Underway,2026-03-24,0.886
+V0319,Pacific Carrier,Capesize,Capesize,187320,234605,294.3,44.2,17.32,4,2022,19122,VLSFO/Scrubber,54.55,13.6,15.8,Liberia,Navios Maritime,24,At Anchor,2026-03-12,0.922
+V0320,Tashkent Harmony,Capesize,Capesize,166380,201674,286.9,43.6,17.31,19,2007,16199,VLSFO,53.94,12.2,14.1,Singapore,Adani Shipping,6,Underway,2026-03-05,0.753
+V0321,Mundra Prosperity,Capesize,Capesize,181759,223821,291.9,44.0,17.45,20,2006,18101,VLSFO,51.4,12.8,14.7,India,Genco Shipping,19,At Anchor,2026-02-27,0.751
+V0322,Paradip Horizon,Capesize,Capesize,179350,227703,290.6,43.9,17.75,10,2016,17444,VLSFO,47.33,12.6,14.2,Marshall Islands,Genco Shipping,23,Underway,2026-03-17,0.846
+V0323,Paradip Trader,Capesize,Capesize,201095,242653,299.0,45.2,18.21,20,2006,21191,VLSFO,52.39,12.8,14.5,Marshall Islands,Oldendorff Carriers,32,Underway,2026-03-11,0.804
+V0324,Golden Trader,Capesize,Capesize,190640,241651,294.8,44.3,17.91,4,2022,19345,LNG Dual Fuel,64.55,14.1,15.7,Cyprus,Navios Maritime,18,At Berth,2026-03-10,0.934
+V0325,Safe Master,Capesize,Capesize,166326,204439,288.9,43.3,16.92,6,2020,15501,VLSFO,41.38,12.2,14.0,Marshall Islands,Berge Bulk,24,Underway,2026-03-05,0.919
+V0326,Bunga Legacy,Capesize,Capesize,205930,250234,299.7,45.3,18.04,18,2008,22182,VLSFO,64.5,13.1,15.2,Liberia,Star Bulk Carriers,10,Underway,2026-03-21,0.704
+V0327,Samudra Endeavour,Capesize,Capesize,180280,216392,288.9,44.3,17.59,2,2024,17663,VLSFO,49.23,12.8,14.9,Marshall Islands,Genco Shipping,32,Underway,2026-03-15,0.93
+V0328,Berge Sunrise,Capesize,Capesize,180426,221873,288.1,44.2,17.76,11,2015,17888,VLSFO,57.88,13.0,15.3,Marshall Islands,Golden Ocean Group,26,At Anchor,2026-03-17,0.847
+V0329,Maritime Voyager,Capesize,Capesize,169352,213901,287.1,43.7,17.06,18,2008,16004,VLSFO,64.19,13.8,15.8,Panama,Great Eastern Shipping,10,Underway,2026-03-01,0.743
+V0330,Mundra Harmony,Capesize,Capesize,195999,237635,296.4,45.0,18.25,9,2017,20465,VLSFO,44.57,12.4,14.3,India,Shipping Corporation of India (SCI),28,Underway,2026-03-12,0.874
+V0331,Maritime Prosperity,Capesize,Capesize,180819,220246,290.3,43.4,17.52,13,2013,17624,VLSFO,50.5,12.8,15.0,Liberia,Great Eastern Shipping,6,Underway,2026-03-04,0.817
+V0332,Samudra Jewel,Capesize,Capesize,189580,234008,294.2,44.4,17.58,13,2013,19405,VLSFO,71.57,13.8,16.0,India,Jindal Steel & Power,15,Underway,2026-03-20,0.82
+V0333,Berge Legacy,Capesize,Capesize,163582,202335,285.0,43.0,16.82,16,2010,15805,VLSFO,47.11,11.9,13.4,Liberia,Eagle Bulk,9,Underway,2026-03-12,0.796
+V0334,Pacific Vanguard,Capesize,Capesize,186914,237616,293.4,44.1,17.22,6,2020,19427,VLSFO,66.29,13.9,16.4,Cyprus,Tata NYK Shipping,27,Underway,2026-03-03,0.894
+V0335,Mundra Harmony,Capesize,Capesize,167767,212709,286.2,43.1,17.0,13,2013,15634,VLSFO,48.28,12.3,14.6,Liberia,Adani Shipping,16,At Berth,2026-03-30,0.814
+V0336,Maritime Explorer,Capesize,Capesize,201531,255485,300.0,44.6,18.04,8,2018,21129,VLSFO,50.97,12.5,14.4,Panama,Berge Bulk,18,Underway,2026-03-07,0.885
+V0337,Iron Horizon,Capesize,Capesize,201905,246874,298.4,45.2,18.45,7,2019,21367,VLSFO,62.95,13.5,15.5,Panama,Adani Shipping,16,Underway,2026-03-10,0.913
+V0338,Samudra Carrier,Capesize,Capesize,182658,221075,290.8,44.2,17.47,3,2023,18727,VLSFO,52.29,12.6,14.7,Panama,Navios Maritime,21,Underway,2026-03-03,0.964
+V0339,Bharat Pride,Capesize,Capesize,173986,217949,290.7,43.5,17.53,5,2021,17267,VLSFO/Scrubber,50.91,12.7,14.3,India,Berge Bulk,20,At Berth,2026-03-12,0.937
+V0340,Kaveri Glory,Capesize,Capesize,186729,224110,291.8,44.2,17.86,9,2017,19265,VLSFO,55.02,13.5,16.0,Panama,Oldendorff Carriers,16,At Berth,2026-03-29,0.867
+V0341,Samudra Voyager,Capesize,Capesize,181589,222864,290.0,44.1,17.25,9,2017,18291,VLSFO,61.63,13.6,15.2,Panama,Pacific Basin,15,Underway,2026-03-16,0.87
+V0342,Indus Harmony,Capesize,Capesize,178649,222596,290.6,44.2,17.71,10,2016,17888,VLSFO,63.4,13.7,16.0,Liberia,Pacific Basin,4,Underway,2026-03-06,0.841
+V0343,Indus Glory,Capesize,Capesize,173130,217780,288.3,43.3,16.84,9,2017,17208,VLSFO,52.4,12.5,14.7,Singapore,Tata NYK Shipping,13,At Berth,2026-03-22,0.914
+V0344,Tashkent Titan,Capesize,Capesize,165521,203228,286.8,43.5,17.32,5,2021,15645,VLSFO/Scrubber,54.52,13.6,16.1,Panama,Pacific Basin,21,At Anchor,2026-03-19,0.971
+V0345,Iron Voyager,Capesize,Capesize,200698,246843,298.0,45.0,17.72,8,2018,21048,VLSFO,55.24,12.7,14.8,Marshall Islands,Adani Shipping,19,At Anchor,2026-02-24,0.868
+V0346,Baltic Sunrise,Capesize,Capesize,196101,245537,296.9,44.6,18.34,16,2010,20208,VLSFO,74.66,13.8,15.7,India,Oldendorff Carriers,1,Underway,2026-03-13,0.795
+V0347,Global Endeavour,Capesize,Capesize,207634,252011,298.4,45.2,18.61,19,2007,21811,VLSFO,56.45,12.8,15.0,Liberia,Jindal Steel & Power,2,At Berth,2026-02-25,0.751
+V0348,Ganga Dynasty,Capesize,Capesize,201447,244313,300.2,44.7,17.99,12,2014,20624,VLSFO,43.29,12.2,14.6,Panama,Star Bulk Carriers,30,At Berth,2026-03-20,0.815
+V0349,Yamuna Harmony,Capesize,Capesize,189595,237299,294.0,44.8,17.64,8,2018,19121,VLSFO,61.48,13.3,15.2,Liberia,Star Bulk Carriers,6,Underway,2026-03-22,0.864
+V0350,Apex Navigator,Capesize,Capesize,206403,259126,295.5,45.5,18.24,11,2015,21426,VLSFO,66.86,14.0,15.8,India,Shipping Corporation of India (SCI),32,Underway,2026-03-05,0.844
