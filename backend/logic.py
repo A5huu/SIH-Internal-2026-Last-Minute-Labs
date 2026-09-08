@@ -234,14 +234,14 @@ def get_market_overview(route: Optional[str], vessel_class: Optional[str], db: S
     if vessel_class:
         query = query.filter(FreightHistory.vessel_class == vessel_class)
         
-    records = query.order_by(desc(FreightHistory.date)).limit(60).all()
+    records = query.order_by(desc(FreightHistory.date)).limit(120).all()
     
     if not records:
         # Fallback to general history for vessel class or overall
         q_fallback = db.query(FreightHistory)
         if vessel_class:
             q_fallback = q_fallback.filter(FreightHistory.vessel_class == vessel_class)
-        records = q_fallback.order_by(desc(FreightHistory.date)).limit(60).all()
+        records = q_fallback.order_by(desc(FreightHistory.date)).limit(120).all()
 
     current_rate = records[0].rate if records else 21.50
     selected_route = canonical_route or (records[0].route if records else "Australia-Paradip")
@@ -798,4 +798,3 @@ def authenticate_user(email: str, password: str, db: Session) -> Dict[str, Any]:
         "company": user.company,
         "role": user.role
     }
-
