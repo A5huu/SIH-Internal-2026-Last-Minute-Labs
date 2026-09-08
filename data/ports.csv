@@ -1,0 +1,33 @@
+id,name,country,latitude,longitude,port_type,max_draft,max_loa,max_beam,handling_rate,lightering_available,berth_count,congestion_index,turnaround_time,storage_capacity,weather_risk,seasonal_congestion_factor,operating_hours,updated_at
+1,Paradip,India,20.2644,86.6713,Bulk,17.1,300.0,48.0,55000,True,18,0.45,44.0,4500000,High,1.35,24/7,2026-03-01T00:00:00Z
+2,Visakhapatnam,India,17.6868,83.2185,Bulk,16.5,280.0,45.0,45000,True,24,0.38,38.0,3800000,High,1.25,24/7,2026-03-01T00:00:00Z
+3,Gangavaram,India,17.62,83.2386,Bulk,18.5,310.0,50.0,65000,False,9,0.25,28.0,3000000,Medium,1.15,24/7,2026-03-01T00:00:00Z
+4,Dhamra,India,20.8039,86.9608,Bulk,18.0,300.0,48.0,60000,False,6,0.28,30.0,3200000,High,1.3,24/7,2026-03-01T00:00:00Z
+5,Gopalpur,India,19.308,84.9664,Bulk,12.5,225.0,33.0,20000,True,4,0.4,56.0,1200000,High,1.4,24/7,2026-03-01T00:00:00Z
+6,Haldia,India,22.0232,88.0673,Bulk,8.5,190.0,30.0,18000,True,14,0.62,68.0,1800000,High,1.5,Tidal,2026-03-01T00:00:00Z
+7,Kolkata,India,22.5414,88.3188,General Cargo,7.5,172.0,26.0,12000,True,16,0.55,72.0,900000,Medium,1.35,Tidal,2026-03-01T00:00:00Z
+8,Chennai,India,13.0827,80.2707,Container/Multi-purpose,15.5,290.0,40.0,35000,False,22,0.35,36.0,2500000,Medium,1.2,24/7,2026-03-01T00:00:00Z
+9,Kamarajar (Ennore),India,13.2611,80.3328,Bulk,16.0,280.0,45.0,48000,False,8,0.3,32.0,2800000,Medium,1.15,24/7,2026-03-01T00:00:00Z
+10,Tuticorin (V.O.C.),India,8.7642,78.1348,Bulk,14.2,245.0,36.0,28000,False,14,0.32,40.0,1600000,Low,1.1,24/7,2026-03-01T00:00:00Z
+11,Mundra,India,22.7383,69.7042,Bulk,17.5,305.0,48.0,60000,False,28,0.26,26.0,5500000,Low,1.1,24/7,2026-03-01T00:00:00Z
+12,Kandla (Deendayal),India,23.0033,70.2181,Bulk,13.5,240.0,35.0,32000,True,16,0.48,48.0,3100000,Low,1.15,24/7,2026-03-01T00:00:00Z
+13,Nhava Sheva (JNPT),India,18.9499,72.9515,Container,15.0,330.0,45.0,40000,False,12,0.42,32.0,2000000,Low,1.15,24/7,2026-03-01T00:00:00Z
+14,Cochin,India,9.9654,76.2694,Multi-purpose,14.5,260.0,38.0,26000,False,15,0.3,34.0,1500000,Medium,1.2,24/7,2026-03-01T00:00:00Z
+15,Hay Point,Australia,-21.2858,149.2995,Bulk Coal,19.5,320.0,52.0,90000,False,6,0.35,30.0,8000000,Medium,1.25,24/7,2026-03-01T00:00:00Z
+16,Gladstone,Australia,-23.8427,151.2562,Bulk Coal,18.5,310.0,50.0,80000,False,8,0.32,32.0,6500000,Medium,1.2,24/7,2026-03-01T00:00:00Z
+17,Newcastle,Australia,-32.9267,151.7817,Bulk Coal,15.2,300.0,48.0,85000,False,10,0.44,42.0,7500000,Low,1.15,24/7,2026-03-01T00:00:00Z
+18,Port Hedland,Australia,-20.3122,118.576,Bulk Iron Ore,19.8,330.0,55.0,110000,False,19,0.38,28.0,12000000,High,1.3,24/7,2026-03-01T00:00:00Z
+19,Balikpapan,Indonesia,-1.2654,116.8312,Bulk Coal,14.5,250.0,38.0,45000,True,8,0.4,46.0,3500000,Medium,1.25,24/7,2026-03-01T00:00:00Z
+20,Tanjung Priok,Indonesia,-6.1039,106.8833,Multi-purpose,14.0,280.0,40.0,35000,False,20,0.45,38.0,2800000,Medium,1.2,24/7,2026-03-01T00:00:00Z
+21,Samarinda,Indonesia,-0.5022,117.1536,Bulk Coal Riverine,11.5,210.0,32.2,28000,True,12,0.52,54.0,2200000,Medium,1.3,Tidal,2026-03-01T00:00:00Z
+22,Norfolk (Hampton Roads),USA,36.8508,-76.2859,Bulk Coal,15.2,300.0,48.0,70000,False,10,0.35,36.0,5000000,Low,1.15,24/7,2026-03-01T00:00:00Z
+23,Baltimore,USA,39.2904,-76.6122,Bulk Coal,14.8,290.0,45.0,55000,False,7,0.36,40.0,4200000,Medium,1.2,24/7,2026-03-01T00:00:00Z
+24,Maputo,Mozambique,-25.9692,32.5732,Bulk Coal,14.2,250.0,38.0,35000,False,8,0.42,44.0,2800000,Medium,1.25,24/7,2026-03-01T00:00:00Z
+25,Beira,Mozambique,-19.8436,34.8389,Bulk Coal,11.0,200.0,32.0,22000,True,5,0.5,58.0,1500000,High,1.35,Tidal,2026-03-01T00:00:00Z
+26,Vostochny,Russia,42.7333,133.0833,Bulk Coal,16.5,290.0,45.0,65000,False,8,0.38,40.0,4500000,High,1.4,24/7,2026-03-01T00:00:00Z
+27,Vanino,Russia,49.0833,140.2667,Bulk Coal,14.8,245.0,36.0,45000,False,6,0.46,50.0,3000000,High,1.45,Ice-classed winter,2026-03-01T00:00:00Z
+28,Singapore,Singapore,1.29027,103.851959,Transshipment / Bunkering,19.0,400.0,60.0,95000,False,65,0.3,22.0,15000000,Low,1.1,24/7,2026-03-01T00:00:00Z
+29,Port Klang,Malaysia,2.9999,101.3928,Transshipment,17.5,360.0,52.0,60000,False,32,0.34,28.0,6000000,Low,1.12,24/7,2026-03-01T00:00:00Z
+30,Colombo,Sri Lanka,6.9497,79.8438,Transshipment,18.0,380.0,55.0,55000,False,22,0.36,30.0,4500000,Low,1.15,24/7,2026-03-01T00:00:00Z
+31,Rotterdam,Netherlands,51.9244,4.4777,Mega Port,22.5,420.0,65.0,120000,False,90,0.24,24.0,25000000,Low,1.1,24/7,2026-03-01T00:00:00Z
+32,Shanghai (Qingdao),China,31.2304,121.4737,Mega Port,18.5,400.0,60.0,105000,False,80,0.4,32.0,20000000,Medium,1.3,24/7,2026-03-01T00:00:00Z

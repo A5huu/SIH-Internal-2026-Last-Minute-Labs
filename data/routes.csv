@@ -1,0 +1,41 @@
+route_id,route,route_name,origin_port_id,destination_port_id,distance_nm,typical_transit_hours,canal_required,canal_type,piracy_risk,weather_risk,congestion_risk,historical_delay_rate,typical_fuel_consumption,route_risk_score
+1,Australia-Paradip,Hay Point to Paradip,15,1,4950,392.8,Torres Strait / Malacca,Malacca,Low,Medium,Medium,0.14,507.7,4.32
+2,Australia-Visakhapatnam,Hay Point to Visakhapatnam,15,2,4880,387.4,Torres Strait / Malacca,Malacca,Low,Medium,Low,0.12,500.5,3.18
+3,Australia-Gangavaram,Hay Point to Gangavaram,15,3,4875,387.0,Torres Strait / Malacca,Malacca,Low,Medium,Low,0.11,500.0,3.09
+4,Australia-Dhamra,Hay Point to Dhamra,15,4,4980,395.1,Torres Strait / Malacca,Malacca,Low,Medium,Low,0.12,510.8,3.28
+5,Australia-Haldia,Hay Point to Haldia,15,6,5040,399.7,Torres Strait / Malacca,Malacca,Low,High,High,0.28,516.9,7.21
+6,Australia-Gopalpur,Hay Point to Gopalpur,15,5,4910,389.7,Torres Strait / Malacca,Malacca,Low,Medium,Medium,0.18,503.6,4.1
+7,Australia-Paradip,Gladstone to Paradip,16,1,5080,402.8,Torres Strait / Malacca,Malacca,Low,Medium,Medium,0.14,521.0,4.42
+8,Australia-Visakhapatnam,Gladstone to Visakhapatnam,16,2,5010,397.4,Torres Strait / Malacca,Malacca,Low,Medium,Low,0.12,513.8,2.82
+9,Australia-Gangavaram,Gladstone to Gangavaram,16,3,5005,397.0,Torres Strait / Malacca,Malacca,Low,Medium,Low,0.11,513.3,2.86
+10,Australia-Haldia,Gladstone to Haldia,16,6,5170,409.7,Torres Strait / Malacca,Malacca,Low,High,High,0.29,530.3,7.54
+11,Australia-Paradip,Newcastle to Paradip,17,1,5520,436.6,Bass Strait / Sunda / Malacca,Malacca,Low,Medium,Medium,0.15,566.2,4.54
+12,Australia-Visakhapatnam,Newcastle to Visakhapatnam,17,2,5450,431.2,Bass Strait / Sunda / Malacca,Malacca,Low,Medium,Low,0.13,559.0,2.85
+13,Australia-Paradip,Port Hedland to Paradip,18,1,3620,290.5,Direct Indian Ocean,Direct Sea,Low,Low,Medium,0.1,371.3,2.56
+14,Australia-Visakhapatnam,Port Hedland to Visakhapatnam,18,2,3540,284.3,Direct Indian Ocean,Direct Sea,Low,Low,Low,0.09,363.1,1.94
+15,Indonesia-Paradip,Balikpapan to Paradip,19,1,2320,190.5,Makassar Strait / Malacca,Malacca,Low,Medium,Medium,0.15,237.9,4.29
+16,Indonesia-Visakhapatnam,Balikpapan to Visakhapatnam,19,2,2240,184.3,Makassar Strait / Malacca,Malacca,Low,Medium,Low,0.13,229.7,2.94
+17,Indonesia-Gangavaram,Balikpapan to Gangavaram,19,3,2235,183.9,Makassar Strait / Malacca,Malacca,Low,Medium,Low,0.12,229.2,2.75
+18,Indonesia-Dhamra,Balikpapan to Dhamra,19,4,2350,192.8,Makassar Strait / Malacca,Malacca,Low,Medium,Low,0.13,241.0,2.95
+19,Indonesia-Haldia,Balikpapan to Haldia,19,6,2410,197.4,Makassar Strait / Malacca,Malacca,Low,High,High,0.26,247.2,7.02
+20,Indonesia-Paradip,Tanjung Priok to Paradip,20,1,1950,162.0,Sunda Strait / Bay of Bengal,Direct Sea,Low,Medium,Medium,0.12,200.0,3.85
+21,Indonesia-Visakhapatnam,Tanjung Priok to Visakhapatnam,20,2,1880,156.6,Sunda Strait / Bay of Bengal,Direct Sea,Low,Medium,Low,0.11,192.8,2.89
+22,Indonesia-Paradip,Samarinda to Paradip,21,1,2360,193.5,River / Malacca Strait,Malacca,Low,Medium,Medium,0.18,242.1,4.13
+23,USA-Paradip,Norfolk (Hampton Roads) to Paradip,22,1,11650,908.2,Cape of Good Hope,Cape,Low,High,Medium,0.18,1194.9,5.51
+24,USA-Visakhapatnam,Norfolk (Hampton Roads) to Visakhapatnam,22,2,11580,902.8,Cape of Good Hope,Cape,Low,High,Low,0.16,1187.7,4.7
+25,USA-Gangavaram,Norfolk (Hampton Roads) to Gangavaram,22,3,11575,902.4,Cape of Good Hope,Cape,Low,High,Low,0.15,1187.2,4.81
+26,USA-Paradip,Baltimore to Paradip,23,1,11720,913.5,Cape of Good Hope,Cape,Low,High,Medium,0.19,1202.1,5.92
+27,USA-Visakhapatnam,Baltimore to Visakhapatnam,23,2,11650,908.2,Cape of Good Hope,Cape,Low,High,Low,0.17,1194.9,4.34
+28,Mozambique-Paradip,Maputo to Paradip,24,1,4420,352.0,Mozambique Channel / Indian Ocean,Direct Sea,Low,Medium,Medium,0.14,453.3,4.28
+29,Mozambique-Visakhapatnam,Maputo to Visakhapatnam,24,2,4350,346.6,Mozambique Channel / Indian Ocean,Direct Sea,Low,Medium,Low,0.13,446.2,2.87
+30,Mozambique-Gangavaram,Maputo to Gangavaram,24,3,4345,346.2,Mozambique Channel / Indian Ocean,Direct Sea,Low,Medium,Low,0.12,445.6,2.48
+31,Mozambique-Paradip,Beira to Paradip,25,1,4210,335.8,Mozambique Channel / Indian Ocean,Direct Sea,Low,High,High,0.22,431.8,7.23
+32,Russia-Paradip,Vostochny to Paradip,26,1,5280,418.2,Sea of Japan / Malacca Strait,Malacca,Low,High,Medium,0.16,541.5,5.67
+33,Russia-Visakhapatnam,Vostochny to Visakhapatnam,26,2,5210,412.8,Sea of Japan / Malacca Strait,Malacca,Low,High,Low,0.14,534.4,5.2
+34,Russia-Paradip,Vanino to Paradip,27,1,5580,441.2,Tatar Strait / Malacca Strait,Malacca,Low,High,Medium,0.2,572.3,6.06
+35,Australia-Mundra,Hay Point to Mundra,15,11,5620,444.3,Torres Strait / Malacca / Arabian Sea,Malacca,Low,Low,Low,0.08,576.4,1.71
+36,Indonesia-Mundra,Tanjung Priok to Mundra,20,11,2750,223.5,Malacca Strait / Arabian Sea,Malacca,Low,Low,Low,0.08,282.1,1.57
+37,USA-Mundra,Norfolk (Hampton Roads) to Mundra,22,11,10900,850.5,Cape of Good Hope,Cape,Low,High,Low,0.14,1117.9,4.47
+38,India-Chennai,Paradip to Chennai,1,8,640,61.2,Coastal Bay of Bengal,Direct Sea,Low,Medium,Low,0.08,65.6,2.55
+39,India-Haldia,Visakhapatnam to Haldia,2,6,480,48.9,Coastal Bay of Bengal,Direct Sea,Low,High,High,0.24,49.2,6.5
+40,India-Haldia,Paradip to Haldia,1,6,210,28.2,Coastal Bay of Bengal,Direct Sea,Low,High,High,0.25,21.5,6.76
