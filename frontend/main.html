@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FreightIQ | Maritime Intelligence</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Leaflet.js Interactive Maritime Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fa-solid fa-ship"></i>
+            </div>
+
+            <div>
+                <h2>Freight<span>IQ</span></h2>
+                <small>Maritime Intelligence</small>
+            </div>
+        </div>
+
+        <nav>
+
+            <p class="menu-title">MAIN</p>
+
+            <button class="nav-item active" onclick="showPage('dashboard', this)">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Dashboard</span>
+            </button>
+
+            <button class="nav-item" onclick="showPage('forecast', this)">
+                <i class="fa-solid fa-chart-area"></i>
+                <span>Freight Forecast</span>
+            </button>
+
+            <button class="nav-item" onclick="showPage('cargo', this)">
+                <i class="fa-solid fa-box"></i>
+                <span>Cargo Planner</span>
+            </button>
+
+            <button class="nav-item" onclick="showPage('vessel', this)">
+                <i class="fa-solid fa-ship"></i>
+                <span>Vessel Recommendation</span>
+            </button>
+
+            <button class="nav-item" onclick="showPage('procurement', this)">
+                <i class="fa-solid fa-boxes-stacked"></i>
+                <span>Procurement</span>
+            </button>
+
+            <button class="nav-item" onclick="showPage('risk', this)">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span>Risk Score</span>
+            </button>
+
+            <button class="nav-item" onclick="showPage('ports', this)">
+                <i class="fa-solid fa-anchor"></i>
+                <span>Port Explorer</span>
+            </button>
+
+            <button class="nav-item" onclick="showPage('coa', this)">
+                <i class="fa-solid fa-scale-balanced"></i>
+                <span>Spot vs CoA</span>
+            </button>
+
+            <button class="nav-item" onclick="showPage('alerts', this)">
+                <i class="fa-solid fa-bell"></i>
+                <span>Risk & Alerts</span>
+            </button>
+
+            <p class="menu-title">SYSTEM</p>
+
+            <button class="nav-item">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings</span>
+            </button>
+
+            <button class="nav-item">
+                <i class="fa-solid fa-circle-question"></i>
+                <span>Help</span>
+            </button>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="system-status">
+                <span class="status-dot"></span>
+                AI System Online
+            </div>
+
+            <div class="user">
+                <div class="user-avatar">R</div>
+
+                <div>
+                    <strong>Freight Analyst</strong>
+                    <small>Admin</small>
+                </div>
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div>
+                <h1 id="pageTitle">Dashboard</h1>
+                <p id="pageSubtitle">
+                    Intelligent maritime freight decision support
+                </p>
+            </div>
+
+            <div class="top-actions">
+
+                <div class="scenario-buttons" style="display: flex; gap: 6px; align-items: center;">
+                    <span style="font-size: 11px; color: var(--muted); font-weight: 600; margin-right: 2px;"><i class="fa-solid fa-wand-magic-sparkles" style="color: #20b8ff;"></i> Demo Presets:</span>
+                    <button class="btn-scenario" onclick="loadDemoScenario(1)" title="Run Paradip 75kt Coal recommendation">
+                        <i class="fa-solid fa-play"></i> 1. Paradip 75kt
+                    </button>
+                    <button class="btn-scenario" onclick="loadDemoScenario(2)" title="Run Haldia Shallow Port Feasibility Rejection test">
+                        <i class="fa-solid fa-shield-halved"></i> 2. Haldia Draft Rule
+                    </button>
+                    <button class="btn-scenario" onclick="loadDemoScenario(3)" title="Run Vizag Spot vs CoA Simulation">
+                        <i class="fa-solid fa-scale-balanced"></i> 3. Spot vs CoA
+                    </button>
+                </div>
+
+                <button class="icon-btn" title="Alerts" onclick="showPage('alerts')">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification"></span>
+                </button>
+
+                <button class="refresh-btn" onclick="refreshData()">
+                    <i class="fa-solid fa-rotate"></i>
+                    Refresh Data
+                </button>
+
+                <a href="login.html" id="authLink" class="auth-top-btn" title="User Login / Switch" style="text-decoration: none; display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(32,184,255,0.12); color: #20b8ff; border: 1px solid rgba(32,184,255,0.3); border-radius: 6px; font-size: 11px; font-weight: 600;">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i> <span id="authLinkText">Sign In</span>
+                </a>
+
+            </div>
+
+</header>
+
+
+        <div class="api-strip">
+            <span id="backendStatus"><i class="fa-solid fa-circle"></i> FastAPI: Connecting...</span>
+            <span id="dbStatus"><i class="fa-solid fa-database"></i> PostgreSQL: Connecting...</span>
+            <span id="mlStatus"><i class="fa-solid fa-microchip"></i> ML: XGBoost Ready</span>
+            <span class="api-note" id="liveDataBadge"><i class="fa-solid fa-bolt"></i> Live Intelligence Mode</span>
+        </div>
+
+        <!-- ================= DASHBOARD ================= -->
+
+        <section id="dashboard" class="page active-page">
+
+            <!-- HERO -->
+
+            <div class="hero">
+
+                <div class="hero-content">
+
+                    <div class="tag">
+                        <span></span>
+                        AI-POWERED INTELLIGENCE
+                    </div>
+
+                    <h2>
+                        Smarter Freight.
+                        <br>
+                        <span>Better Decisions.</span>
+                    </h2>
+
+                    <p>
+                        Predict freight rates, optimize vessel chartering,
+                        and make data-driven bulk cargo procurement decisions.
+                    </p>
+
+                    <button class="primary-btn" onclick="showPage('forecast')">
+                        Explore Forecast
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+
+                </div>
+
+                <div class="hero-ship">
+                    <i class="fa-solid fa-ship"></i>
+                </div>
+
+            </div>
+
+
+            <!-- KPI CARDS -->
+
+            <div class="section-title">
+                <h2>Market Overview</h2>
+                <span>Updated just now</span>
+            </div>
+
+            <div class="stats-grid">
+
+                <div class="stat-card blue">
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+
+                    <div>
+                        <p>Current Freight Rate</p>
+                        <h2>$24.80 <small>/ MT</small></h2>
+                        <span class="positive">
+                            <i class="fa-solid fa-arrow-up"></i>
+                            4.8%
+                        </span>
+                    </div>
+                </div>
+
+
+                <div class="stat-card purple">
+
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-calendar-days"></i>
+                    </div>
+
+                    <div>
+                        <p>Forecast Rate</p>
+                        <h2>$26.40 <small>/ MT</small></h2>
+                        <span class="warning">
+                            Expected in 30 days
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card green">
+
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-coins"></i>
+                    </div>
+
+                    <div>
+                        <p>Potential Savings</p>
+                        <h2>$128K</h2>
+                        <span class="positive">
+                            AI Optimized
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card orange">
+
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+
+                    <div>
+                        <p>Risk Score</p>
+                        <h2>32<span>/100</span></h2>
+
+                        <span class="low-risk">
+                            Low Risk
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CHART + RECOMMENDATION -->
+
+            <div class="dashboard-grid">
+
+                <div class="panel chart-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <h3>Freight Rate Forecast</h3>
+                            <p>East Coast → India</p>
+                        </div>
+
+                        <select id="chartRange">
+                            <option>30 Days</option>
+                            <option>60 Days</option>
+                            <option>90 Days</option>
+                        </select>
+
+                    </div>
+
+                    <canvas id="freightChart"></canvas>
+
+                </div>
+
+
+                <div class="panel recommendation-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <h3>AI Recommendation</h3>
+                            <p>Based on current market conditions</p>
+                        </div>
+
+                        <span class="ai-badge">
+                            AI
+                        </span>
+
+                    </div>
+
+                    <div class="recommendation">
+
+                        <div class="recommendation-icon">
+                            <i class="fa-solid fa-lightbulb"></i>
+                        </div>
+
+                        <div>
+                            <h3>Consider Early Chartering</h3>
+
+                            <p>
+                                Freight rates are expected to increase
+                                by approximately 6.4% over the next 30 days.
+                            </p>
+
+                            <button class="text-btn"
+                                onclick="showPage('vessel')">
+                                View Vessel Options
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ROUTE -->
+
+            <div class="panel route-panel">
+
+                <div class="panel-header">
+                    <div>
+                        <h3>Active Supply Route</h3>
+                        <p>Current coal import operation</p>
+                    </div>
+
+                    <span class="live">
+                        <span></span>
+                        LIVE
+                    </span>
+                </div>
+
+                <div class="route">
+
+                    <div class="port">
+
+                        <div class="port-icon">
+                            <i class="fa-solid fa-anchor"></i>
+                        </div>
+
+                        <div>
+                            <strong>Newcastle</strong>
+                            <small>Australia</small>
+                        </div>
+
+                    </div>
+
+                    <div class="route-line">
+
+                        <div class="moving-dot"></div>
+
+                        <span>5,420 NM</span>
+
+                    </div>
+
+                    <div class="port">
+
+                        <div class="port-icon destination">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+
+                        <div>
+                            <strong>Paradip</strong>
+                            <small>India</small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- QUICK ACTIONS -->
+            <div class="section-title">
+                <h2>Decision Center</h2>
+                <span>Start with your cargo requirement</span>
+            </div>
+
+            <div class="quick-grid">
+                <button class="quick-card" onclick="showPage('cargo')">
+                    <span class="quick-icon"><i class="fa-solid fa-box-open"></i></span>
+                    <span><strong>Plan Cargo</strong><small>Enter quantity, route & delivery window</small></span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+                <button class="quick-card" onclick="showPage('vessel')">
+                    <span class="quick-icon purple"><i class="fa-solid fa-ship"></i></span>
+                    <span><strong>Find Vessel</strong><small>Rank vessels by fit, cost and ETA</small></span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+                <button class="quick-card" onclick="showPage('coa')">
+                    <span class="quick-icon green"><i class="fa-solid fa-file-contract"></i></span>
+                    <span><strong>Compare Contracts</strong><small>Spot vs CoA cost exposure</small></span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+                <button class="quick-card" onclick="showPage('risk')">
+                    <span class="quick-icon orange"><i class="fa-solid fa-shield-halved"></i></span>
+                    <span><strong>Check Risk</strong><small>Freight, port, weather & geopolitical signals</small></span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+
+        </section>
+
+
+        <!-- ================= FORECAST ================= -->
+
+        <!-- ================= FORECAST ================= -->
+        <section id="forecast" class="page">
+
+            <div class="page-heading" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 14px;">
+                <div>
+                    <h2>Freight Forecast</h2>
+                    <p>AI-powered forward rate prediction powered by Quantile XGBoost (P10 / P50 / P90).</p>
+                </div>
+                <!-- Route & Vessel Dynamic Filter Controls -->
+                <div class="fc-filter-container">
+                    <div class="fc-filter-item">
+                        <label><i class="fa-solid fa-route" style="color:var(--primary)"></i> Route:</label>
+                        <select id="forecastRouteSelect" onchange="onForecastFilterChanged()">
+                            <option value="Indonesia-EastCoastIndia (coal)">Indonesia &rarr; East Coast India</option>
+                            <option value="Australia-Paradip">Australia (Hay Point) &rarr; Paradip</option>
+                            <option value="Australia-Vizag">Australia (Gladstone) &rarr; Visakhapatnam</option>
+                            <option value="Australia-Haldia">Australia &rarr; Haldia</option>
+                            <option value="Mozambique-Paradip">Mozambique (Maputo) &rarr; Paradip</option>
+                            <option value="US_East_Coast-Vizag">US East Coast &rarr; Visakhapatnam</option>
+                            <option value="Russia_Far_East-Vizag">Russia (Vostochny) &rarr; Vizag</option>
+                        </select>
+                    </div>
+                    <div class="fc-filter-item">
+                        <label><i class="fa-solid fa-ship" style="color:var(--primary)"></i> Vessel:</label>
+                        <select id="forecastVesselSelect" onchange="onForecastFilterChanged()">
+                            <option value="Supramax" selected>Supramax (50k-65k DWT)</option>
+                            <option value="Panamax">Panamax (65k-85k DWT)</option>
+                            <option value="Capesize">Capesize (120k-200k DWT)</option>
+                            <option value="Handysize">Handysize (25k-40k DWT)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="forecast-cards">
+                <div class="forecast-card" id="fcCardCurrent">
+                    <span>Current Spot Rate</span>
+                    <h2 id="fcValCurrent">$19.61</h2>
+                    <small id="fcSubCurrent">Live from Database</small>
+                </div>
+
+                <div class="forecast-card" id="fcCard7d">
+                    <span>7-Day Forward (P50)</span>
+                    <h2 id="fcVal7d">$19.34</h2>
+                    <small id="fcSub7d" class="trend-down">-1.4%</small>
+                </div>
+
+                <div class="forecast-card" id="fcCard30d">
+                    <span>30-Day Forward (P50)</span>
+                    <h2 id="fcVal30d">$19.16</h2>
+                    <small id="fcSub30d" class="trend-down">-2.3%</small>
+                </div>
+
+                <div class="forecast-card" id="fcCard90d">
+                    <span>Forward Horizon (P90)</span>
+                    <h2 id="fcVal90d">$26.24</h2>
+                    <small id="fcSub90d" class="trend-up">+33.8% Upper Risk</small>
+                </div>
+            </div>
+
+            <div class="panel large-chart">
+                <div class="panel-header">
+                    <div>
+                        <h3>AI Freight Rate Prediction & Confidence Envelopes</h3>
+                        <p>Actual historical fixtures (PostgreSQL) seamlessly joined to XGBoost Quantile Forecasts</p>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span class="prediction-badge" style="background: rgba(34,197,94,0.12); color:#22c55e; border:1px solid rgba(34,197,94,0.25);">
+                            <i class="fa-solid fa-microchip"></i> XGBoost-v1 Active
+                        </span>
+                        <span class="prediction-badge">
+                            94% Model Confidence
+                        </span>
+                    </div>
+                </div>
+
+                <div style="position: relative; height: 320px; width: 100%;">
+                    <canvas id="forecastChart"></canvas>
+                </div>
+
+                <!-- AI Explainability & Root Cause Analysis of Rate Trajectory -->
+                <div class="forecast-explain-box">
+                    <div class="explain-header">
+                        <h4><i class="fa-solid fa-brain" style="color:var(--primary)"></i> AI Explainability & Feature Driver Intelligence</h4>
+                        <span class="explain-tag">Explainable AI (XAI)</span>
+                    </div>
+                    <div class="explain-grid">
+                        <div class="explain-col">
+                            <h5>Top Feature Weights (XGBoost Regressor)</h5>
+                            <div class="driver-bars" id="forecastDriversList">
+                                <div class="driver-row">
+                                    <span>lag_1 (Previous Spot Fixture)</span>
+                                    <div class="driver-bar-bg"><div class="driver-bar-fill" style="width: 68%;"></div></div>
+                                    <strong>67.9%</strong>
+                                </div>
+                                <div class="driver-row">
+                                    <span>rolling_mean_7 (7-Day Moving Avg)</span>
+                                    <div class="driver-bar-bg"><div class="driver-bar-fill" style="width: 31%;"></div></div>
+                                    <strong>31.2%</strong>
+                                </div>
+                                <div class="driver-row">
+                                    <span>bdi / bsi (Baltic Dry / Supramax)</span>
+                                    <div class="driver-bar-bg"><div class="driver-bar-fill" style="width: 8%;"></div></div>
+                                    <strong>0.1%</strong>
+                                </div>
+                                <div class="driver-row">
+                                    <span>bunker_price (VLSFO Fuel Cost)</span>
+                                    <div class="driver-bar-bg"><div class="driver-bar-fill" style="width: 6%;"></div></div>
+                                    <strong>0.1%</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="explain-col">
+                            <h5>Suspected Reasons for Rate Movement</h5>
+                            <div class="reason-card">
+                                <div class="reason-item">
+                                    <i class="fa-solid fa-circle-check text-green"></i>
+                                    <div>
+                                        <strong>Historical Fixture Calibration</strong>
+                                        <p>Chart now binds real historical database spot rates (ending at ~$19.61) directly into the forward ML projection, removing previous placeholder discrepancies.</p>
+                                    </div>
+                                </div>
+                                <div class="reason-item">
+                                    <i class="fa-solid fa-arrow-trend-down" style="color:#f59e0b"></i>
+                                    <div>
+                                        <strong>Autoregressive Trend Easing</strong>
+                                        <p>Recent actual fixtures in the training set softened from $20.07 to $19.61 (-2.3%), creating mild downward momentum in short-term lag features.</p>
+                                    </div>
+                                </div>
+                                <div class="reason-item">
+                                    <i class="fa-solid fa-gas-pump text-green"></i>
+                                    <div>
+                                        <strong>VLSFO Bunker Price Moderation</strong>
+                                        <p>Bunker fuel indexes cooled towards $634/MT, reducing daily voyage consumption costs passed through to charterers.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ================= VESSEL ================= -->
+
+        <section id="vessel" class="page">
+
+            <div class="page-heading">
+
+                <h2>Vessel Recommendation</h2>
+
+                <p>
+                    AI-ranked vessels based on freight cost,
+                    capacity and route compatibility.
+                </p>
+
+            </div>
+
+
+            <div class="vessel-grid">
+
+                <div class="vessel-card recommended">
+
+                    <div class="recommended-label">
+                        <i class="fa-solid fa-star"></i>
+                        AI RECOMMENDED
+                    </div>
+
+                    <div class="vessel-image">
+                        <i class="fa-solid fa-ship"></i>
+                    </div>
+
+                    <h3>MV Ocean Titan</h3>
+
+                    <p class="vessel-company">
+                        Pacific Maritime
+                    </p>
+
+                    <div class="vessel-info">
+
+                        <div>
+                            <span>Capacity</span>
+                            <strong>82,000 DWT</strong>
+                        </div>
+
+                        <div>
+                            <span>Speed</span>
+                            <strong>14.2 Knots</strong>
+                        </div>
+
+                        <div>
+                            <span>Est. Cost</span>
+                            <strong>$1.82M</strong>
+                        </div>
+
+                        <div>
+                            <span>ETA</span>
+                            <strong>18 Days</strong>
+                        </div>
+
+                    </div>
+
+                    <button class="select-btn">
+                        Select Vessel
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+
+                </div>
+
+
+                <div class="vessel-card">
+
+                    <div class="score">
+                        91
+                    </div>
+
+                    <div class="vessel-image">
+                        <i class="fa-solid fa-ship"></i>
+                    </div>
+
+                    <h3>MV Pacific Star</h3>
+
+                    <p class="vessel-company">
+                        Global Shipping Ltd.
+                    </p>
+
+                    <div class="vessel-info">
+
+                        <div>
+                            <span>Capacity</span>
+                            <strong>76,500 DWT</strong>
+                        </div>
+
+                        <div>
+                            <span>Speed</span>
+                            <strong>13.8 Knots</strong>
+                        </div>
+
+                        <div>
+                            <span>Est. Cost</span>
+                            <strong>$1.76M</strong>
+                        </div>
+
+                        <div>
+                            <span>ETA</span>
+                            <strong>20 Days</strong>
+                        </div>
+
+                    </div>
+
+                    <button class="select-btn secondary">
+                        View Details
+                    </button>
+
+                </div>
+
+
+                <div class="vessel-card">
+
+                    <div class="score">
+                        87
+                    </div>
+
+                    <div class="vessel-image">
+                        <i class="fa-solid fa-ship"></i>
+                    </div>
+
+                    <h3>MV Eastern Eagle</h3>
+
+                    <p class="vessel-company">
+                        Eastern Marine
+                    </p>
+
+                    <div class="vessel-info">
+
+                        <div>
+                            <span>Capacity</span>
+                            <strong>69,000 DWT</strong>
+                        </div>
+
+                        <div>
+                            <span>Speed</span>
+                            <strong>14.0 Knots</strong>
+                        </div>
+
+                        <div>
+                            <span>Est. Cost</span>
+                            <strong>$1.64M</strong>
+                        </div>
+
+                        <div>
+                            <span>ETA</span>
+                            <strong>21 Days</strong>
+                        </div>
+
+                    </div>
+
+                    <button class="select-btn secondary">
+                        View Details
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= PROCUREMENT ================= -->
+
+        <section id="procurement" class="page">
+
+            <div class="page-heading">
+
+                <h2>Procurement Recommendation</h2>
+
+                <p>
+                    AI-assisted recommendations for optimal
+                    coking-coal procurement timing.
+                </p>
+
+            </div>
+
+
+            <div class="procurement-layout">
+
+                <div class="panel procurement-main">
+
+                    <div class="procurement-status">
+
+                        <div class="big-check">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+
+                        <div>
+                            <span>RECOMMENDED ACTION</span>
+                            <h2>Procure 60% Now</h2>
+                        </div>
+
+                    </div>
+
+                    <p class="procurement-description">
+
+                        Current market conditions indicate a potential
+                        increase in coal prices over the next 45 days.
+                        Locking in 60% of the requirement now can
+                        reduce expected procurement costs.
+
+                    </p>
+
+                    <div class="procurement-bars">
+
+                        <div class="bar-item">
+
+                            <div>
+                                <span>Procure Now</span>
+                                <strong>60%</strong>
+                            </div>
+
+                            <div class="progress">
+                                <div style="width:60%"></div>
+                            </div>
+
+                        </div>
+
+                        <div class="bar-item">
+
+                            <div>
+                                <span>Wait & Monitor</span>
+                                <strong>40%</strong>
+                            </div>
+
+                            <div class="progress">
+                                <div style="width:40%"></div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <button class="primary-btn">
+                        Generate Procurement Plan
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+
+                </div>
+
+
+                <div class="panel savings-panel">
+
+                    <h3>Expected Savings</h3>
+
+                    <div class="savings-value">
+                        $128,400
+                    </div>
+
+                    <span class="positive">
+                        <i class="fa-solid fa-arrow-down"></i>
+                        Estimated procurement cost
+                    </span>
+
+                    <hr>
+
+                    <div class="saving-row">
+                        <span>Expected Coal Price</span>
+                        <strong>$214 / MT</strong>
+                    </div>
+
+                    <div class="saving-row">
+                        <span>Current Market</span>
+                        <strong>$208 / MT</strong>
+                    </div>
+
+                    <div class="saving-row">
+                        <span>Required Quantity</span>
+                        <strong>120,000 MT</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= CARGO PLANNER ================= -->
+        <section id="cargo" class="page">
+            <div class="planner-layout-v2">
+                <!-- LEFT CARD: Cargo Planning & Charter Requirement -->
+                <div class="charter-card form-card">
+                    <div class="charter-card-header">
+                        <div class="card-title-group">
+                            <i class="fa-solid fa-cube card-title-icon"></i>
+                            <h3 class="card-title-text">Cargo Planning & Charter Requirement</h3>
+                        </div>
+                        <span class="step-badge">Step 1</span>
+                    </div>
+
+                    <form id="cargoForm" onsubmit="event.preventDefault(); generatePlan();">
+                        <div class="charter-field">
+                            <label class="charter-label" for="cargoCommodity">Cargo Commodity</label>
+                            <select id="cargoCommodity" class="charter-input">
+                                <option value="Coking Coal (Prime Hard)" selected>Coking Coal (Prime Hard)</option>
+                                <option value="Thermal Coal (Indonesian 4200 GAR)">Thermal Coal (Indonesian 4200 GAR)</option>
+                                <option value="Thermal Coal (South African 5500)">Thermal Coal (South African 5500)</option>
+                                <option value="Met Coal / PCI (Low Vol)">Met Coal / PCI (Low Vol)</option>
+                                <option value="Iron Ore Fines">Iron Ore Fines</option>
+                            </select>
+                        </div>
+
+                        <div class="charter-field">
+                            <label class="charter-label" for="cargoQty">Parcel Quantity (MT)</label>
+                            <div class="input-suffix-wrapper">
+                                <input id="cargoQty" type="number" value="75000" min="5000" step="1000" class="charter-input">
+                                <span class="input-suffix-text">Tonnes</span>
+                            </div>
+                        </div>
+
+                        <div class="charter-field">
+                            <label class="charter-label" for="cargoOrigin">Origin Hub</label>
+                            <select id="cargoOrigin" class="charter-input">
+                                <option value="Australia (Hay Point / Gladstone)" selected>Australia (Hay Point / Gladstone)</option>
+                                <option value="Indonesia (Taboneo / Samarinda)">Indonesia (Taboneo / Samarinda)</option>
+                                <option value="South Africa (Richards Bay)">South Africa (Richards Bay)</option>
+                                <option value="Mozambique (Maputo)">Mozambique (Maputo)</option>
+                                <option value="US East Coast (Hampton Roads)">US East Coast (Hampton Roads)</option>
+                                <option value="Russia Far East (Vostochny)">Russia Far East (Vostochny)</option>
+                            </select>
+                        </div>
+
+                        <div class="charter-field">
+                            <label class="charter-label" for="cargoDestination">Destination Port (India East Coast)</label>
+                            <select id="cargoDestination" class="charter-input">
+                                <option value="1" selected>Paradip (Draft: 17.1m | LOA: 300m)</option>
+                            </select>
+                        </div>
+
+                        <div class="charter-row-2col">
+                            <div class="charter-field">
+                                <label class="charter-label" for="laycanStart">Laycan Window Start</label>
+                                <input type="date" id="laycanStart" value="2026-11-12" class="charter-input">
+                            </div>
+                            <div class="charter-field">
+                                <label class="charter-label" for="laycanEnd">Laycan Window End</label>
+                                <input type="date" id="laycanEnd" value="2026-11-23" class="charter-input">
+                            </div>
+                        </div>
+
+                        <div class="charter-field">
+                            <label class="charter-label">Procurement Contract Preference</label>
+                            <div class="contract-toggle-row">
+                                <button type="button" class="contract-toggle-btn" id="btnContractCoA" onclick="selectContractPreference('CoA')">
+                                    CoA (Contract of Affreightment)
+                                </button>
+                                <button type="button" class="contract-toggle-btn active" id="btnContractSpot" onclick="selectContractPreference('Spot')">
+                                    Spot (Single Voyage)
+                                </button>
+                            </div>
+                            <input type="hidden" id="cargoContract" value="Spot">
+                        </div>
+
+                        <button type="submit" class="btn-generate-rec" id="btnGenerate">
+                            Generate Recommendation
+                        </button>
+                    </form>
+                </div>
+
+                <!-- RIGHT CARD: FREIGHTIQ CHARTERING DIRECTIVE -->
+                <div class="charter-card directive-card" id="plannerResult">
+                    <div class="directive-header">
+                        <div class="directive-pill">
+                            <span class="directive-dot"></span>
+                            <span>FREIGHTIQ CHARTERING DIRECTIVE</span>
+                        </div>
+                        <div class="directive-score-pill">
+                            <span class="score-num" id="recScore">79</span>
+                            <span class="score-denom">/ 100 SCORE</span>
+                        </div>
+                    </div>
+
+                    <!-- 4 Metric Cards -->
+                    <div class="metric-cards-grid">
+                        <div class="metric-card">
+                            <span class="metric-card-label">RECOMMENDED VESSEL</span>
+                            <h3 class="metric-card-value text-white" id="recVesselClass">PANAMAX</h3>
+                            <span class="metric-card-desc" id="recVesselDesc">Physically Feasible & Parcel Matched</span>
+                        </div>
+
+                        <div class="metric-card">
+                            <span class="metric-card-label">OPTIMAL FIXTURE WINDOW</span>
+                            <h3 class="metric-card-value text-cyan" id="recFixtureWindow">12 Nov – 14 Nov</h3>
+                            <span class="metric-card-desc" id="recFixtureDesc">Strictly within Cargo Laycan</span>
+                        </div>
+
+                        <div class="metric-card">
+                            <span class="metric-card-label">PROCUREMENT STRATEGY</span>
+                            <h3 class="metric-card-value text-green" id="recStrategy">CoA</h3>
+                            <span class="metric-card-desc" id="recStrategyDesc">Multi-Voyage Hedged</span>
+                        </div>
+
+                        <div class="metric-card">
+                            <span class="metric-card-label">ROUTE RISK INDEX</span>
+                            <h3 class="metric-card-value text-white" id="recRiskIndex">HIGH</h3>
+                            <span class="metric-card-desc" id="recRiskDesc">Anomaly Monitored</span>
+                        </div>
+                    </div>
+
+                    <!-- XGBoost Forecast Container -->
+                    <div class="forecast-section-box">
+                        <div class="forecast-section-header">
+                            <span class="forecast-section-title">XGBOOST FREIGHT RATE FORECAST (USD / METRIC TONNE)</span>
+                            <span class="forecast-model-badge">MODEL: XGBOOST-V1</span>
+                        </div>
+
+                        <div class="forecast-subcards-grid">
+                            <div class="fc-subcard">
+                                <span class="fc-subcard-label">P10 (Optimistic Lower)</span>
+                                <div class="fc-subcard-rate text-teal" id="recP10">$23.60</div>
+                                <span class="fc-subcard-note">10% probability below</span>
+                            </div>
+
+                            <div class="fc-subcard active">
+                                <span class="fc-subcard-label text-cyan">P50 (Expected Rate)</span>
+                                <div class="fc-subcard-rate text-cyan" id="recP50">$25.96</div>
+                                <span class="fc-subcard-note">Central median expectation</span>
+                            </div>
+
+                            <div class="fc-subcard">
+                                <span class="fc-subcard-label">P90 (Conservative Ceiling)</span>
+                                <div class="fc-subcard-rate text-amber" id="recP90">$31.57</div>
+                                <span class="fc-subcard-note">90% probability below</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transparent Recommendation Rationale -->
+                    <div class="rationale-section">
+                        <div class="rationale-header">
+                            <i class="fa-regular fa-circle-dot text-cyan"></i>
+                            <h4 class="rationale-title">Transparent Recommendation Rationale</h4>
+                        </div>
+
+                        <ul class="rationale-checklist" id="recRationaleList">
+                            <li><i class="fa-solid fa-check text-green"></i> <span>Physically compatible with Paradip navigation channel and berth constraints (draft 26.0m envelope)</span></li>
+                            <li><i class="fa-solid fa-check text-green"></i> <span>Optimal deadweight parcel fit for 75,000 MT Coking Coal</span></li>
+                            <li><i class="fa-solid fa-check text-green"></i> <span>Expected fixture window 12 Nov–14 Nov 2026 captures favorable freight dip (~$25.96/t)</span></li>
+                            <li><i class="fa-solid fa-check text-green"></i> <span>Recommended CoA contract strategy hedges against route market volatility (15.4%)</span></li>
+                            <li><i class="fa-solid fa-check text-green"></i> <span>Route risk assessed at High severity with active monitoring</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PORT EXPLORER ================= -->
+        <section id="ports" class="page">
+            <div class="page-heading">
+                <h2>Port Explorer</h2>
+                <p>Compare operational constraints before selecting a voyage.</p>
+            </div>
+
+            <div class="port-explorer-grid">
+                <div class="panel port-map-panel">
+                    <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                        <div>
+                            <h3 style="display:flex; align-items:center; gap:8px;">
+                                <i class="fa-solid fa-map-location-dot" style="color:var(--primary)"></i> East Coast Network
+                            </h3>
+                            <p>Interactive GIS maritime intelligence & berth telemetry</p>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div class="map-view-switcher">
+                                <button type="button" class="view-btn active" id="btnViewEastCoast" onclick="setPortMapView('east-coast')">East Coast</button>
+                                <button type="button" class="view-btn" id="btnViewIndia" onclick="setPortMapView('india')">All India</button>
+                                <button type="button" class="view-btn" id="btnViewGlobal" onclick="setPortMapView('global')">Global Hubs</button>
+                            </div>
+                            <span class="live"><span></span> LIVE</span>
+                        </div>
+                    </div>
+
+                    <!-- Real Leaflet Interactive Maritime Map -->
+                    <div id="portMap" class="real-port-map"></div>
+
+                    <!-- Selected Port Details matching Image 2 Reference Mockup -->
+                    <div id="selectedPortCard" class="port-profile-wrapper">
+                        <!-- Populated dynamically by selectPort() -->
+                    </div>
+                </div>
+
+                <div class="panel port-table-panel">
+                    <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
+                        <div>
+                            <h3>Port Constraints</h3>
+                            <p>Operational checks & draft feasibility</p>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 12px;">
+                        <div class="port-search-box">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="portSearchInput" placeholder="Filter ports (e.g. Paradip, Vostochny)..." oninput="filterPortList(this.value)">
+                        </div>
+                    </div>
+                    <div class="port-list" id="portListContainer">
+                        <button onclick="selectPort('Paradip')"><strong>Paradip</strong><span>Draft: 14.5m, LOA: 260m</span><em class="tag-med">Standard</em></button>
+                        <button onclick="selectPort('Visakhapatnam')"><strong>Visakhapatnam</strong><span>Draft: 18.1m, LOA: 300m</span><em class="tag-low">Deep Draft</em></button>
+                        <button onclick="selectPort('Gangavaram')"><strong>Gangavaram</strong><span>Draft: 18.5m, LOA: 300m</span><em class="tag-low">Deep Draft</em></button>
+                        <button onclick="selectPort('Dhamra')"><strong>Dhamra</strong><span>Draft: 18.0m, LOA: 300m</span><em class="tag-low">Deep Draft</em></button>
+                        <button onclick="selectPort('Haldia')"><strong>Haldia</strong><span>Draft: 8.5m, LOA: 190m</span><em class="tag-high">Draft-sensitive</em></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SPOT VS COA ================= -->
+        <section id="coa" class="page">
+            <div class="page-heading">
+                <h2>Spot vs CoA Simulator</h2>
+                <p>Compare expected logistics exposure under two contracting strategies.</p>
+            </div>
+
+            <div class="simulator-grid">
+                <div class="panel simulator-controls">
+                    <div class="panel-header">
+                        <div><h3>Scenario</h3><p>Adjust assumptions to compare outcomes.</p></div>
+                    </div>
+                    <label>Annual Quantity (MT)<input id="coaQty" type="number" value="500000" step="10000"></label>
+                    <label>Expected Spot Rate ($/MT)<input id="spotRate" type="number" value="24.8" step="0.1"></label>
+                    <label>CoA Rate ($/MT)<input id="coaRate" type="number" value="23.2" step="0.1"></label>
+                    <label>Market Volatility
+                        <select id="volatility"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option></select>
+                    </label>
+                    <button class="primary-btn" onclick="runCoASimulation()">Run Simulation <i class="fa-solid fa-calculator"></i></button>
+                </div>
+
+                <div class="panel simulator-output">
+                    <div class="compare-cards">
+                        <div class="compare-card spot"><span>SPOT</span><strong id="spotTotal">$12.40M</strong><small>Expected annual freight</small></div>
+                        <div class="compare-vs">VS</div>
+                        <div class="compare-card coa"><span>CoA</span><strong id="coaTotal">$11.60M</strong><small>Expected annual freight</small></div>
+                    </div>
+                    <div class="decision-banner" id="coaDecision"><i class="fa-solid fa-check"></i><div><strong>CoA is preferred</strong><p>Lower expected cost with better protection against freight volatility.</p></div></div>
+                    <div class="mini-bars">
+                        <div><span>Cost Advantage</span><b id="coaAdvantage">6.5%</b></div>
+                        <div class="progress"><div id="coaProgress" style="width:65%"></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= RISK & ALERTS ================= -->
+        <section id="alerts" class="page">
+            <div class="page-heading">
+                <h2>Risk & Alerts</h2>
+                <p>Prioritized signals that can affect freight and procurement decisions.</p>
+            </div>
+
+            <div class="alert-summary">
+                <div class="alert-stat"><span class="alert-dot red"></span><div><strong>1</strong><small>High priority</small></div></div>
+                <div class="alert-stat"><span class="alert-dot orange"></span><div><strong>2</strong><small>Medium priority</small></div></div>
+                <div class="alert-stat"><span class="alert-dot green"></span><div><strong>4</strong><small>Stable signals</small></div></div>
+            </div>
+
+            <div class="panel alerts-panel">
+                <div class="panel-header">
+                    <div><h3>Live Decision Signals</h3><p>Illustrative mock signals — connect these cards to /risk in FastAPI.</p></div>
+                    <span class="ai-badge">AI MONITOR</span>
+                </div>
+                <div class="alert-list">
+                    <div class="alert-item high"><div class="alert-symbol"><i class="fa-solid fa-chart-line"></i></div><div><strong>Freight volatility rising</strong><p>30-day rate uncertainty has increased. Consider earlier chartering.</p></div><span>HIGH</span></div>
+                    <div class="alert-item medium"><div class="alert-symbol"><i class="fa-solid fa-cloud"></i></div><div><strong>Weather watch</strong><p>Potential disruption in the next planning window. Monitor ETA buffer.</p></div><span>MEDIUM</span></div>
+                    <div class="alert-item medium"><div class="alert-symbol"><i class="fa-solid fa-anchor"></i></div><div><strong>Port congestion</strong><p>Moderate congestion may affect turnaround assumptions.</p></div><span>MEDIUM</span></div>
+                    <div class="alert-item low"><div class="alert-symbol"><i class="fa-solid fa-circle-check"></i></div><div><strong>Route compatibility stable</strong><p>Current cargo/vessel profile remains within the selected port constraints.</p></div><span>LOW</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= RISK ================= -->
+
+        <section id="risk" class="page">
+
+            <div class="page-heading">
+
+                <h2>Risk Score</h2>
+
+                <p>
+                    AI-generated assessment of freight and procurement risks.
+                </p>
+
+            </div>
+
+
+            <div class="risk-layout">
+
+                <div class="panel risk-score-panel">
+
+                    <div class="risk-circle">
+
+                        <div class="circle-content">
+
+                            <strong>32</strong>
+                            <span>/100</span>
+
+                        </div>
+
+                    </div>
+
+                    <h2>Low Risk</h2>
+
+                    <p>
+                        Current conditions indicate a relatively
+                        stable procurement environment.
+                    </p>
+
+                </div>
+
+
+                <div class="panel risk-factors">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <h3>Risk Factors</h3>
+                            <p>Current risk contribution</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="risk-factor">
+
+                        <div class="risk-name">
+                            <i class="fa-solid fa-chart-line"></i>
+
+                            <div>
+                                <strong>Freight Rate Volatility</strong>
+                                <small>Moderate</small>
+                            </div>
+                        </div>
+
+                        <div class="risk-bar">
+                            <div style="width:45%"></div>
+                        </div>
+
+                        <span>45%</span>
+
+                    </div>
+
+
+                    <div class="risk-factor">
+
+                        <div class="risk-name">
+                            <i class="fa-solid fa-cloud"></i>
+
+                            <div>
+                                <strong>Weather Risk</strong>
+                                <small>Low</small>
+                            </div>
+                        </div>
+
+                        <div class="risk-bar">
+                            <div style="width:25%"></div>
+                        </div>
+
+                        <span>25%</span>
+
+                    </div>
+
+
+                    <div class="risk-factor">
+
+                        <div class="risk-name">
+                            <i class="fa-solid fa-earth-asia"></i>
+
+                            <div>
+                                <strong>Geopolitical Risk</strong>
+                                <small>Moderate</small>
+                            </div>
+                        </div>
+
+                        <div class="risk-bar">
+                            <div style="width:38%"></div>
+                        </div>
+
+                        <span>38%</span>
+
+                    </div>
+
+
+                    <div class="risk-factor">
+
+                        <div class="risk-name">
+                            <i class="fa-solid fa-anchor"></i>
+
+                            <div>
+                                <strong>Port Congestion</strong>
+                                <small>Low</small>
+                            </div>
+                        </div>
+
+                        <div class="risk-bar">
+                            <div style="width:20%"></div>
+                        </div>
+
+                        <span>20%</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- JS -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
