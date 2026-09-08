@@ -1,0 +1,269 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>FreightIQ | Login</title>
+
+    <!-- Separate CSS -->
+    <link rel="stylesheet" href="auth.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+    <div class="auth-background">
+
+        <div class="glow glow-one"></div>
+        <div class="glow glow-two"></div>
+
+
+        <div class="auth-container">
+
+
+            <!-- LEFT BRAND SECTION -->
+
+            <div class="auth-brand">
+
+                <div class="logo">
+                    <i class="fa-solid fa-ship"></i>
+                </div>
+
+                <h1>
+                    Freight<span>IQ</span>
+                </h1>
+
+                <p class="tagline">
+                    Intelligent Freight Intelligence
+                </p>
+
+                <p class="brand-description">
+                    AI-powered decision support for maritime
+                    freight, vessel chartering and bulk cargo
+                    procurement.
+                </p>
+
+
+                <div class="features">
+
+                    <div class="feature">
+
+                        <i class="fa-solid fa-chart-line"></i>
+
+                        <div>
+                            <strong>
+                                Freight Forecasting
+                            </strong>
+
+                            <small>
+                                Predict future freight rates
+                            </small>
+                        </div>
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <i class="fa-solid fa-ship"></i>
+
+                        <div>
+                            <strong>
+                                Vessel Intelligence
+                            </strong>
+
+                            <small>
+                                Find the optimal vessel
+                            </small>
+                        </div>
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <i class="fa-solid fa-shield-halved"></i>
+
+                        <div>
+                            <strong>
+                                Risk Analytics
+                            </strong>
+
+                            <small>
+                                Make safer decisions
+                            </small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOGIN CARD -->
+
+            <div class="auth-card">
+
+                <div class="card-header">
+
+                    <span class="small-label">
+                        WELCOME BACK
+                    </span>
+
+                    <h2>
+                        Sign in to FreightIQ
+                    </h2>
+
+                    <p>
+                        Access your maritime intelligence dashboard.
+                    </p>
+
+                </div>
+
+
+                <form id="loginForm">
+
+
+                    <!-- EMAIL -->
+
+                    <div class="input-group">
+
+                        <label>
+                            Email Address
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-regular fa-envelope"></i>
+
+                            <input
+                                type="email"
+                                id="loginEmail"
+                                placeholder="you@example.com"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="input-group">
+
+                        <div class="label-row">
+
+                            <label>
+                                Password
+                            </label>
+
+                            <a href="#" class="forgot">
+                                Forgot password?
+                            </a>
+
+                        </div>
+
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-solid fa-lock"></i>
+
+                            <input
+                                type="password"
+                                id="loginPassword"
+                                placeholder="Enter your password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                onclick="togglePassword(
+                                    'loginPassword',
+                                    this
+                                )"
+                            >
+
+                                <i class="fa-regular fa-eye"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- REMEMBER -->
+
+                    <label class="remember">
+
+                        <input type="checkbox">
+
+                        <span>
+                            Remember me
+                        </span>
+
+                    </label>
+
+
+                    <!-- LOGIN BUTTON -->
+
+                    <button
+                        type="submit"
+                        class="auth-button"
+                    >
+
+                        <span>
+                            Sign In
+                        </span>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </button>
+
+                </form>
+
+
+                <div class="divider">
+                    <span>OR</span>
+                </div>
+
+
+                <!-- SIGNUP LINK -->
+
+                <div class="signup-link">
+
+                    Don't have an account?
+
+                    <a href="signup.html">
+                        Create one
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Separate JavaScript -->
+    <script src="auth.js"></script>
+
+</body>
+
+</html>
+
