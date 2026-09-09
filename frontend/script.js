@@ -229,10 +229,27 @@ async function loadMarketData() {
             }
         }
 
-        // Update Market Chart
+        // Determine requested days range (30, 60, 90) from #chartRange selector
+        const rangeSelect = document.getElementById("chartRange");
+        let days = 30;
+        if (rangeSelect) {
+            const val = rangeSelect.value || "";
+            const parsed = parseInt(val);
+            if (!isNaN(parsed)) {
+                days = parsed;
+            } else if (val.includes("90")) {
+                days = 90;
+            } else if (val.includes("60")) {
+                days = 60;
+            } else {
+                days = 30;
+            }
+        }
+
+        // Update Market Chart with selected range
         const history = data.historical || [];
         if (history.length > 0) {
-            const recent = history.slice(-14);
+            const recent = history.slice(-days);
             const labels = recent.map(h => {
                 const d = new Date(h.date);
                 return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
@@ -246,15 +263,18 @@ async function loadMarketData() {
 }
 
 // 4. Load Forecast Data & AI Chart
-async function loadForecastData(targetRoute = null, targetVessel = null) {
+async function loadForecastData(targetRoute = null, targetVessel = null, targetHorizon = null) {
     const route = targetRoute || currentRoute;
     const vessel = targetVessel || currentVesselClass;
 
+    const horizonSelect = document.getElementById("forecastHorizonSelect");
+    const horizon = targetHorizon || (horizonSelect ? parseInt(horizonSelect.value) || 30 : 30);
+
     try {
-        // Fetch both market history and forecast in parallel
+        // Fetch both market history and forecast in parallel with dynamic horizon
         const [marketRes, forecastRes] = await Promise.all([
             fetch(`${API_BASE}/market?route=${encodeURIComponent(route)}&vessel_class=${encodeURIComponent(vessel)}`),
-            fetch(`${API_BASE}/forecast?route=${encodeURIComponent(route)}&vessel_class=${encodeURIComponent(vessel)}&horizon_days=30`)
+            fetch(`${API_BASE}/forecast?route=${encodeURIComponent(route)}&vessel_class=${encodeURIComponent(vessel)}&horizon_days=${horizon}`)
         ]);
 
         if (!forecastRes.ok) return;
@@ -287,7 +307,7 @@ async function loadForecastData(targetRoute = null, targetVessel = null) {
         if (fcSubCurrent) fcSubCurrent.textContent = `${vessel} • Spot Fixture`;
 
         if (forecasts.length > 0) {
-            // 7 Days
+            // 7 Days forward
             const fc7 = forecasts.length >= 7 ? forecasts[6].p50 : forecasts[forecasts.length - 1].p50;
             const diff7 = ((fc7 - currentRate) / currentRate) * 100;
             if (fcVal7d) fcVal7d.textContent = `$${fc7.toFixed(2)}`;
@@ -296,17 +316,22 @@ async function loadForecastData(targetRoute = null, targetVessel = null) {
                 fcSub7d.className = diff7 >= 0 ? "trend-up" : "trend-down";
             }
 
-            // 30 Days
-            const fc30 = forecasts.length >= 30 ? forecasts[29].p50 : forecasts[forecasts.length - 1].p50;
-            const diff30 = ((fc30 - currentRate) / currentRate) * 100;
-            if (fcVal30d) fcVal30d.textContent = `$${fc30.toFixed(2)}`;
+            // Target Horizon forward (e.g. 30d, 60d, or 90d)
+            const targetIdx = forecasts.length - 1;
+            const fcTarget = forecasts[targetIdx].p50;
+            const diffTarget = ((fcTarget - currentRate) / currentRate) * 100;
+
+            const cardTargetLabel = document.querySelector("#fcCard30d span");
+            if (cardTargetLabel) cardTargetLabel.textContent = `${horizon}-Day Forward (P50)`;
+
+            if (fcVal30d) fcVal30d.textContent = `$${fcTarget.toFixed(2)}`;
             if (fcSub30d) {
-                fcSub30d.textContent = `${diff30 >= 0 ? '+' : ''}${diff30.toFixed(1)}% vs Current`;
-                fcSub30d.className = diff30 >= 0 ? "trend-up" : "trend-down";
+                fcSub30d.textContent = `${diffTarget >= 0 ? '+' : ''}${diffTarget.toFixed(1)}% vs Current`;
+                fcSub30d.className = diffTarget >= 0 ? "trend-up" : "trend-down";
             }
 
-            // Forward Risk Upper Bound (P90)
-            const p90Val = forecasts.length >= 7 ? forecasts[6].p90 : forecasts[0].p90;
+            // Forward Risk Upper Bound (P90 at horizon)
+            const p90Val = forecasts[targetIdx].p90;
             const diffP90 = ((p90Val - currentRate) / currentRate) * 100;
             if (fcVal90d) fcVal90d.textContent = `$${p90Val.toFixed(2)}`;
             if (fcSub90d) {
@@ -352,7 +377,7 @@ async function loadRiskData() {
             alertList.innerHTML = "";
             risks.forEach(r => {
                 const sevClass = r.severity.toLowerCase();
-                const icon = r.event_type === "weather" ? "fa-cloud" : r.event_type === "port_congestion" ? "fa-anchor" : "fa-chart-line";
+                const icon = r.event_type === "weather" ? "fa-cloud" : r.event_type === "port_congestion" ? "fa-anchor" : r.event_type === "geopolitical" ? "fa-earth-asia" : "fa-chart-line";
                 const div = document.createElement("div");
                 div.className = `alert-item ${sevClass}`;
                 div.innerHTML = `
@@ -367,14 +392,93 @@ async function loadRiskData() {
             });
         }
 
-        // Update overall risk level badge
-        const riskLevel = data.risk_level || "Low";
-        const riskScoreNum = riskLevel === "High" ? 78 : riskLevel === "Medium" ? 48 : 24;
-        const riskGauge = document.querySelector(".risk-circle strong");
-        if (riskGauge) riskGauge.textContent = riskScoreNum;
+        // Determine Overall Risk Level from backend
+        const riskLevel = data.overall_risk_level || data.risk_level || (highCount > 0 ? "High" : medCount > 0 ? "Medium" : "Low");
 
+        // Group active risk events by analytical pillar
+        const volRisks = risks.filter(r => r.event_type === "freight_anomaly");
+        const geoRisks = risks.filter(r => r.event_type === "geopolitical");
+        const portRisks = risks.filter(r => r.event_type === "port_congestion");
+        const wxRisks = risks.filter(r => r.event_type === "weather");
+
+        // Calculate dynamic sub-scores (0-100) per pillar based on signal severity
+        const evalPillar = (items, fallback) => {
+            if (!items.length) return { score: fallback, label: "Low • Normal baseline" };
+            if (items.some(i => i.severity === "High")) {
+                return { score: 84, label: "High • Disruption signal active" };
+            }
+            if (items.some(i => i.severity === "Medium")) {
+                return { score: 56, label: "Moderate • Elevated volatility" };
+            }
+            return { score: 28, label: "Low • Minor advisory" };
+        };
+
+        const volEval = evalPillar(volRisks, 45);
+        const geoEval = evalPillar(geoRisks, 38);
+        const portEval = evalPillar(portRisks, 22);
+        const wxEval = evalPillar(wxRisks, 20);
+
+        // Weighted Composite Risk Index = (0.35 × Vol) + (0.25 × Geo) + (0.20 × Port) + (0.20 × Wx)
+        const compositeScore = Math.round(
+            (0.35 * volEval.score) +
+            (0.25 * geoEval.score) +
+            (0.20 * portEval.score) +
+            (0.20 * wxEval.score)
+        );
+
+        // Update Gauge & Level
+        const riskGauge = document.getElementById("riskScoreValue") || document.querySelector(".risk-circle strong");
+        if (riskGauge) riskGauge.textContent = compositeScore;
+
+        const levelHeading = document.getElementById("riskLevelHeading") || document.querySelector(".risk-score-panel h2");
+        const levelDesc = document.getElementById("riskLevelDescription") || document.querySelector(".risk-score-panel p");
+        const riskCircle = document.getElementById("riskCircleGauge") || document.querySelector(".risk-circle");
+
+        const color = compositeScore >= 70 ? "var(--red)" : compositeScore >= 40 ? "var(--orange)" : "var(--green)";
+
+        if (levelHeading) {
+            levelHeading.textContent = `${riskLevel} Risk`;
+            levelHeading.style.color = color;
+        }
+
+        if (levelDesc) {
+            if (compositeScore >= 70) {
+                levelDesc.textContent = "Active disruption signals detected. High freight volatility or route bottlenecks require defensive chartering.";
+            } else if (compositeScore >= 40) {
+                levelDesc.textContent = "Moderate market momentum or port delays observed. Forward fixing or partial hedging advised.";
+            } else {
+                levelDesc.textContent = "Current conditions indicate a relatively stable procurement environment with manageable volatility.";
+            }
+        }
+
+        if (riskCircle) {
+            riskCircle.style.background = `conic-gradient(${color} ${compositeScore}%, #173044 ${compositeScore}%)`;
+        }
+
+        // Update Risk Factors progress bars and pill labels
+        const updatePillarBar = (barId, pctId, sevId, evalObj, weightText) => {
+            const bar = document.getElementById(barId);
+            const pct = document.getElementById(pctId);
+            const sev = document.getElementById(sevId);
+            if (bar) bar.style.width = `${evalObj.score}%`;
+            if (pct) pct.textContent = `${evalObj.score}%`;
+            if (sev) sev.textContent = `${weightText} • ${evalObj.label}`;
+        };
+
+        updatePillarBar("barVolatility", "pctVolatility", "volatilitySeverity", volEval, "Weight: 35%");
+        updatePillarBar("barGeopolitical", "pctGeopolitical", "geopoliticalSeverity", geoEval, "Weight: 25%");
+        updatePillarBar("barCongestion", "pctCongestion", "congestionSeverity", portEval, "Weight: 20%");
+        updatePillarBar("barWeather", "pctWeather", "weatherSeverity", wxEval, "Weight: 20%");
+
+        // Update active risk event count badge
+        const countBadge = document.getElementById("activeRiskEventCount");
+        if (countBadge) {
+            countBadge.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${risks.length} Monitored Signals`;
+        }
+
+        // Update Dashboard Top KPI card if present
         const kpiRisk = document.querySelector(".stat-card.orange h2");
-        if (kpiRisk) kpiRisk.innerHTML = `${riskScoreNum}<span>/100</span>`;
+        if (kpiRisk) kpiRisk.innerHTML = `${compositeScore}<span>/100</span>`;
     } catch (err) {
         console.error("Error loading risk data:", err);
     }
@@ -397,6 +501,8 @@ function renderFreightChart(labels, dataPoints) {
     gradient.addColorStop(0, "rgba(32,184,255,0.25)");
     gradient.addColorStop(1, "rgba(32,184,255,0)");
 
+    const isDense = dataPoints.length > 40;
+
     freightChartInstance = new Chart(ctx, {
         type: "line",
         data: {
@@ -408,8 +514,8 @@ function renderFreightChart(labels, dataPoints) {
                 backgroundColor: gradient,
                 fill: true,
                 tension: 0.35,
-                pointRadius: 4,
-                pointHoverRadius: 7,
+                pointRadius: isDense ? 2 : 4,
+                pointHoverRadius: isDense ? 5 : 7,
                 borderWidth: 2.5
             }]
         },
@@ -427,7 +533,12 @@ function renderFreightChart(labels, dataPoints) {
             scales: {
                 x: {
                     grid: { display: false },
-                    ticks: { color: "#6f849a", font: { size: 9 } }
+                    ticks: {
+                        color: "#6f849a",
+                        font: { size: 9 },
+                        maxTicksLimit: 10,
+                        maxRotation: 0
+                    }
                 },
                 y: {
                     grid: { color: "rgba(255,255,255,0.05)" },
@@ -570,7 +681,12 @@ function renderForecastChart(history, forecasts, currentRate) {
             scales: {
                 x: {
                     grid: { color: "rgba(255, 255, 255, 0.03)" },
-                    ticks: { color: "#6f849a", font: { size: 9.5 } }
+                    ticks: {
+                        color: "#6f849a",
+                        font: { size: 9.5 },
+                        maxTicksLimit: 12,
+                        maxRotation: 0
+                    }
                 },
                 y: {
                     grid: { color: "rgba(255, 255, 255, 0.05)" },
@@ -588,12 +704,14 @@ function renderForecastChart(history, forecasts, currentRate) {
 function onForecastFilterChanged() {
     const routeSelect = document.getElementById("forecastRouteSelect");
     const vesselSelect = document.getElementById("forecastVesselSelect");
+    const horizonSelect = document.getElementById("forecastHorizonSelect");
     if (!routeSelect || !vesselSelect) return;
 
     const selectedRoute = routeSelect.value;
     const selectedVessel = vesselSelect.value;
+    const selectedHorizon = horizonSelect ? parseInt(horizonSelect.value) || 30 : 30;
 
-    loadForecastData(selectedRoute, selectedVessel);
+    loadForecastData(selectedRoute, selectedVessel, selectedHorizon);
 }
 
 function renderForecastExplainability(drivers, currentRate, forecasts) {
