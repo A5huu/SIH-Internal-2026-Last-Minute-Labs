@@ -952,3 +952,139 @@ body {
 
 }
 
+/* =========================================
+   ROLE-BASED DEMO LOGIN STYLING
+========================================= */
+
+.quick-role-section {
+    margin-bottom: 22px;
+    padding: 14px;
+    background: rgba(14, 165, 233, 0.05);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: 16px;
+}
+
+.quick-role-label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #38bdf8;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.quick-role-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.quick-role-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: rgba(15, 23, 42, 0.75);
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    border-radius: 12px;
+    color: #f8fafc;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    width: 100%;
+}
+
+.quick-role-card:hover {
+    background: rgba(14, 165, 233, 0.15);
+    border-color: rgba(56, 189, 248, 0.45);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(14, 165, 233, 0.2);
+}
+
+.quick-role-card.active {
+    border-color: #38bdf8;
+    background: rgba(14, 165, 233, 0.12);
+}
+
+.quick-role-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: rgba(14, 165, 233, 0.18);
+    color: #38bdf8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+}
+
+.quick-role-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.quick-role-text strong {
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.quick-role-text small {
+    font-size: 11px;
+    color: #94a3b8;
+    margin-top: 2px;
+}
+
+.role-featured-pill {
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(34, 197, 94, 0.2);
+    color: #4ade80;
+    border: 1px solid rgba(34, 197, 94, 0.35);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.auth-select {
+    width: 100%;
+    padding: 14px 45px;
+    border-radius: 12px;
+    border: 1px solid #1e293b;
+    background: #07111f;
+    color: #f8fafc;
+    outline: none;
+    font-size: 13.5px;
+    font-weight: 500;
+    transition: 0.3s;
+    appearance: none;
+    cursor: pointer;
+}
+
+.auth-select:hover {
+    border-color: #334155;
+}
+
+.auth-select:focus {
+    border-color: #0ea5e9;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.08);
+}
+
+.auth-select option {
+    background: #0b1329;
+    color: #f8fafc;
+}
+
+.signup-card {
+    max-width: 540px;
+}
+
+
+

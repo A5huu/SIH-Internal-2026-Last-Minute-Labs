@@ -44,63 +44,122 @@
 
         <nav>
 
-            <p class="menu-title">MAIN</p>
+            <p class="menu-title" id="roleNavTitle">LOGISTICS MANAGER SUITE</p>
 
-            <button class="nav-item active" onclick="showPage('dashboard', this)">
-                <i class="fa-solid fa-chart-line"></i>
-                <span>Dashboard</span>
-            </button>
+            <!-- ROLE 1: LOGISTICS MANAGER NAVIGATION -->
+            <div id="navGroupLogistics" class="role-nav-group">
+                <button class="nav-item active" onclick="showPage('dashboard', this)">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-item" onclick="showPage('cargo', this)">
+                    <i class="fa-solid fa-sliders text-cyan"></i>
+                    <span>Cargo Wizard</span>
+                </button>
+                <button class="nav-item" onclick="showPage('vessel', this)">
+                    <i class="fa-solid fa-list-ol text-teal"></i>
+                    <span>Ranked Recommendations</span>
+                </button>
+                <button class="nav-item" onclick="showPage('forecast', this)">
+                    <i class="fa-solid fa-diagram-project text-purple"></i>
+                    <span>SHAP Driver Breakdown</span>
+                </button>
+                <button class="nav-item" onclick="showPage('ports', this)">
+                    <i class="fa-solid fa-anchor text-amber"></i>
+                    <span>Port Explorer</span>
+                </button>
+                <button class="nav-item" onclick="showPage('coa', this)">
+                    <i class="fa-solid fa-scale-balanced text-green"></i>
+                    <span>Spot vs CoA Simulator</span>
+                </button>
+                <button class="nav-item" onclick="showPage('decisions', this)">
+                    <i class="fa-solid fa-clipboard-check text-cyan"></i>
+                    <span>Decisions &amp; Approvals</span>
+                </button>
+            </div>
 
-            <button class="nav-item" onclick="showPage('forecast', this)">
-                <i class="fa-solid fa-chart-area"></i>
-                <span>Freight Forecast</span>
-            </button>
+            <!-- ROLE 2: CHARTERING OFFICER NAVIGATION -->
+            <div id="navGroupChartering" class="role-nav-group" style="display: none;">
+                <button class="nav-item" onclick="showPage('charteringOps', this)">
+                    <i class="fa-solid fa-compass text-teal"></i>
+                    <span>Operations Center</span>
+                </button>
+                <button class="nav-item" onclick="showPage('tonnageBoard', this)">
+                    <i class="fa-solid fa-ship text-cyan"></i>
+                    <span>Tonnage Board</span>
+                </button>
+                <button class="nav-item" onclick="showPage('fixtureMgmt', this)">
+                    <i class="fa-solid fa-file-contract text-amber"></i>
+                    <span>Fixture Management</span>
+                </button>
+                <button class="nav-item" onclick="showPage('voyageTimeline', this)">
+                    <i class="fa-solid fa-timeline text-purple"></i>
+                    <span>Voyage Execution</span>
+                </button>
+                <button class="nav-item" onclick="showPage('navSafety', this)">
+                    <i class="fa-solid fa-shield-halved text-green"></i>
+                    <span>UKC Navigation Safety</span>
+                </button>
+                <button class="nav-item" onclick="showPage('ballastOps', this)">
+                    <i class="fa-solid fa-gas-pump text-orange"></i>
+                    <span>Ballast &amp; Fuel Ops</span>
+                </button>
+                <button class="nav-item" onclick="showPage('laycanMonitor', this)">
+                    <i class="fa-solid fa-calendar-check text-teal"></i>
+                    <span>Laycan Monitor</span>
+                </button>
+            </div>
 
-            <button class="nav-item" onclick="showPage('cargo', this)">
-                <i class="fa-solid fa-box"></i>
-                <span>Cargo Planner</span>
-            </button>
+            <!-- ROLE 3: MARKET ANALYST NAVIGATION -->
+            <div id="navGroupAnalyst" class="role-nav-group" style="display: none;">
+                <button class="nav-item" onclick="showPage('analystOverview', this)">
+                    <i class="fa-solid fa-chart-pie text-purple"></i>
+                    <span>Market Intelligence</span>
+                </button>
+                <button class="nav-item" onclick="showPage('analystForecast', this)">
+                    <i class="fa-solid fa-chart-line text-cyan"></i>
+                    <span>P10/P50/P90 Curves</span>
+                </button>
+                <button class="nav-item" onclick="showPage('balticMonitor', this)">
+                    <i class="fa-solid fa-water text-teal"></i>
+                    <span>Baltic Indices Monitor</span>
+                </button>
+                <button class="nav-item" onclick="showPage('macroAnomalies', this)">
+                    <i class="fa-solid fa-triangle-exclamation text-amber"></i>
+                    <span>Macro Anomalies</span>
+                </button>
+                <button class="nav-item" onclick="showPage('modelPerformance', this)">
+                    <i class="fa-solid fa-microchip text-green"></i>
+                    <span>Model Performance</span>
+                </button>
+                <button class="nav-item" onclick="showPage('dataQuality', this)">
+                    <i class="fa-solid fa-database text-blue"></i>
+                    <span>Data Quality &amp; Health</span>
+                </button>
+            </div>
 
-            <button class="nav-item" onclick="showPage('vessel', this)">
-                <i class="fa-solid fa-ship"></i>
-                <span>Vessel Recommendation</span>
+            <p class="menu-title">RISK &amp; SIGNALS</p>
+
+            <button class="nav-item" onclick="showPage('risk', this)">
+                <i class="fa-solid fa-shield-virus"></i>
+                <span>Risk Score Engine</span>
             </button>
 
             <button class="nav-item" onclick="showPage('procurement', this)">
                 <i class="fa-solid fa-boxes-stacked"></i>
-                <span>Procurement</span>
-            </button>
-
-            <button class="nav-item" onclick="showPage('risk', this)">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                <span>Risk Score</span>
-            </button>
-
-            <button class="nav-item" onclick="showPage('ports', this)">
-                <i class="fa-solid fa-anchor"></i>
-                <span>Port Explorer</span>
-            </button>
-
-            <button class="nav-item" onclick="showPage('coa', this)">
-                <i class="fa-solid fa-scale-balanced"></i>
-                <span>Spot vs CoA</span>
+                <span>Procurement Timing</span>
             </button>
 
             <button class="nav-item" onclick="showPage('alerts', this)">
                 <i class="fa-solid fa-bell"></i>
-                <span>Risk & Alerts</span>
+                <span>Alerts Feed</span>
             </button>
 
-            <p class="menu-title">SYSTEM</p>
+            <p class="menu-title">ROLE &amp; SYSTEM</p>
 
-            <button class="nav-item">
-                <i class="fa-solid fa-gear"></i>
-                <span>Settings</span>
-            </button>
-
-            <button class="nav-item">
-                <i class="fa-solid fa-circle-question"></i>
-                <span>Help</span>
+            <button class="nav-item" onclick="openRoleModal()">
+                <i class="fa-solid fa-user-gear text-cyan"></i>
+                <span>Switch Role</span>
             </button>
 
         </nav>
@@ -112,13 +171,15 @@
                 AI System Online
             </div>
 
-            <div class="user">
-                <div class="user-avatar">R</div>
+            <div class="user" onclick="openRoleModal()" title="Click to Switch Operational Role">
+                <div class="user-avatar" id="userAvatar">A</div>
 
                 <div>
-                    <strong>Freight Analyst</strong>
-                    <small>Admin</small>
+                    <strong id="userName">Ashutosh Sharma</strong>
+                    <small id="userRoleTitle">Logistics Manager</small>
                 </div>
+
+                <i class="fa-solid fa-repeat switch-role-icon" title="Switch Role"></i>
             </div>
 
         </div>
@@ -144,7 +205,7 @@
             <div class="top-actions">
 
                 <div class="scenario-buttons" style="display: flex; gap: 6px; align-items: center;">
-                    <span style="font-size: 11px; color: var(--muted); font-weight: 600; margin-right: 2px;"><i class="fa-solid fa-wand-magic-sparkles" style="color: #20b8ff;"></i> Demo Presets:</span>
+                    <span style="font-size: 11px; color: var(--muted); font-weight: 600; margin-right: 2px;"><i class="fa-solid fa-sliders" style="color: #20b8ff;"></i> Demo Presets:</span>
                     <button class="btn-scenario" onclick="loadDemoScenario(1)" title="Run Paradip 75kt Coal recommendation">
                         <i class="fa-solid fa-play"></i> 1. Paradip 75kt
                     </button>
@@ -165,6 +226,14 @@
                     <i class="fa-solid fa-rotate"></i>
                     Refresh Data
                 </button>
+
+                <!-- ACTIVE ROLE PILL & SWITCHER -->
+                <div class="top-role-pill" onclick="openRoleModal()" title="Active Operational Role (Click to Switch)">
+                    <span class="role-status-dot"></span>
+                    <span class="top-role-label">Role:</span>
+                    <strong id="topActiveRoleText">Logistics Manager</strong>
+                    <i class="fa-solid fa-repeat role-cycle-icon"></i>
+                </div>
 
                 <a href="login.html" id="authLink" class="auth-top-btn" title="User Login / Switch" style="text-decoration: none; display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(32,184,255,0.12); color: #20b8ff; border: 1px solid rgba(32,184,255,0.3); border-radius: 6px; font-size: 11px; font-weight: 600;">
                     <i class="fa-solid fa-arrow-right-to-bracket"></i> <span id="authLinkText">Sign In</span>
@@ -208,8 +277,8 @@
                         and make data-driven bulk cargo procurement decisions.
                     </p>
 
-                    <button class="primary-btn" onclick="showPage('forecast')">
-                        Explore Forecast
+                    <button class="primary-btn" onclick="showPage('cargo')">
+                        Open Cargo Wizard
                         <i class="fa-solid fa-arrow-right"></i>
                     </button>
 
@@ -221,81 +290,173 @@
 
             </div>
 
+            <!-- LOGISTICS MANAGER COMMAND CENTER -->
+            <div class="logistics-mgr-command-center" id="logisticsCommandCenter">
+                <div class="command-center-header">
+                    <div class="cc-title-wrap">
+                        <span class="cc-badge"><i class="fa-solid fa-boxes-packing"></i> LOGISTICS MANAGER SUITE</span>
+                        <h3>Bulk Cargo Procurement & Chartering Command Center</h3>
+                        <p>End-to-end decision-support pipeline tailored for Ministry of Steel import corridors (Australia, Indonesia, US, Mozambique $\to$ India East Coast).</p>
+                    </div>
+                    <div class="cc-role-indicator">
+                        <span>Workspace: <strong id="ccRoleTitle">Logistics Manager</strong></span>
+                        <button type="button" class="btn-scenario" onclick="openRoleModal()"><i class="fa-solid fa-repeat"></i> Switch Role</button>
+                    </div>
+                </div>
 
-            <!-- KPI CARDS -->
+                <div class="cc-tools-grid">
+                    <!-- Tool 1: Cargo Wizard -->
+                    <div class="cc-tool-card" onclick="showPage('cargo')">
+                        <div class="cc-tool-top">
+                            <div class="cc-tool-icon icon-cyan"><i class="fa-solid fa-sliders"></i></div>
+                            <span class="cc-tool-badge">Tool 1</span>
+                        </div>
+                        <h4>1. Cargo Wizard</h4>
+                        <p>5-step structured parcel specification, laycan window gating, live total cost estimation, and procurement generation.</p>
+                        <div class="cc-tool-footer">
+                            <span>Launch Wizard <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
 
-            <div class="section-title">
-                <h2>Market Overview</h2>
-                <span>Updated just now</span>
+                    <!-- Tool 2: Ranked Recommendations -->
+                    <div class="cc-tool-card" onclick="showPage('vessel')">
+                        <div class="cc-tool-top">
+                            <div class="cc-tool-icon icon-teal"><i class="fa-solid fa-ship"></i></div>
+                            <span class="cc-tool-badge">Tool 2</span>
+                        </div>
+                        <h4>2. Ranked Recommendations</h4>
+                        <p>Ranked candidate comparison (Panamax vs Supramax vs Capesize) with channel clearance and voyage P&L envelopes.</p>
+                        <div class="cc-tool-footer">
+                            <span>View Rankings <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+
+                    <!-- Tool 3: SHAP Driver Breakdown -->
+                    <div class="cc-tool-card" onclick="showPage('forecast')">
+                        <div class="cc-tool-top">
+                            <div class="cc-tool-icon icon-purple"><i class="fa-solid fa-chart-line"></i></div>
+                            <span class="cc-tool-badge">Tool 3</span>
+                        </div>
+                        <h4>3. SHAP Driver Breakdown</h4>
+                        <p>Explainable AI feature attribution waterfall: see exactly how bunker fuels, port congestion, and BDI shift rate forecasts.</p>
+                        <div class="cc-tool-footer">
+                            <span>Inspect Drivers <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+
+                    <!-- Tool 4: Port-Constraint Explorer -->
+                    <div class="cc-tool-card" onclick="showPage('ports')">
+                        <div class="cc-tool-top">
+                            <div class="cc-tool-icon icon-amber"><i class="fa-solid fa-anchor"></i></div>
+                            <span class="cc-tool-badge">Tool 4</span>
+                        </div>
+                        <h4>4. Port Explorer & UKC</h4>
+                        <p>East Coast India port navigation constraints (Paradip, Haldia, Vizag) and Under-Keel Clearance calculator.</p>
+                        <div class="cc-tool-footer">
+                            <span>Check Feasibility <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+
+                    <!-- Tool 5: CoA-vs-Spot Simulator -->
+                    <div class="cc-tool-card" onclick="showPage('coa')">
+                        <div class="cc-tool-top">
+                            <div class="cc-tool-icon icon-green"><i class="fa-solid fa-scale-balanced"></i></div>
+                            <span class="cc-tool-badge">Tool 5</span>
+                        </div>
+                        <h4>5. CoA vs Spot Simulator</h4>
+                        <p>Simulate multi-voyage volume hedging vs unhedged spot volatility, computing guaranteed millions in freight savings.</p>
+                        <div class="cc-tool-footer">
+                            <span>Run Simulator <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="stats-grid">
+            <!-- LOGISTICS MANAGER KPI CARDS -->
+
+            <div class="section-title">
+                <h2>Procurement Command Center KPIs</h2>
+                <span>Real-Time Intelligence &amp; Decision Status</span>
+            </div>
+
+            <div class="stats-grid stats-grid-6">
 
                 <div class="stat-card blue">
                     <div class="stat-icon">
-                        <i class="fa-solid fa-chart-line"></i>
+                        <i class="fa-solid fa-boxes-stacked"></i>
                     </div>
-
                     <div>
-                        <p>Current Freight Rate</p>
-                        <h2>$24.80 <small>/ MT</small></h2>
+                        <p>Active Cargo</p>
+                        <h2 id="lmKpiActiveCargo">4 <small>Parcels</small></h2>
                         <span class="positive">
-                            <i class="fa-solid fa-arrow-up"></i>
-                            4.8%
+                            <i class="fa-solid fa-circle-check"></i> Monitored
                         </span>
                     </div>
                 </div>
 
+                <div class="stat-card cyan">
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-list-check"></i>
+                    </div>
+                    <div>
+                        <p>Recommended Fixtures</p>
+                        <h2 id="lmKpiFixtures">3 <small>Options</small></h2>
+                        <span class="positive">
+                            <i class="fa-solid fa-award"></i> AI Ranked
+                        </span>
+                    </div>
+                </div>
 
                 <div class="stat-card purple">
-
                     <div class="stat-icon">
-                        <i class="fa-solid fa-calendar-days"></i>
+                        <i class="fa-solid fa-chart-line"></i>
                     </div>
-
                     <div>
-                        <p>Forecast Rate</p>
-                        <h2>$26.40 <small>/ MT</small></h2>
+                        <p>Avg Forecast Freight</p>
+                        <h2 id="lmKpiAvgFreight">$25.96 <small>/ MT</small></h2>
                         <span class="warning">
-                            Expected in 30 days
+                            P50 30-Day Window
                         </span>
                     </div>
-
                 </div>
-
-
-                <div class="stat-card green">
-
-                    <div class="stat-icon">
-                        <i class="fa-solid fa-coins"></i>
-                    </div>
-
-                    <div>
-                        <p>Potential Savings</p>
-                        <h2>$128K</h2>
-                        <span class="positive">
-                            AI Optimized
-                        </span>
-                    </div>
-
-                </div>
-
 
                 <div class="stat-card orange">
-
                     <div class="stat-icon">
                         <i class="fa-solid fa-shield-halved"></i>
                     </div>
-
                     <div>
-                        <p>Risk Score</p>
-                        <h2>32<span>/100</span></h2>
-
+                        <p>Current Market Risk</p>
+                        <h2 id="lmKpiRisk">32<span>/100</span></h2>
                         <span class="low-risk">
                             Low Risk
                         </span>
                     </div>
+                </div>
 
+                <div class="stat-card green">
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-dollar-sign"></i>
+                    </div>
+                    <div>
+                        <p>Potential CoA Savings</p>
+                        <h2 id="lmKpiSavings">$108K</h2>
+                        <span class="positive">
+                            Hedged Against Spot
+                        </span>
+                    </div>
+                </div>
+
+                <div class="stat-card amber">
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <div>
+                        <p>Pending Decisions</p>
+                        <h2 id="lmKpiPending">2 <small>Awaiting</small></h2>
+                        <span class="warning">
+                            Action Required
+                        </span>
+                    </div>
                 </div>
 
             </div>
@@ -345,7 +506,7 @@
                     <div class="recommendation">
 
                         <div class="recommendation-icon">
-                            <i class="fa-solid fa-lightbulb"></i>
+                            <i class="fa-solid fa-compass"></i>
                         </div>
 
                         <div>
@@ -436,7 +597,7 @@
 
             <div class="quick-grid">
                 <button class="quick-card" onclick="showPage('cargo')">
-                    <span class="quick-icon"><i class="fa-solid fa-box-open"></i></span>
+                    <span class="quick-icon"><i class="fa-solid fa-boxes-stacked"></i></span>
                     <span><strong>Plan Cargo</strong><small>Enter quantity, route & delivery window</small></span>
                     <i class="fa-solid fa-arrow-right"></i>
                 </button>
@@ -551,61 +712,160 @@
                     <canvas id="forecastChart"></canvas>
                 </div>
 
-                <!-- AI Explainability & Root Cause Analysis of Rate Trajectory -->
-                <div class="forecast-explain-box">
-                    <div class="explain-header">
-                        <h4><i class="fa-solid fa-brain" style="color:var(--primary)"></i> AI Explainability & Feature Driver Intelligence</h4>
-                        <span class="explain-tag">Explainable AI (XAI)</span>
+                <!-- SHAP DRIVER BREAKDOWN & EXPLAINABLE AI (LOGISTICS MANAGER SUITE) -->
+                <div class="shap-breakdown-section" id="shapDriverSection">
+                    <div class="shap-header">
+                        <div>
+                            <div class="shap-title-row">
+                                <i class="fa-solid fa-diagram-project text-purple"></i>
+                                <h4>SHAP Driver Breakdown &amp; Feature Attribution (XAI)</h4>
+                                <span class="shap-model-tag">Shapley Additive exPlanations &bull; XGBoost Tree Explainer</span>
+                            </div>
+                            <p class="shap-subtitle">Quantifies the additive contribution of each macroeconomic, energy, and logistical feature moving the freight rate away from the base value.</p>
+                        </div>
+
+                        <div class="shap-filter-tabs">
+                            <button type="button" class="shap-tab active" onclick="filterShapDrivers('all', this)">All Drivers (6)</button>
+                            <button type="button" class="shap-tab" onclick="filterShapDrivers('up', this)"><i class="fa-solid fa-arrow-trend-up text-rose"></i> Cost Drivers (+4)</button>
+                            <button type="button" class="shap-tab" onclick="filterShapDrivers('down', this)"><i class="fa-solid fa-arrow-trend-down text-teal"></i> Cost Reducers (-2)</button>
+                        </div>
                     </div>
-                    <div class="explain-grid">
-                        <div class="explain-col">
-                            <h5>Top Feature Weights (XGBoost Regressor)</h5>
-                            <div class="driver-bars" id="forecastDriversList">
-                                <div class="driver-row">
-                                    <span>lag_1 (Previous Spot Fixture)</span>
-                                    <div class="driver-bar-bg"><div class="driver-bar-fill" style="width: 68%;"></div></div>
-                                    <strong>67.9%</strong>
-                                </div>
-                                <div class="driver-row">
-                                    <span>rolling_mean_7 (7-Day Moving Avg)</span>
-                                    <div class="driver-bar-bg"><div class="driver-bar-fill" style="width: 31%;"></div></div>
-                                    <strong>31.2%</strong>
-                                </div>
-                                <div class="driver-row">
-                                    <span>bdi / bsi (Baltic Dry / Supramax)</span>
-                                    <div class="driver-bar-bg"><div class="driver-bar-fill" style="width: 8%;"></div></div>
-                                    <strong>0.1%</strong>
-                                </div>
-                                <div class="driver-row">
-                                    <span>bunker_price (VLSFO Fuel Cost)</span>
-                                    <div class="driver-bar-bg"><div class="driver-bar-fill" style="width: 6%;"></div></div>
-                                    <strong>0.1%</strong>
-                                </div>
+
+                    <!-- SHAP FORCE FORMULA BANNER -->
+                    <div class="shap-formula-banner">
+                        <div class="shap-math-row">
+                            <div class="shap-math-item">
+                                <small>Corridor Base Value</small>
+                                <strong>$21.36 <span class="unit">/ MT</span></strong>
+                            </div>
+                            <div class="shap-math-op">+</div>
+                            <div class="shap-math-item positive">
+                                <small>Upward Drivers (&Sigma; +SHAP)</small>
+                                <strong>+$6.25 <span class="unit">/ MT</span></strong>
+                            </div>
+                            <div class="shap-math-op">-</div>
+                            <div class="shap-math-item negative">
+                                <small>Downward Dampeners (&Sigma; -SHAP)</small>
+                                <strong>-$1.65 <span class="unit">/ MT</span></strong>
+                            </div>
+                            <div class="shap-math-op">=</div>
+                            <div class="shap-math-item target">
+                                <small>Final Forecast (P50)</small>
+                                <strong>$25.96 <span class="unit">/ MT</span></strong>
                             </div>
                         </div>
-                        <div class="explain-col">
-                            <h5>Suspected Reasons for Rate Movement</h5>
-                            <div class="reason-card">
-                                <div class="reason-item">
-                                    <i class="fa-solid fa-circle-check text-green"></i>
-                                    <div>
-                                        <strong>Historical Fixture Calibration</strong>
-                                        <p>Chart now binds real historical database spot rates (ending at ~$19.61) directly into the forward ML projection, removing previous placeholder discrepancies.</p>
+                    </div>
+
+                    <div class="shap-waterfall-grid">
+                        <div class="shap-bars-col">
+                            <h5 class="shap-col-heading">Feature Attribution Waterfall (Impact on Freight $/MT)</h5>
+                            <div class="shap-driver-list" id="shapDriversContainer">
+
+                                <div class="shap-item positive" data-type="up">
+                                    <div class="shap-info">
+                                        <div class="shap-name-group">
+                                            <i class="fa-solid fa-gas-pump text-rose"></i>
+                                            <strong>Bunker Fuel Price (VLSFO @ $634/MT)</strong>
+                                        </div>
+                                        <span class="shap-delta text-rose">+$2.45 / MT (+9.4%)</span>
                                     </div>
+                                    <div class="shap-bar-track">
+                                        <div class="shap-bar-fill pos" style="width: 82%;"></div>
+                                    </div>
+                                    <small class="shap-subtext">Rising Singapore bunker fuel benchmark pushes daily vessel operating expenses.</small>
                                 </div>
-                                <div class="reason-item">
-                                    <i class="fa-solid fa-arrow-trend-down" style="color:#f59e0b"></i>
-                                    <div>
-                                        <strong>Autoregressive Trend Easing</strong>
-                                        <p>Recent actual fixtures in the training set softened from $20.07 to $19.61 (-2.3%), creating mild downward momentum in short-term lag features.</p>
+
+                                <div class="shap-item positive" data-type="up">
+                                    <div class="shap-info">
+                                        <div class="shap-name-group">
+                                            <i class="fa-solid fa-anchor text-rose"></i>
+                                            <strong>East Coast Port Congestion (Paradip/Haldia)</strong>
+                                        </div>
+                                        <span class="shap-delta text-rose">+$1.80 / MT (+6.9%)</span>
                                     </div>
+                                    <div class="shap-bar-track">
+                                        <div class="shap-bar-fill pos" style="width: 64%;"></div>
+                                    </div>
+                                    <small class="shap-subtext">Pre-berthing anchorage queues average 3.2 days, tightening regional bulker availability.</small>
                                 </div>
-                                <div class="reason-item">
-                                    <i class="fa-solid fa-gas-pump text-green"></i>
-                                    <div>
-                                        <strong>VLSFO Bunker Price Moderation</strong>
-                                        <p>Bunker fuel indexes cooled towards $634/MT, reducing daily voyage consumption costs passed through to charterers.</p>
+
+                                <div class="shap-item positive" data-type="up">
+                                    <div class="shap-info">
+                                        <div class="shap-name-group">
+                                            <i class="fa-solid fa-chart-line text-rose"></i>
+                                            <strong>Baltic Panamax Index (BPI) Momentum</strong>
+                                        </div>
+                                        <span class="shap-delta text-rose">+$1.15 / MT (+4.4%)</span>
                                     </div>
+                                    <div class="shap-bar-track">
+                                        <div class="shap-bar-fill pos" style="width: 44%;"></div>
+                                    </div>
+                                    <small class="shap-subtext">Global Atlantic/Pacific panamax grain &amp; coal round-voyage fixtures strengthened week-on-week.</small>
+                                </div>
+
+                                <div class="shap-item positive" data-type="up">
+                                    <div class="shap-info">
+                                        <div class="shap-name-group">
+                                            <i class="fa-solid fa-industry text-rose"></i>
+                                            <strong>Indian Steel Demand &amp; Coking Restocking</strong>
+                                        </div>
+                                        <span class="shap-delta text-rose">+$0.85 / MT (+3.3%)</span>
+                                    </div>
+                                    <div class="shap-bar-track">
+                                        <div class="shap-bar-fill pos" style="width: 32%;"></div>
+                                    </div>
+                                    <small class="shap-subtext">Domestic blast furnace crude steel production targets drive sustained coking coal import tenders.</small>
+                                </div>
+
+                                <div class="shap-item negative" data-type="down">
+                                    <div class="shap-info">
+                                        <div class="shap-name-group">
+                                            <i class="fa-solid fa-ship text-teal"></i>
+                                            <strong>Global Bulker Fleet Deliveries &amp; Low Idle %</strong>
+                                        </div>
+                                        <span class="shap-delta text-teal">-$1.20 / MT (-4.6%)</span>
+                                    </div>
+                                    <div class="shap-bar-track">
+                                        <div class="shap-bar-fill neg" style="width: 48%;"></div>
+                                    </div>
+                                    <small class="shap-subtext">Newbuild Kamsarmax tonnage entering Pacific trades exerts downward ceiling pressure.</small>
+                                </div>
+
+                                <div class="shap-item negative" data-type="down">
+                                    <div class="shap-info">
+                                        <div class="shap-name-group">
+                                            <i class="fa-solid fa-cloud-sun text-teal"></i>
+                                            <strong>Post-Monsoon Weather Normalization</strong>
+                                        </div>
+                                        <span class="shap-delta text-teal">-$0.45 / MT (-1.7%)</span>
+                                    </div>
+                                    <div class="shap-bar-track">
+                                        <div class="shap-bar-fill neg" style="width: 20%;"></div>
+                                    </div>
+                                    <small class="shap-subtext">Calm sea state conditions across Bay of Bengal reduce passage delay risk premiums.</small>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- LOGISTICS MANAGER INTERPRETATION CARD -->
+                        <div class="shap-insights-col">
+                            <h5 class="shap-col-heading">Executive Decision Interpretation</h5>
+                            <div class="shap-insight-card">
+                                <div class="insight-header">
+                                    <i class="fa-solid fa-compass text-amber"></i>
+                                    <strong>Why This Matters to Bulk Procurement:</strong>
+                                </div>
+                                <p>The model reveals that <strong>68% of the $+4.60/MT rate increase</strong> above the corridor floor is driven by exogenous energy prices (VLSFO) and localized East Coast anchorage queues rather than fundamental tonnage shortages.</p>
+                                
+                                <div class="insight-takeaway">
+                                    <strong>Recommended Action:</strong>
+                                    <span>Lock in multi-voyage <strong>Contract of Affreightment (CoA)</strong> indexing bunker adjustments with a cap, rather than fixing single spot voyages exposed to port congestion surges.</span>
+                                </div>
+
+                                <div class="shap-meta-row">
+                                    <span><i class="fa-solid fa-clock-rotate-left"></i> Feature Lags: t-1 to t-30</span>
+                                    <span><i class="fa-solid fa-code"></i> Python SHAP TreeExplainer</span>
                                 </div>
                             </div>
                         </div>
@@ -618,164 +878,263 @@
 
         <!-- ================= VESSEL ================= -->
 
+        <!-- ================= RANKED VESSEL RECOMMENDATIONS (LOGISTICS MANAGER) ================= -->
+
         <section id="vessel" class="page">
 
             <div class="page-heading">
+                <div>
+                    <h2>Ranked Vessel Recommendations</h2>
+                    <p>AI-ranked vessel classes and candidate tonnage for active parcel, balancing draft feasibility, freight economics, and laycan timing.</p>
+                </div>
+                <div class="active-parcel-pill" id="vesselActiveParcelPill">
+                    <i class="fa-solid fa-box-archive text-cyan"></i>
+                    <span id="vesselActiveParcelText">Active Parcel: <strong>75,000 MT Coking Coal</strong> | Australia &rarr; Paradip</span>
+                </div>
+            </div>
 
-                <h2>Vessel Recommendation</h2>
+            <!-- RANKED CARDS GRID -->
+            <div class="ranked-cards-grid" id="rankedCardsGrid">
 
-                <p>
-                    AI-ranked vessels based on freight cost,
-                    capacity and route compatibility.
-                </p>
+                <!-- RANK 1: PANAMAX -->
+                <div class="ranked-vessel-card rank-1">
+                    <div class="card-rank-badge rank-1-badge">
+                        <i class="fa-solid fa-award"></i>
+                        <span>RANK #1 &bull; AI OPTIMAL FIXTURE</span>
+                    </div>
+
+                    <div class="ranked-card-top">
+                        <div class="ranked-ship-avatar">
+                            <i class="fa-solid fa-ship"></i>
+                        </div>
+                        <div class="ranked-title-block">
+                            <h3>Panamax &bull; MV Ocean Titan</h3>
+                            <span class="vessel-operator">Pacific Maritime Corp &bull; IMO 9784321</span>
+                        </div>
+                        <div class="ranked-score-badge">
+                            <span class="score-val">94</span>
+                            <span class="score-lbl">/ 100</span>
+                        </div>
+                    </div>
+
+                    <div class="ranked-feasibility-tag safe">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>100% Physically Feasible &bull; Paradip Deep-Draft Berth</span>
+                    </div>
+
+                    <div class="ranked-specs-grid">
+                        <div class="ranked-spec">
+                            <small>Deadweight (DWT)</small>
+                            <strong>82,000 DWT</strong>
+                        </div>
+                        <div class="ranked-spec">
+                            <small>Arrival Draft</small>
+                            <strong>13.8 m <span class="text-teal">(UKC +3.2m)</span></strong>
+                        </div>
+                        <div class="ranked-spec">
+                            <small>Forecast Freight</small>
+                            <strong class="text-cyan">$25.96 / MT</strong>
+                        </div>
+                        <div class="ranked-spec">
+                            <small>Total Outlay (75kt)</small>
+                            <strong class="text-cyan">$1,947,000 USD</strong>
+                        </div>
+                    </div>
+
+                    <div class="ranked-reasons-list">
+                        <div><i class="fa-solid fa-check text-green"></i> Exact parcel deadweight fit; eliminates deadfreight penalties</div>
+                        <div><i class="fa-solid fa-check text-green"></i> 13.8m laden draft safely clears Paradip 17.0m channel envelope</div>
+                        <div><i class="fa-solid fa-check text-green"></i> CoA contract hedging protects against $+5.61/MT spot surge</div>
+                    </div>
+
+                    <div class="ranked-action-row">
+                        <button type="button" class="btn-fixture primary" id="btnApproveRec1" onclick="approveAndSendToChartering(1)" title="Approve recommendation and dispatch stem to Chartering Operations">
+                            <i class="fa-solid fa-paper-plane"></i> Approve &amp; Send to Chartering
+                        </button>
+                        <button type="button" class="btn-fixture secondary" onclick="showPage('ports')">
+                            <i class="fa-solid fa-anchor"></i> Verify Port Berth
+                        </button>
+                    </div>
+                </div>
+
+                <!-- RANK 2: SUPRAMAX -->
+                <div class="ranked-vessel-card rank-2">
+                    <div class="card-rank-badge rank-2-badge">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>RANK #2 &bull; FEASIBLE GEARED BACKUP</span>
+                    </div>
+
+                    <div class="ranked-card-top">
+                        <div class="ranked-ship-avatar">
+                            <i class="fa-solid fa-ship"></i>
+                        </div>
+                        <div class="ranked-title-block">
+                            <h3>Supramax &bull; MV Pacific Star</h3>
+                            <span class="vessel-operator">Global Bulk Lines &bull; IMO 9621140</span>
+                        </div>
+                        <div class="ranked-score-badge">
+                            <span class="score-val">87</span>
+                            <span class="score-lbl">/ 100</span>
+                        </div>
+                    </div>
+
+                    <div class="ranked-feasibility-tag safe">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>100% Physically Feasible &bull; Universal East Coast Fit</span>
+                    </div>
+
+                    <div class="ranked-specs-grid">
+                        <div class="ranked-spec">
+                            <small>Deadweight (DWT)</small>
+                            <strong>62,000 DWT</strong>
+                        </div>
+                        <div class="ranked-spec">
+                            <small>Arrival Draft</small>
+                            <strong>12.2 m <span class="text-teal">(UKC +4.8m)</span></strong>
+                        </div>
+                        <div class="ranked-spec">
+                            <small>Forecast Freight</small>
+                            <strong class="text-amber">$27.40 / MT</strong>
+                        </div>
+                        <div class="ranked-spec">
+                            <small>Total Outlay (75kt)</small>
+                            <strong class="text-amber">$2,055,000 USD</strong>
+                        </div>
+                    </div>
+
+                    <div class="ranked-reasons-list">
+                        <div><i class="fa-solid fa-check text-green"></i> 4x30T on-board cranes provide self-discharging capability</div>
+                        <div><i class="fa-solid fa-check text-green"></i> Usable at draft-constrained Haldia and Gopalpur without lightering</div>
+                        <div><i class="fa-solid fa-triangle-exclamation text-amber"></i> +$1.44/MT unit rate premium (+$108k higher voyage total outlay)</div>
+                    </div>
+
+                    <div class="ranked-action-row">
+                        <button type="button" class="btn-fixture secondary" onclick="showPage('cargo')">
+                            <i class="fa-solid fa-sliders"></i> Select as Alternative
+                        </button>
+                        <button type="button" class="btn-fixture secondary" onclick="showPage('ports')">
+                            <i class="fa-solid fa-anchor"></i> View Draft
+                        </button>
+                    </div>
+                </div>
+
+                <!-- RANK 3: CAPESIZE (DISQUALIFIED) -->
+                <div class="ranked-vessel-card rank-3 disqualified">
+                    <div class="card-rank-badge rank-3-badge">
+                        <i class="fa-solid fa-ban"></i>
+                        <span>RANK #3 &bull; RESTRICTED / INFEASIBLE</span>
+                    </div>
+
+                    <div class="ranked-card-top">
+                        <div class="ranked-ship-avatar">
+                            <i class="fa-solid fa-ship"></i>
+                        </div>
+                        <div class="ranked-title-block">
+                            <h3>Capesize &bull; MV Cape Pioneer</h3>
+                            <span class="vessel-operator">Eastern Bulk Carriers &bull; IMO 9512389</span>
+                        </div>
+                        <div class="ranked-score-badge disqual">
+                            <span class="score-val">32</span>
+                            <span class="score-lbl">/ 100</span>
+                        </div>
+                    </div>
+
+                    <div class="ranked-feasibility-tag prohibited">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <span>Physically Infeasible at Haldia &bull; Parcel Mismatch</span>
+                    </div>
+
+                    <div class="ranked-specs-grid">
+                        <div class="ranked-spec">
+                            <small>Deadweight (DWT)</small>
+                            <strong>165,000 DWT</strong>
+                        </div>
+                        <div class="ranked-spec">
+                            <small>Arrival Draft</small>
+                            <strong class="text-rose">17.8 m (Exceeds Limits)</strong>
+                        </div>
+                        <div class="ranked-spec">
+                            <small>Nominal Rate</small>
+                            <strong>$21.50 / MT</strong>
+                        </div>
+                        <div class="ranked-spec">
+                            <small>Deadfreight Penalized</small>
+                            <strong class="text-rose">+$480,000 USD</strong>
+                        </div>
+                    </div>
+
+                    <div class="ranked-reasons-list">
+                        <div><i class="fa-solid fa-xmark text-rose"></i> 17.8m draft exceeds Haldia (8.5m) and Paradip standard berths</div>
+                        <div><i class="fa-solid fa-xmark text-rose"></i> 75,000 MT parcel utilizes only 45% of vessel capacity (severe deadfreight)</div>
+                        <div><i class="fa-solid fa-triangle-exclamation text-amber"></i> Requires offshore lighterage at Sagar Sandheads anchorage</div>
+                    </div>
+
+                    <div class="ranked-action-row">
+                        <button type="button" class="btn-fixture disabled" disabled>
+                            <i class="fa-solid fa-lock"></i> Excluded by Feasibility Engine
+                        </button>
+                    </div>
+                </div>
 
             </div>
 
-
-            <div class="vessel-grid">
-
-                <div class="vessel-card recommended">
-
-                    <div class="recommended-label">
-                        <i class="fa-solid fa-star"></i>
-                        AI RECOMMENDED
+            <!-- MULTI-ATTRIBUTE COMPARISON TABLE -->
+            <div class="panel vessel-comparison-panel">
+                <div class="panel-header">
+                    <div>
+                        <h3>Multi-Attribute Vessel Class Comparison Matrix</h3>
+                        <p>Detailed technical & operational comparison grounded in live East Coast port constraints.</p>
                     </div>
-
-                    <div class="vessel-image">
-                        <i class="fa-solid fa-ship"></i>
-                    </div>
-
-                    <h3>MV Ocean Titan</h3>
-
-                    <p class="vessel-company">
-                        Pacific Maritime
-                    </p>
-
-                    <div class="vessel-info">
-
-                        <div>
-                            <span>Capacity</span>
-                            <strong>82,000 DWT</strong>
-                        </div>
-
-                        <div>
-                            <span>Speed</span>
-                            <strong>14.2 Knots</strong>
-                        </div>
-
-                        <div>
-                            <span>Est. Cost</span>
-                            <strong>$1.82M</strong>
-                        </div>
-
-                        <div>
-                            <span>ETA</span>
-                            <strong>18 Days</strong>
-                        </div>
-
-                    </div>
-
-                    <button class="select-btn">
-                        Select Vessel
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </button>
-
+                    <span class="table-tag"><i class="fa-solid fa-table-list"></i> 3 Candidate Classes</span>
                 </div>
-
-
-                <div class="vessel-card">
-
-                    <div class="score">
-                        91
-                    </div>
-
-                    <div class="vessel-image">
-                        <i class="fa-solid fa-ship"></i>
-                    </div>
-
-                    <h3>MV Pacific Star</h3>
-
-                    <p class="vessel-company">
-                        Global Shipping Ltd.
-                    </p>
-
-                    <div class="vessel-info">
-
-                        <div>
-                            <span>Capacity</span>
-                            <strong>76,500 DWT</strong>
-                        </div>
-
-                        <div>
-                            <span>Speed</span>
-                            <strong>13.8 Knots</strong>
-                        </div>
-
-                        <div>
-                            <span>Est. Cost</span>
-                            <strong>$1.76M</strong>
-                        </div>
-
-                        <div>
-                            <span>ETA</span>
-                            <strong>20 Days</strong>
-                        </div>
-
-                    </div>
-
-                    <button class="select-btn secondary">
-                        View Details
-                    </button>
-
+                <div class="comparison-table-wrapper">
+                    <table class="ranked-table">
+                        <thead>
+                            <tr>
+                                <th>Candidate Class</th>
+                                <th>Deadweight (DWT)</th>
+                                <th>Laden Draft</th>
+                                <th id="tablePortUkcHeader">Paradip UKC Margin</th>
+                                <th>Navigational Feasibility</th>
+                                <th>Per-Tonne Rate</th>
+                                <th>Estimated Outlay</th>
+                                <th>AI Suitability</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rankedTableBody">
+                            <tr class="highlight-row">
+                                <td><strong class="text-cyan"><i class="fa-solid fa-award text-amber"></i> Panamax</strong></td>
+                                <td>75,000 – 85,000</td>
+                                <td>13.8 m</td>
+                                <td><span class="ukc-safe">+3.2 m (Safe)</span></td>
+                                <td><span class="text-amber">Tidal/Lightering</span></td>
+                                <td><strong>$25.96</strong></td>
+                                <td><strong class="text-cyan">$1,947,000</strong></td>
+                                <td><span class="badge-tag green">Rank #1 (94 pts)</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Supramax</strong></td>
+                                <td>50,000 – 65,000</td>
+                                <td>12.2 m</td>
+                                <td><span class="ukc-safe">+4.8 m (Safe)</span></td>
+                                <td><span class="text-green">Direct Berthing</span></td>
+                                <td>$27.40</td>
+                                <td>$2,055,000</td>
+                                <td><span class="badge-tag blue">Rank #2 (87 pts)</span></td>
+                            </tr>
+                            <tr class="disqual-row">
+                                <td><strong class="text-muted">Capesize</strong></td>
+                                <td>150,000 – 180,000</td>
+                                <td>17.8 m</td>
+                                <td><span class="ukc-prohibited">-0.8 m (SPM only)</span></td>
+                                <td><span class="text-rose">Prohibited</span></td>
+                                <td>$21.50</td>
+                                <td>$2,427,000*</td>
+                                <td><span class="badge-tag red">Excluded (32 pts)</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-
-
-                <div class="vessel-card">
-
-                    <div class="score">
-                        87
-                    </div>
-
-                    <div class="vessel-image">
-                        <i class="fa-solid fa-ship"></i>
-                    </div>
-
-                    <h3>MV Eastern Eagle</h3>
-
-                    <p class="vessel-company">
-                        Eastern Marine
-                    </p>
-
-                    <div class="vessel-info">
-
-                        <div>
-                            <span>Capacity</span>
-                            <strong>69,000 DWT</strong>
-                        </div>
-
-                        <div>
-                            <span>Speed</span>
-                            <strong>14.0 Knots</strong>
-                        </div>
-
-                        <div>
-                            <span>Est. Cost</span>
-                            <strong>$1.64M</strong>
-                        </div>
-
-                        <div>
-                            <span>ETA</span>
-                            <strong>21 Days</strong>
-                        </div>
-
-                    </div>
-
-                    <button class="select-btn secondary">
-                        View Details
-                    </button>
-
-                </div>
-
             </div>
 
         </section>
@@ -899,17 +1258,47 @@
 
 
 
-        <!-- ================= CARGO PLANNER ================= -->
+        <!-- ================= CARGO WIZARD (LOGISTICS MANAGER) ================= -->
         <section id="cargo" class="page">
+            <div class="wizard-stepper-container">
+                <div class="wizard-stepper-header">
+                    <div class="wizard-stepper-title">
+                        <i class="fa-solid fa-sliders text-cyan"></i>
+                        <div>
+                            <h3>Cargo Wizard: Bulk Procurement & Chartering</h3>
+                            <p>Structured 5-step input wizard for logistics managers to specify parcel economics, route feasibility, and laycan constraints.</p>
+                        </div>
+                    </div>
+                    <div class="wizard-quick-presets">
+                        <span class="preset-label"><i class="fa-solid fa-bolt text-cyan"></i> Quick Presets:</span>
+                        <button type="button" class="preset-pill" onclick="loadDemoScenario(1)">Paradip 75kt (Panamax)</button>
+                        <button type="button" class="preset-pill" onclick="loadDemoScenario(2)">Haldia 75kt (Draft Override)</button>
+                        <button type="button" class="preset-pill" onclick="loadDemoScenario(3)">Vizag 55kt Spot/CoA</button>
+                    </div>
+                </div>
+
+                <div class="wizard-steps-track">
+                    <div class="w-step active" id="wStep1"><span class="w-num">1</span> <span class="w-name">Parcel Specs</span></div>
+                    <div class="w-sep"></div>
+                    <div class="w-step active" id="wStep2"><span class="w-num">2</span> <span class="w-name">Route &amp; Port Limits</span></div>
+                    <div class="w-sep"></div>
+                    <div class="w-step active" id="wStep3"><span class="w-num">3</span> <span class="w-name">Laycan Window</span></div>
+                    <div class="w-sep"></div>
+                    <div class="w-step active" id="wStep4"><span class="w-num">4</span> <span class="w-name">Contract Strategy</span></div>
+                    <div class="w-sep"></div>
+                    <div class="w-step active" id="wStep5"><span class="w-num">5</span> <span class="w-name">AI Directive</span></div>
+                </div>
+            </div>
+
             <div class="planner-layout-v2">
                 <!-- LEFT CARD: Cargo Planning & Charter Requirement -->
                 <div class="charter-card form-card">
                     <div class="charter-card-header">
                         <div class="card-title-group">
                             <i class="fa-solid fa-cube card-title-icon"></i>
-                            <h3 class="card-title-text">Cargo Planning & Charter Requirement</h3>
+                            <h3 class="card-title-text">Cargo Wizard Input Form</h3>
                         </div>
-                        <span class="step-badge">Step 1</span>
+                        <span class="step-badge">Steps 1–4</span>
                     </div>
 
                     <form id="cargoForm" onsubmit="event.preventDefault(); generatePlan();">
@@ -927,8 +1316,12 @@
                         <div class="charter-field">
                             <label class="charter-label" for="cargoQty">Parcel Quantity (MT)</label>
                             <div class="input-suffix-wrapper">
-                                <input id="cargoQty" type="number" value="75000" min="5000" step="1000" class="charter-input">
+                                <input id="cargoQty" type="number" value="75000" min="5000" step="1000" class="charter-input" oninput="updateLiveCostPreview()">
                                 <span class="input-suffix-text">Tonnes</span>
+                            </div>
+                            <div class="live-cost-pill" id="liveCostEstimate">
+                                <i class="fa-solid fa-calculator"></i>
+                                <span>Est. Total Outlay: <strong id="liveCostText">$1,947,000 USD</strong> <small id="liveCostRate">(@ ~$25.96/MT)</small></span>
                             </div>
                         </div>
 
@@ -1049,6 +1442,57 @@
                         </div>
                     </div>
 
+                    <!-- ESTIMATED TOTAL FREIGHT OUTLAY & VOYAGE BUDGET -->
+                    <div class="cost-analysis-box">
+                        <div class="cost-analysis-header">
+                            <div class="cost-title-group">
+                                <i class="fa-solid fa-file-invoice-dollar" style="color: var(--primary);"></i>
+                                <span class="cost-analysis-title">ESTIMATED TOTAL VOYAGE FREIGHT OUTLAY</span>
+                            </div>
+                            <span class="cost-basis-tag" id="costBasisTag">75,000 MT @ $25.96 / MT</span>
+                        </div>
+
+                        <div class="total-cost-highlight">
+                            <div class="total-cost-primary">
+                                <span class="cost-main-label">Expected Total Freight Budget (P50)</span>
+                                <div class="cost-main-value" id="totalCostExpected">$1,947,000 <small>USD</small></div>
+                                <div class="cost-main-subtext" id="totalCostHuman">Approx. $1.95 Million USD for 75,000 MT voyage fixture</div>
+                            </div>
+
+                            <div class="cost-hedging-pill" id="costHedgingBadge">
+                                <i class="fa-solid fa-shield-halved"></i>
+                                <div>
+                                    <strong id="costHedgingTitle">Procurement Strategy Value</strong>
+                                    <span id="costHedgingText">CoA Volume Rate hedges ~$165,000 vs. spot peak</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3-Tier Scenario Outlay Breakdown (P10, P50, P90) -->
+                        <div class="cost-scenarios-grid">
+                            <div class="cost-scenario-card p10">
+                                <span class="scenario-label">Optimistic Floor (P10)</span>
+                                <strong class="scenario-amount text-teal" id="costP10Amount">$1,770,000</strong>
+                                <small class="scenario-rate" id="costP10Rate">@ $23.60 / MT</small>
+                                <span class="scenario-diff text-teal" id="costP10Diff">-$177,000 (-9.1%)</span>
+                            </div>
+
+                            <div class="cost-scenario-card p50 active">
+                                <span class="scenario-label">Expected Target (P50)</span>
+                                <strong class="scenario-amount text-cyan" id="costP50Amount">$1,947,000</strong>
+                                <small class="scenario-rate" id="costP50Rate">@ $25.96 / MT</small>
+                                <span class="scenario-diff text-cyan">Baseline Target</span>
+                            </div>
+
+                            <div class="cost-scenario-card p90">
+                                <span class="scenario-label">Risk Ceiling (P90)</span>
+                                <strong class="scenario-amount text-amber" id="costP90Amount">$2,367,750</strong>
+                                <small class="scenario-rate" id="costP90Rate">@ $31.57 / MT</small>
+                                <span class="scenario-diff text-amber" id="costP90Diff">+$420,750 (+21.6%)</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Transparent Recommendation Rationale -->
                     <div class="rationale-section">
                         <div class="rationale-header">
@@ -1117,47 +1561,180 @@
                         </div>
                     </div>
                     <div class="port-list" id="portListContainer">
-                        <button onclick="selectPort('Paradip')"><strong>Paradip</strong><span>Draft: 14.5m, LOA: 260m</span><em class="tag-med">Standard</em></button>
-                        <button onclick="selectPort('Visakhapatnam')"><strong>Visakhapatnam</strong><span>Draft: 18.1m, LOA: 300m</span><em class="tag-low">Deep Draft</em></button>
-                        <button onclick="selectPort('Gangavaram')"><strong>Gangavaram</strong><span>Draft: 18.5m, LOA: 300m</span><em class="tag-low">Deep Draft</em></button>
-                        <button onclick="selectPort('Dhamra')"><strong>Dhamra</strong><span>Draft: 18.0m, LOA: 300m</span><em class="tag-low">Deep Draft</em></button>
-                        <button onclick="selectPort('Haldia')"><strong>Haldia</strong><span>Draft: 8.5m, LOA: 190m</span><em class="tag-high">Draft-sensitive</em></button>
+                        <button onclick="selectPort('Paradip')"><strong>Paradip</strong><span>Draft: 17.0m, LOA: 300m</span><em class="tag-low">Deep Draft</em></button>
+                        <button onclick="selectPort('Visakhapatnam')"><strong>Visakhapatnam</strong><span>Draft: 16.5m, LOA: 280m</span><em class="tag-low">Deep Draft</em></button>
+                        <button onclick="selectPort('Gangavaram')"><strong>Gangavaram</strong><span>Draft: 20.0m, LOA: 320m</span><em class="tag-low">Deep Draft</em></button>
+                        <button onclick="selectPort('Dhamra')"><strong>Dhamra</strong><span>Draft: 18.0m, LOA: 310m</span><em class="tag-low">Deep Draft</em></button>
+                        <button onclick="selectPort('Haldia')"><strong>Haldia</strong><span>Draft: 8.5m, LOA: 215m</span><em class="tag-high">Draft-sensitive</em></button>
+                        <button onclick="selectPort('Gopalpur')"><strong>Gopalpur</strong><span>Draft: 11.5m, LOA: 200m</span><em class="tag-med">Mid-Draft</em></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UNDER-KEEL CLEARANCE (UKC) CALCULATOR & BERTH FEASIBILITY -->
+            <div class="panel ukc-calculator-panel" style="margin-top: 24px;">
+                <div class="panel-header">
+                    <div>
+                        <h3 style="display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-water text-cyan"></i> Under-Keel Clearance (UKC) &amp; Berth Feasibility Calculator
+                        </h3>
+                        <p>Calculate dynamic navigational safety margin: UKC = (Berth Draft + Tide) &minus; Vessel Arrival Draft</p>
+                    </div>
+                    <span class="table-tag"><i class="fa-solid fa-ruler-combined"></i> Port Safety Standard</span>
+                </div>
+
+                <div class="ukc-calc-grid">
+                    <div class="ukc-inputs">
+                        <div class="ukc-field">
+                            <label for="ukcPortSelect">Select East Coast Destination Port</label>
+                            <select id="ukcPortSelect" class="charter-input" onchange="calculateUKC()">
+                                <option value="17.0" selected>Paradip (Max Berth Draft: 17.0m | LOA: 300m)</option>
+                                <option value="8.5">Haldia Dock (Max Berth Draft: 8.5m | LOA: 215m)</option>
+                                <option value="16.5">Visakhapatnam (Max Berth Draft: 16.5m | LOA: 280m)</option>
+                                <option value="20.0">Gangavaram (Max Berth Draft: 20.0m | LOA: 320m)</option>
+                                <option value="18.0">Dhamra (Max Berth Draft: 18.0m | LOA: 310m)</option>
+                                <option value="11.5">Gopalpur (Max Berth Draft: 11.5m | LOA: 200m)</option>
+                            </select>
+                        </div>
+
+                        <div class="ukc-field">
+                            <label for="ukcVesselDraft">Vessel Class &amp; Arrival Draft</label>
+                            <select id="ukcVesselDraft" class="charter-input" onchange="calculateUKC()">
+                                <option value="13.8" selected>Panamax (Laden Arrival Draft: 13.8m)</option>
+                                <option value="12.2">Supramax / Ultramax (Laden Draft: 12.2m)</option>
+                                <option value="17.8">Capesize (Laden Draft: 17.8m)</option>
+                                <option value="10.2">Handysize (Laden Draft: 10.2m)</option>
+                            </select>
+                        </div>
+
+                        <div class="ukc-field">
+                            <label for="ukcTide">Tidal Height Addition (Meters)</label>
+                            <div class="input-suffix-wrapper">
+                                <input type="number" id="ukcTide" value="1.0" min="0" max="5.0" step="0.1" class="charter-input" oninput="calculateUKC()">
+                                <span class="input-suffix-text">Meters Tide</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ukc-result-card" id="ukcResultCard">
+                        <div class="ukc-result-header">
+                            <span class="ukc-status-badge safe" id="ukcStatusBadge"><i class="fa-solid fa-circle-check"></i> SAFE BERTHING</span>
+                            <span class="ukc-margin-title">Effective Clearance Margin</span>
+                        </div>
+                        <div class="ukc-metric-value" id="ukcMarginValue">+4.2 <small>meters</small></div>
+                        <p class="ukc-desc" id="ukcExplanation">Vessel arrival draft (13.8m) safely clears effective channel envelope (18.0m) with ample safety buffer exceeding Ministry required 1.5m threshold.</p>
+                        <div class="ukc-bar-wrapper">
+                            <div class="ukc-bar-fill safe" id="ukcBarFill" style="width: 85%;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ================= SPOT VS COA ================= -->
+        <!-- ================= SPOT VS COA (LOGISTICS MANAGER) ================= -->
         <section id="coa" class="page">
             <div class="page-heading">
-                <h2>Spot vs CoA Simulator</h2>
-                <p>Compare expected logistics exposure under two contracting strategies.</p>
+                <div>
+                    <h2>Spot vs CoA Simulator</h2>
+                    <p>Compare expected annual freight costs and volatility exposure between multi-voyage contracts and spot fixtures.</p>
+                </div>
+                <div class="active-parcel-pill">
+                    <i class="fa-solid fa-scale-balanced text-cyan"></i>
+                    <span>Logistics Manager Procurement Strategy Model</span>
+                </div>
             </div>
 
             <div class="simulator-grid">
                 <div class="panel simulator-controls">
                     <div class="panel-header">
-                        <div><h3>Scenario</h3><p>Adjust assumptions to compare outcomes.</p></div>
+                        <div>
+                            <h3>CoA vs Spot Scenario Assumptions</h3>
+                            <p>Model multi-voyage volume commitment vs spot volatility risk.</p>
+                        </div>
+                        <span class="table-tag"><i class="fa-solid fa-sliders"></i> Contract Optimizer</span>
                     </div>
-                    <label>Annual Quantity (MT)<input id="coaQty" type="number" value="500000" step="10000"></label>
-                    <label>Expected Spot Rate ($/MT)<input id="spotRate" type="number" value="24.8" step="0.1"></label>
-                    <label>CoA Rate ($/MT)<input id="coaRate" type="number" value="23.2" step="0.1"></label>
-                    <label>Market Volatility
-                        <select id="volatility"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option></select>
-                    </label>
-                    <button class="primary-btn" onclick="runCoASimulation()">Run Simulation <i class="fa-solid fa-calculator"></i></button>
+
+                    <div class="charter-field">
+                        <label class="charter-label" for="coaQty">Annual Parcel Commitment (MT)</label>
+                        <input id="coaQty" type="number" value="500000" step="10000" class="charter-input" oninput="runCoASimulation()">
+                    </div>
+
+                    <div class="charter-field">
+                        <label class="charter-label" for="coaVoyagesCount">Planned Annual Voyages</label>
+                        <select id="coaVoyagesCount" class="charter-input" onchange="runCoASimulation()">
+                            <option value="6">6 Voyages (~83,000 MT / voyage)</option>
+                            <option value="8" selected>8 Voyages (~62,500 MT / voyage)</option>
+                            <option value="10">10 Voyages (~50,000 MT / voyage)</option>
+                            <option value="12">12 Voyages (~41,500 MT / voyage)</option>
+                        </select>
+                    </div>
+
+                    <div class="charter-row-2col">
+                        <div class="charter-field">
+                            <label class="charter-label" for="spotRate">Expected Spot Rate ($/MT)</label>
+                            <input id="spotRate" type="number" value="25.96" step="0.1" class="charter-input" oninput="runCoASimulation()">
+                        </div>
+                        <div class="charter-field">
+                            <label class="charter-label" for="coaRate">Negotiated CoA Rate ($/MT)</label>
+                            <input id="coaRate" type="number" value="23.80" step="0.1" class="charter-input" oninput="runCoASimulation()">
+                        </div>
+                    </div>
+
+                    <div class="charter-field">
+                        <label class="charter-label" for="volatility">Market Volatility Outlook</label>
+                        <select id="volatility" class="charter-input" onchange="runCoASimulation()">
+                            <option value="low">Low Volatility (Mild +/- 5% range)</option>
+                            <option value="medium" selected>Medium Volatility (+/- 15% range)</option>
+                            <option value="high">High Volatility (Spike Regime +/- 35% range)</option>
+                        </select>
+                    </div>
+
+                    <button class="primary-btn" type="button" onclick="runCoASimulation()">
+                        Run CoA Sensitivity Simulation <i class="fa-solid fa-calculator"></i>
+                    </button>
                 </div>
 
                 <div class="panel simulator-output">
                     <div class="compare-cards">
-                        <div class="compare-card spot"><span>SPOT</span><strong id="spotTotal">$12.40M</strong><small>Expected annual freight</small></div>
+                        <div class="compare-card spot">
+                            <span class="compare-card-title"><i class="fa-solid fa-wave-square text-rose"></i> SPOT CONTRACT</span>
+                            <strong id="spotTotal">$12.98M</strong>
+                            <small id="spotRiskNote">Unhedged volatility exposure ($11.8M – $15.7M P90)</small>
+                        </div>
                         <div class="compare-vs">VS</div>
-                        <div class="compare-card coa"><span>CoA</span><strong id="coaTotal">$11.60M</strong><small>Expected annual freight</small></div>
+                        <div class="compare-card coa highlight">
+                            <span class="compare-card-title"><i class="fa-solid fa-shield-halved text-green"></i> MULTI-VOYAGE COA</span>
+                            <strong id="coaTotal">$11.90M</strong>
+                            <small id="coaHedgeNote">Guaranteed volume rate &amp; demurrage priority</small>
+                        </div>
                     </div>
-                    <div class="decision-banner" id="coaDecision"><i class="fa-solid fa-check"></i><div><strong>CoA is preferred</strong><p>Lower expected cost with better protection against freight volatility.</p></div></div>
+
+                    <div class="decision-banner" id="coaDecision">
+                        <i class="fa-solid fa-circle-check text-green"></i>
+                        <div>
+                            <strong>CoA Contract Structure Preferred</strong>
+                            <p id="coaDecisionText">Secures ~$1,080,000 USD net freight savings across 500,000 MT while insulating against spot freight peaks.</p>
+                        </div>
+                    </div>
+
+                    <div class="coa-metrics-breakdown">
+                        <div class="coa-metric-chip">
+                            <small>Net Annual Savings</small>
+                            <strong class="text-teal" id="coaNetSavings">$1,080,000 USD</strong>
+                        </div>
+                        <div class="coa-metric-chip">
+                            <small>Cost Advantage</small>
+                            <strong class="text-green" id="coaAdvantage">8.3%</strong>
+                        </div>
+                        <div class="coa-metric-chip">
+                            <small>Risk Hedged</small>
+                            <strong class="text-cyan">32.4% Volatility Buffer</strong>
+                        </div>
+                    </div>
+
                     <div class="mini-bars">
-                        <div><span>Cost Advantage</span><b id="coaAdvantage">6.5%</b></div>
-                        <div class="progress"><div id="coaProgress" style="width:65%"></div></div>
+                        <div><span>Hedging Protection Depth</span><b id="coaAdvantageBarText">8.3% Advantage</b></div>
+                        <div class="progress"><div id="coaProgress" style="width:75%"></div></div>
                     </div>
                 </div>
             </div>
@@ -1582,6 +2159,1214 @@
             </div>
 
         </section>
+
+
+        <!-- ================= ROLE 1: DECISIONS & APPROVALS (LOGISTICS MANAGER) ================= -->
+        <section id="decisions" class="page">
+            <div class="page-heading">
+                <div>
+                    <h2>Procurement Decisions &amp; Approvals Board</h2>
+                    <p>Live audit trail of bulk cargo stems, AI recommended vessel fixtures, and commercial approvals dispatched to Chartering Operations.</p>
+                </div>
+                <button class="primary-btn" onclick="showPage('cargo')">
+                    <i class="fa-solid fa-plus"></i> New Cargo Requirement
+                </button>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <div>
+                        <h3>Active Cargo Stems &amp; Commercial Workflow Status</h3>
+                        <p>Track stem state machine: PENDING &rarr; RECOMMENDED &rarr; APPROVED &rarr; SENT TO CHARTERING &rarr; FIXED &rarr; COMPLETED</p>
+                    </div>
+                    <button class="btn-scenario" onclick="loadDecisionsTable()"><i class="fa-solid fa-rotate"></i> Refresh</button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Cargo ID</th>
+                                <th>Commodity</th>
+                                <th>Quantity (MT)</th>
+                                <th>Route (Origin &rarr; Destination)</th>
+                                <th>Laycan Window</th>
+                                <th>Recommended Fixture</th>
+                                <th>Rate (P50)</th>
+                                <th>Commercial Status</th>
+                                <th>Decision Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="decisionsTableBody">
+                            <tr>
+                                <td colspan="9" style="text-align: center; padding: 24px; color: var(--muted);">
+                                    <i class="fa-solid fa-spinner fa-spin"></i> Loading cargo decisions from database...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ROLE 2: CHARTERING OPERATIONS CENTER ================= -->
+        <section id="charteringOps" class="page">
+            <div class="page-heading">
+                <div>
+                    <h2>Chartering Operations Command Center</h2>
+                    <p>Fleet coordination, candidate tonnage nomination, fixture execution, and voyage status progression.</p>
+                </div>
+                <div class="active-parcel-pill">
+                    <i class="fa-solid fa-ship text-teal"></i>
+                    <span>Chartering Operations Active &bull; Port of Paradip &amp; Vizag Corridors</span>
+                </div>
+            </div>
+
+            <!-- CHARTERING OPS KPIS -->
+            <div class="stats-grid stats-grid-6">
+                <div class="stat-card cyan">
+                    <div class="stat-icon"><i class="fa-solid fa-ship"></i></div>
+                    <div>
+                        <p>Fleet in Operation</p>
+                        <h2 id="coKpiFleet">350 <small>Bulkers</small></h2>
+                        <span class="positive"><i class="fa-solid fa-circle-check"></i> Positioned</span>
+                    </div>
+                </div>
+
+                <div class="stat-card blue">
+                    <div class="stat-icon"><i class="fa-solid fa-timeline"></i></div>
+                    <div>
+                        <p>Active Fixed Voyages</p>
+                        <h2 id="coKpiVoyages">8 <small>Voyages</small></h2>
+                        <span class="positive">Under Operational Command</span>
+                    </div>
+                </div>
+
+                <div class="stat-card amber">
+                    <div class="stat-icon"><i class="fa-solid fa-file-contract"></i></div>
+                    <div>
+                        <p>Awaiting Fixture</p>
+                        <h2 id="coKpiAwaiting">2 <small>Approved</small></h2>
+                        <span class="warning">Dispatched by Logistics Mgr</span>
+                    </div>
+                </div>
+
+                <div class="stat-card green">
+                    <div class="stat-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <div>
+                        <p>Navigation Clearance</p>
+                        <h2>100% <small>Safe</small></h2>
+                        <span class="positive">Zero Critical Hazards</span>
+                    </div>
+                </div>
+
+                <div class="stat-card purple">
+                    <div class="stat-icon"><i class="fa-solid fa-gas-pump"></i></div>
+                    <div>
+                        <p>Bunker Fuel Index</p>
+                        <h2>$624.50 <small>/ MT</small></h2>
+                        <span class="warning">VLSFO Singapore Hub</span>
+                    </div>
+                </div>
+
+                <div class="stat-card orange">
+                    <div class="stat-icon"><i class="fa-solid fa-anchor"></i></div>
+                    <div>
+                        <p>Avg Port Turnaround</p>
+                        <h2>3.2 <small>Days</small></h2>
+                        <span class="positive">East Coast Ports</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CHARTERING WORKFLOW HUB GRID -->
+            <div class="cc-tools-grid">
+                <div class="cc-tool-card" onclick="showPage('tonnageBoard')">
+                    <div class="cc-tool-top">
+                        <div class="cc-tool-icon icon-cyan"><i class="fa-solid fa-ship"></i></div>
+                        <span class="cc-tool-badge">Module 1</span>
+                    </div>
+                    <h4>1. Fleet Tonnage Board</h4>
+                    <p>Screen candidate vessels by class (Handysize &rarr; Capesize), current anchorage, DWT, and availability date.</p>
+                    <div class="cc-tool-footer"><span>Open Tonnage Board <i class="fa-solid fa-arrow-right"></i></span></div>
+                </div>
+
+                <div class="cc-tool-card" onclick="showPage('fixtureMgmt')">
+                    <div class="cc-tool-top">
+                        <div class="cc-tool-icon icon-amber"><i class="fa-solid fa-file-signature"></i></div>
+                        <span class="cc-tool-badge">Module 2</span>
+                    </div>
+                    <h4>2. Fixture Management</h4>
+                    <p>Review Logistics Manager approved stems, nominate candidate tonnage, agree freight rates, and create commercial fixtures.</p>
+                    <div class="cc-tool-footer"><span>Execute Fixtures <i class="fa-solid fa-arrow-right"></i></span></div>
+                </div>
+
+                <div class="cc-tool-card" onclick="showPage('voyageTimeline')">
+                    <div class="cc-tool-top">
+                        <div class="cc-tool-icon icon-purple"><i class="fa-solid fa-timeline"></i></div>
+                        <span class="cc-tool-badge">Module 3</span>
+                    </div>
+                    <h4>3. 9-Stage Voyage Execution</h4>
+                    <p>Operational voyage progression: FIXTURE &rarr; NOMINATION &rarr; BALLAST &rarr; ARRIVAL &rarr; LOADING &rarr; TRANSIT &rarr; DISCHARGE.</p>
+                    <div class="cc-tool-footer"><span>Track Voyages <i class="fa-solid fa-arrow-right"></i></span></div>
+                </div>
+
+                <div class="cc-tool-card" onclick="showPage('navSafety')">
+                    <div class="cc-tool-top">
+                        <div class="cc-tool-icon icon-teal"><i class="fa-solid fa-shield-halved"></i></div>
+                        <span class="cc-tool-badge">Module 4</span>
+                    </div>
+                    <h4>4. UKC Navigational Safety</h4>
+                    <p>Deterministic Under-Keel Clearance calculator complying with DG Shipping and East Coast port draft envelopes.</p>
+                    <div class="cc-tool-footer"><span>Check Clearance <i class="fa-solid fa-arrow-right"></i></span></div>
+                </div>
+
+                <div class="cc-tool-card" onclick="showPage('ballastOps')">
+                    <div class="cc-tool-top">
+                        <div class="cc-tool-icon icon-orange"><i class="fa-solid fa-gas-pump"></i></div>
+                        <span class="cc-tool-badge">Module 5</span>
+                    </div>
+                    <h4>5. Ballast &amp; Fuel Ops</h4>
+                    <p>Estimate non-revenue ballast leg distances, steaming days, VLSFO fuel consumption, and repositioning economics.</p>
+                    <div class="cc-tool-footer"><span>Calculate Ballast <i class="fa-solid fa-arrow-right"></i></span></div>
+                </div>
+
+                <div class="cc-tool-card" onclick="showPage('laycanMonitor')">
+                    <div class="cc-tool-top">
+                        <div class="cc-tool-icon icon-green"><i class="fa-solid fa-calendar-check"></i></div>
+                        <span class="cc-tool-badge">Module 6</span>
+                    </div>
+                    <h4>6. Laycan Execution Monitor</h4>
+                    <p>Monitor vessel ETA against contractual cancellation windows and weather/congestion delay risks.</p>
+                    <div class="cc-tool-footer"><span>Inspect Laycans <i class="fa-solid fa-arrow-right"></i></span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ROLE 2: TONNAGE BOARD ================= -->
+        <section id="tonnageBoard" class="page">
+            <div class="page-heading">
+                <div>
+                    <h2>Fleet Tonnage &amp; Operational Position Board</h2>
+                    <p>Live operational positioning of bulk carriers across Indian Ocean, Pacific, and Atlantic trade lanes.</p>
+                </div>
+                <div class="filters-row" style="display: flex; gap: 8px; align-items: center;">
+                    <select id="tonnageClassFilter" class="charter-input" style="width: 150px; padding: 6px 10px;" onchange="loadTonnageBoard()">
+                        <option value="ALL">All Classes</option>
+                        <option value="Handysize">Handysize</option>
+                        <option value="Supramax">Supramax</option>
+                        <option value="Panamax">Panamax</option>
+                        <option value="Capesize">Capesize</option>
+                    </select>
+                    <select id="tonnageStatusFilter" class="charter-input" style="width: 150px; padding: 6px 10px;" onchange="loadTonnageBoard()">
+                        <option value="ALL">All Statuses</option>
+                        <option value="AVAILABLE">Available</option>
+                        <option value="FIXED">Fixed</option>
+                        <option value="NOMINATED">Nominated</option>
+                        <option value="LOADING">Loading</option>
+                        <option value="IN TRANSIT">In Transit</option>
+                    </select>
+                    <button class="btn-scenario" onclick="loadTonnageBoard()"><i class="fa-solid fa-rotate"></i> Refresh</button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Vessel ID</th>
+                                <th>Vessel Name</th>
+                                <th>Class</th>
+                                <th>DWT</th>
+                                <th>Laden Draft</th>
+                                <th>LOA &times; Beam</th>
+                                <th>Current Location</th>
+                                <th>Available From</th>
+                                <th>Status</th>
+                                <th>Reliability</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tonnageTableBody">
+                            <tr>
+                                <td colspan="11" style="text-align: center; padding: 24px; color: var(--muted);">
+                                    <i class="fa-solid fa-spinner fa-spin"></i> Loading tonnage candidates from PostgreSQL fleet database...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ROLE 2: FIXTURE MANAGEMENT ================= -->
+        <section id="fixtureMgmt" class="page">
+            <div class="page-heading">
+                <div>
+                    <h2>Commercial Fixture Management</h2>
+                    <p>Review Logistics Manager approved stems, nominate candidate bulk carriers, confirm fixtures, and initialize operational voyages.</p>
+                </div>
+            </div>
+
+            <div class="planner-layout-v2">
+                <!-- LEFT: Approved Cargoes from Logistics Manager -->
+                <div class="charter-card">
+                    <div class="charter-card-header">
+                        <div class="card-title-group">
+                            <i class="fa-solid fa-boxes-packing text-amber"></i>
+                            <h3 class="card-title-text">Approved Stems Awaiting Fixture</h3>
+                        </div>
+                        <span class="step-badge">From Logistics Mgr</span>
+                    </div>
+                    <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">These cargo parcels were approved by the procurement manager and require tonnage nomination.</p>
+                    <div id="approvedCargoContainer" style="display: flex; flex-direction: column; gap: 10px;">
+                        <div style="padding: 16px; text-align: center; color: var(--muted);">
+                            <i class="fa-solid fa-spinner fa-spin"></i> Loading approved stems...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Fixture Confirmation Form -->
+                <div class="charter-card form-card">
+                    <div class="charter-card-header">
+                        <div class="card-title-group">
+                            <i class="fa-solid fa-file-contract text-cyan"></i>
+                            <h3 class="card-title-text">Confirm Commercial Fixture</h3>
+                        </div>
+                        <span class="step-badge">Chartering Action</span>
+                    </div>
+
+                    <form id="fixtureForm" onsubmit="event.preventDefault(); submitFixture();">
+                        <div class="charter-field">
+                            <label class="charter-label" for="fixtureCargoId">Target Cargo Stem</label>
+                            <input type="text" id="fixtureCargoId" class="charter-input" placeholder="Select a stem from left or enter ID" required>
+                        </div>
+
+                        <div class="charter-field">
+                            <label class="charter-label" for="fixtureVesselSelect">Nominate Candidate Vessel</label>
+                            <select id="fixtureVesselSelect" class="charter-input" required>
+                                <option value="">Select Candidate Tonnage</option>
+                            </select>
+                        </div>
+
+                        <div class="charter-row-2col">
+                            <div class="charter-field">
+                                <label class="charter-label" for="fixtureRateInput">Agreed Freight Rate ($/MT)</label>
+                                <input type="number" id="fixtureRateInput" step="0.05" min="10" max="80" value="26.20" class="charter-input" required>
+                            </div>
+                            <div class="charter-field">
+                                <label class="charter-label" for="fixtureDateInput">Fixture Date</label>
+                                <input type="date" id="fixtureDateInput" class="charter-input" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-generate-rec" id="btnConfirmFixture">
+                            <i class="fa-solid fa-check-double"></i> Confirm Fixture &amp; Create Voyage
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- BOTTOM: Confirmed Fixtures Record -->
+            <div class="panel" style="margin-top: 24px;">
+                <div class="panel-header">
+                    <div>
+                        <h3>Executed Commercial Fixtures</h3>
+                        <p>Confirmed fixtures recorded in PostgreSQL database.</p>
+                    </div>
+                    <button class="btn-scenario" onclick="loadConfirmedFixtures()"><i class="fa-solid fa-rotate"></i> Refresh</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Fixture ID</th>
+                                <th>Date</th>
+                                <th>Cargo ID</th>
+                                <th>Commodity</th>
+                                <th>Parcel Size</th>
+                                <th>Vessel ID</th>
+                                <th>Vessel Name</th>
+                                <th>Class</th>
+                                <th>Agreed Rate</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="confirmedFixturesTableBody">
+                            <tr><td colspan="10" style="text-align:center; padding: 20px; color:var(--muted);">Loading fixtures...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ROLE 2: VOYAGE EXECUTION TIMELINE ================= -->
+        <section id="voyageTimeline" class="page">
+            <div class="page-heading">
+                <div>
+                    <h2>Voyage Execution &amp; 9-Stage Operational Tracker</h2>
+                    <p>Closed-loop operational lifecycle: FIXTURE &rarr; NOMINATION &rarr; BALLAST &rarr; ARRIVAL &rarr; LOADING &rarr; DEPARTURE &rarr; TRANSIT &rarr; DISCHARGE &rarr; COMPLETED.</p>
+                </div>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <label for="voyageSelect" style="font-size: 12px; color: var(--muted); font-weight: 600;">Active Voyage:</label>
+                    <select id="voyageSelect" class="charter-input" style="width: 220px; padding: 6px 10px;" onchange="renderActiveVoyage()"></select>
+                </div>
+            </div>
+
+            <!-- VOYAGE PIPELINE TRACKER -->
+            <div class="panel" style="margin-bottom: 24px;">
+                <div class="panel-header">
+                    <div>
+                        <h3 id="voyageTrackTitle">Operational Stage Progression</h3>
+                        <p id="voyageTrackSubtitle">Select a voyage above to monitor milestones and record delay logs</p>
+                    </div>
+                    <span class="tier-pill" id="voyageCurrentStageBadge">Stage: FIXTURE</span>
+                </div>
+
+                <div class="voyage-stepper-track" id="voyageStepperTrack">
+                    <div class="v-step active" data-stage="FIXTURE"><span class="v-num">1</span> <span class="v-name">Fixture</span></div>
+                    <div class="v-step" data-stage="NOMINATION"><span class="v-num">2</span> <span class="v-name">Nomination</span></div>
+                    <div class="v-step" data-stage="BALLAST"><span class="v-num">3</span> <span class="v-name">Ballast</span></div>
+                    <div class="v-step" data-stage="ARRIVAL"><span class="v-num">4</span> <span class="v-name">Arrival</span></div>
+                    <div class="v-step" data-stage="LOADING"><span class="v-num">5</span> <span class="v-name">Loading</span></div>
+                    <div class="v-step" data-stage="DEPARTURE"><span class="v-num">6</span> <span class="v-name">Departure</span></div>
+                    <div class="v-step" data-stage="TRANSIT"><span class="v-num">7</span> <span class="v-name">Transit</span></div>
+                    <div class="v-step" data-stage="DISCHARGE"><span class="v-num">8</span> <span class="v-name">Discharge</span></div>
+                    <div class="v-step" data-stage="COMPLETED"><span class="v-num">9</span> <span class="v-name">Completed</span></div>
+                </div>
+
+                <div class="voyage-control-row" style="margin-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px;">
+                    <div style="display: flex; gap: 16px; align-items: center;">
+                        <div>
+                            <label style="font-size: 11px; color: var(--muted); display: block;">Recorded Delay (Hours):</label>
+                            <input type="number" id="voyageDelayInput" value="0.0" step="0.5" class="charter-input" style="width: 100px; padding: 6px;">
+                        </div>
+                        <div>
+                            <label style="font-size: 11px; color: var(--muted); display: block;">Delay Cause:</label>
+                            <select id="voyageDelayReasonSelect" class="charter-input" style="width: 160px; padding: 6px;">
+                                <option value="none">None (On Schedule)</option>
+                                <option value="weather">Adverse Weather</option>
+                                <option value="port_congestion">Port Congestion</option>
+                                <option value="berth_unavailability">Berth Unavailability</option>
+                                <option value="cargo_handling">Cargo Handling</option>
+                                <option value="mechanical_failure">Mechanical Failure</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-generate-rec" style="padding: 10px 24px;" onclick="advanceVoyageStage()">
+                        <i class="fa-solid fa-forward-step"></i> Advance to Next Stage
+                    </button>
+                </div>
+            </div>
+
+            <!-- VOYAGES LIST TABLE -->
+            <div class="panel">
+                <div class="panel-header">
+                    <div>
+                        <h3>All Operational Voyages</h3>
+                        <p>Persisted status in PostgreSQL database.</p>
+                    </div>
+                    <button class="btn-scenario" onclick="loadAllVoyages()"><i class="fa-solid fa-rotate"></i> Refresh</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Voyage ID</th>
+                                <th>Vessel ID</th>
+                                <th>Vessel Name</th>
+                                <th>Route</th>
+                                <th>ETA</th>
+                                <th>Current Stage</th>
+                                <th>Distance (nm)</th>
+                                <th>Fuel Est. (MT)</th>
+                                <th>Delays</th>
+                            </tr>
+                        </thead>
+                        <tbody id="voyagesTableBody">
+                            <tr><td colspan="9" style="text-align:center; padding: 20px; color:var(--muted);">Loading voyages...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ROLE 2: UKC NAVIGATION SAFETY ================= -->
+        <section id="navSafety" class="page">
+            <div class="page-heading">
+                <div>
+                    <h2>Under-Keel Clearance (UKC) Navigation Safety Panel</h2>
+                    <p>Deterministic physical channel and berth clearance calculator. Complies strictly with DG Shipping &amp; PIANC navigational standards.</p>
+                </div>
+            </div>
+
+            <div class="planner-layout-v2">
+                <div class="charter-card form-card">
+                    <div class="charter-card-header">
+                        <div class="card-title-group">
+                            <i class="fa-solid fa-ruler-vertical text-teal"></i>
+                            <h3 class="card-title-text">Port &amp; Vessel Draft Inputs</h3>
+                        </div>
+                        <span class="step-badge">Safety Parameters</span>
+                    </div>
+
+                    <div class="charter-field">
+                        <label class="charter-label" for="navSafetyPortSelect">Discharge Port</label>
+                        <select id="navSafetyPortSelect" class="charter-input" onchange="syncNavSafetyDraft()">
+                            <option value="1" data-draft="17.1">Paradip (Max Draft: 17.1m)</option>
+                            <option value="2" data-draft="8.5">Haldia (Max Draft: 8.5m &bull; Shallow)</option>
+                            <option value="3" data-draft="16.5">Visakhapatnam (Max Draft: 16.5m)</option>
+                            <option value="4" data-draft="18.5">Gangavaram (Max Draft: 18.5m)</option>
+                            <option value="5" data-draft="18.0">Dhamra (Max Draft: 18.0m)</option>
+                        </select>
+                    </div>
+
+                    <div class="charter-row-2col">
+                        <div class="charter-field">
+                            <label class="charter-label" for="navSafetyDraftInput">Vessel Arrival Draft (m)</label>
+                            <input type="number" id="navSafetyDraftInput" value="13.8" step="0.1" min="6" max="22" class="charter-input">
+                        </div>
+                        <div class="charter-field">
+                            <label class="charter-label" for="navSafetyTideInput">Tidal Surge Allowance (m)</label>
+                            <input type="number" id="navSafetyTideInput" value="0.5" step="0.1" min="0" max="4" class="charter-input">
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn-generate-rec" onclick="computeNavSafety()">
+                        <i class="fa-solid fa-calculator"></i> Calculate Navigational Clearance
+                    </button>
+                </div>
+
+                <div class="charter-card">
+                    <div class="charter-card-header">
+                        <div class="card-title-group">
+                            <i class="fa-solid fa-shield-halved text-cyan"></i>
+                            <h3 class="card-title-text">Clearance &amp; Berth Feasibility</h3>
+                        </div>
+                        <span class="tier-pill low" id="navSafetyStatusBadge">Status: SAFE</span>
+                    </div>
+
+                    <div class="ranked-specs-grid" style="margin-bottom: 16px;">
+                        <div class="ranked-spec">
+                            <small>Available Water Depth</small>
+                            <strong id="navSafetyAvailableDepth">17.6 m</strong>
+                        </div>
+                        <div class="ranked-spec">
+                            <small>Under-Keel Clearance</small>
+                            <strong id="navSafetyClearance" class="text-teal">+3.8 m</strong>
+                        </div>
+                    </div>
+
+                    <div class="recommendation" style="margin-top: 12px;">
+                        <div class="recommendation-icon"><i class="fa-solid fa-circle-info text-cyan"></i></div>
+                        <div>
+                            <h4 id="navSafetyVerdict">Nominal Safety Margin Safe</h4>
+                            <p id="navSafetyAdvisory" style="font-size: 12px; color: var(--muted); margin-top: 4px;">
+                                Safety margin of +3.8m comfortably exceeds East Coast standard minimum (1.0m UKC envelope). Direct berthing authorized without lightering.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 16px; padding: 10px; background: rgba(32,184,255,0.06); border-radius: 6px; font-size: 11px; color: var(--muted);">
+                        <i class="fa-solid fa-shield text-cyan"></i> <strong>Hard Deterministic Constraint:</strong> Economic score or ML rate predictions NEVER override physical draft limitations.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ROLE 2: BALLAST & FUEL OPS ================= -->
+        <section id="ballastOps" class="page">
+            <div class="page-heading">
+                <div>
+                    <h2>Ballast &amp; Repositioning Operations</h2>
+                    <p>Estimate non-revenue ballast distances, steaming days, VLSFO fuel consumption, and repositioning economics.</p>
+                </div>
+            </div>
+
+            <div class="planner-layout-v2">
+                <div class="charter-card form-card">
+                    <div class="charter-card-header">
+                        <div class="card-title-group">
+                            <i class="fa-solid fa-gas-pump text-orange"></i>
+                            <h3 class="card-title-text">Repositioning Calculator</h3>
+                        </div>
+                    </div>
+
+                    <div class="charter-field">
+                        <label class="charter-label" for="ballastVesselSelect">Select Candidate Vessel</label>
+                        <select id="ballastVesselSelect" class="charter-input"></select>
+                    </div>
+
+                    <div class="charter-field">
+                        <label class="charter-label" for="ballastPortSelect">Loading Port</label>
+                        <select id="ballastPortSelect" class="charter-input">
+                            <option value="Hay Point, Australia">Hay Point, Australia (Coking Coal)</option>
+                            <option value="Gladstone, Australia">Gladstone, Australia (Coking Coal)</option>
+                            <option value="Taboneo, Indonesia">Taboneo, Indonesia (Thermal Coal)</option>
+                            <option value="Richards Bay, South Africa">Richards Bay, South Africa (Coal)</option>
+                            <option value="Hampton Roads, USA">Hampton Roads, USA (Met Coal)</option>
+                        </select>
+                    </div>
+
+                    <button type="button" class="btn-generate-rec" onclick="computeBallastOps()">
+                        <i class="fa-solid fa-calculator"></i> Calculate Ballast Economics
+                    </button>
+                </div>
+
+                <div class="charter-card">
+                    <div class="charter-card-header">
+                        <div class="card-title-group">
+                            <i class="fa-solid fa-coins text-amber"></i>
+                            <h3 class="card-title-text">Ballast Economics Breakdown</h3>
+                        </div>
+                        <span class="tier-pill low" id="ballastRatingBadge">FAVORABLE</span>
+                    </div>
+
+                    <div class="ranked-specs-grid">
+                        <div class="ranked-spec">
+                            <small>Ballast Distance</small>
+                            <strong id="ballastDistText">1,650 nm</strong>
+                        </div>
+                        <div class="ranked-spec">
+                            <small>Estimated Steaming</small>
+                            <strong id="ballastDurationText">5.3 Days</strong>
+                        </div>
+                        <div class="ranked-spec">
+                            <small>VLSFO Fuel Burn</small>
+                            <strong id="ballastFuelText" class="text-orange">127.2 MT</strong>
+                        </div>
+                        <div class="ranked-spec">
+                            <small>Estimated Fuel Outlay</small>
+                            <strong id="ballastCostText" class="text-cyan">$79,500 USD</strong>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 16px; padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px;">
+                        <span style="font-size: 11px; color: var(--muted); display: block;">Loading Port ETA:</span>
+                        <strong id="ballastEtaText" style="font-size: 14px; color: var(--teal);">18 Nov 2026</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ROLE 2: LAYCAN EXECUTION MONITOR ================= -->
+        <section id="laycanMonitor" class="page">
+            <div class="page-heading">
+                <div>
+                    <h2>Maritime Laycan Execution Monitor</h2>
+                    <p>Track vessel ETA against contractual laycan cancellation windows and delay risk factors.</p>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <div>
+                        <h3>Contractual Laycan Window vs ETA Progress</h3>
+                        <p>Parcel: 75,000 MT Coking Coal | Hay Point &rarr; Paradip</p>
+                    </div>
+                    <span class="tier-pill low">Buffer: +3.5 Days Safe</span>
+                </div>
+
+                <div style="padding: 24px; background: rgba(10,22,40,0.6); border-radius: 8px; margin: 16px 0;">
+                    <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 8px;">
+                        <span><i class="fa-solid fa-calendar-day"></i> Laycan Start: <strong>10 Nov</strong></span>
+                        <span style="color: var(--cyan);"><i class="fa-solid fa-ship"></i> Vessel ETA: <strong>14 Nov</strong></span>
+                        <span><i class="fa-solid fa-calendar-xmark"></i> Laycan End (Cancelling): <strong>20 Nov</strong></span>
+                    </div>
+
+                    <div style="position: relative; height: 16px; background: rgba(255,255,255,0.1); border-radius: 8px; overflow: hidden;">
+                        <div style="position: absolute; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, #10b981 0%, #10b981 70%, #f59e0b 85%, #ef4444 100%);"></div>
+                        <div style="position: absolute; left: 40%; top: 0; width: 4px; height: 100%; background: #ffffff; box-shadow: 0 0 8px #ffffff;"></div>
+                    </div>
+                    <small style="display: block; margin-top: 8px; color: var(--muted); font-size: 11px; text-align: center;">White marker represents vessel estimated arrival at loading terminal.</small>
+                </div>
+
+                <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+                    <div class="stat-card blue">
+                        <div class="stat-icon"><i class="fa-solid fa-clock"></i></div>
+                        <div>
+                            <p>Arrival Buffer</p>
+                            <h2>+3.5 <small>Days</small></h2>
+                            <span class="positive">Comfortable Laycan Buffer</span>
+                        </div>
+                    </div>
+                    <div class="stat-card orange">
+                        <div class="stat-icon"><i class="fa-solid fa-cloud-bolt"></i></div>
+                        <div>
+                            <p>Weather Risk</p>
+                            <h2>Low <small>(0.12)</small></h2>
+                            <span class="positive">Benign Pacific Sea State</span>
+                        </div>
+                    </div>
+                    <div class="stat-card amber">
+                        <div class="stat-icon"><i class="fa-solid fa-anchor"></i></div>
+                        <div>
+                            <p>Port Congestion Queue</p>
+                            <h2>1.8 <small>Days</small></h2>
+                            <span class="warning">Hay Point Coal Terminal</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ROLE 3: MARKET ANALYST INTELLIGENCE CENTER ================= -->
+        <section id="analystOverview" class="page">
+            <div class="page-heading">
+                <div>
+                    <h2>Market Intelligence Command Center</h2>
+                    <p>Dry bulk macroeconomic indicators, Baltic Exchange indices, and energy commodity tracking.</p>
+                </div>
+                <div class="active-parcel-pill">
+                    <i class="fa-solid fa-microchip text-purple"></i>
+                    <span>Market Analyst Suite &bull; Real-Time Model Telemetry</span>
+                </div>
+            </div>
+
+            <!-- ANALYST KPIS -->
+            <div class="stats-grid stats-grid-6">
+                <div class="stat-card blue">
+                    <div class="stat-icon"><i class="fa-solid fa-water"></i></div>
+                    <div>
+                        <p>Baltic Dry Index (BDI)</p>
+                        <h2 id="anKpiBdi">2,042</h2>
+                        <span class="positive"><i class="fa-solid fa-arrow-up"></i> +3.8% Daily</span>
+                    </div>
+                </div>
+                <div class="stat-card cyan">
+                    <div class="stat-icon"><i class="fa-solid fa-ship"></i></div>
+                    <div>
+                        <p>Capesize Index (BCI)</p>
+                        <h2 id="anKpiBci">3,280</h2>
+                        <span class="positive"><i class="fa-solid fa-arrow-up"></i> +6.1% Daily</span>
+                    </div>
+                </div>
+                <div class="stat-card teal">
+                    <div class="stat-icon"><i class="fa-solid fa-anchor"></i></div>
+                    <div>
+                        <p>Panamax Index (BPI)</p>
+                        <h2 id="anKpiBpi">1,815</h2>
+                        <span class="positive"><i class="fa-solid fa-arrow-up"></i> +2.4% Daily</span>
+                    </div>
+                </div>
+                <div class="stat-card purple">
+                    <div class="stat-icon"><i class="fa-solid fa-gas-pump"></i></div>
+                    <div>
+                        <p>VLSFO Bunker Fuel</p>
+                        <h2 id="anKpiBunker">$624.50</h2>
+                        <span class="warning"><i class="fa-solid fa-arrow-up"></i> +1.8% W/W</span>
+                    </div>
+                </div>
+                <div class="stat-card orange">
+                    <div class="stat-icon"><i class="fa-solid fa-fire"></i></div>
+                    <div>
+                        <p>Coking Coal (FOB)</p>
+                        <h2>$248.00</h2>
+                        <span class="positive">Hay Point Benchmark</span>
+                    </div>
+                </div>
+                <div class="stat-card green">
+                    <div class="stat-icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <div>
+                        <p>Route Volatility (14d)</p>
+                        <h2>12.4%</h2>
+                        <span class="positive">Low Volatility Climate</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ANALYST QUICK JUMP CARDS -->
+            <div class="cc-tools-grid">
+                <div class="cc-tool-card" onclick="showPage('analystForecast')">
+                    <div class="cc-tool-top">
+                        <div class="cc-tool-icon icon-cyan"><i class="fa-solid fa-chart-line"></i></div>
+                        <span class="cc-tool-badge">Model 1</span>
+                    </div>
+                    <h4>1. P10/P50/P90 Forecast Curves</h4>
+                    <p>Quantile gradient boosting regression confidence envelopes over 7, 30, and 90-day forward horizons.</p>
+                    <div class="cc-tool-footer"><span>Open Curves <i class="fa-solid fa-arrow-right"></i></span></div>
+                </div>
+
+                <div class="cc-tool-card" onclick="showPage('balticMonitor')">
+                    <div class="cc-tool-top">
+                        <div class="cc-tool-icon icon-teal"><i class="fa-solid fa-water"></i></div>
+                        <span class="cc-tool-badge">Model 2</span>
+                    </div>
+                    <h4>2. Baltic Exchange Monitor</h4>
+                    <p>Track BDI, BCI, BPI, BSI velocity, daily/weekly changes, and freight correlation coefficients.</p>
+                    <div class="cc-tool-footer"><span>View Baltic Monitor <i class="fa-solid fa-arrow-right"></i></span></div>
+                </div>
+
+                <div class="cc-tool-card" onclick="showPage('macroAnomalies')">
+                    <div class="cc-tool-top">
+                        <div class="cc-tool-icon icon-amber"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <span class="cc-tool-badge">Model 3</span>
+                    </div>
+                    <h4>3. Macro Anomaly Detection</h4>
+                    <p>Screen statistical outliers (Z-Score &gt; 2.0) across corridor freight, bunker spikes, and port queues.</p>
+                    <div class="cc-tool-footer"><span>Inspect Anomalies <i class="fa-solid fa-arrow-right"></i></span></div>
+                </div>
+
+                <div class="cc-tool-card" onclick="showPage('modelPerformance')">
+                    <div class="cc-tool-top">
+                        <div class="cc-tool-icon icon-green"><i class="fa-solid fa-microchip"></i></div>
+                        <span class="cc-tool-badge">Model 4</span>
+                    </div>
+                    <h4>4. Model Performance Center</h4>
+                    <p>Evaluate production XGBoost MAE, RMSE, pinball loss, and coverage against the Naive Persistence Baseline.</p>
+                    <div class="cc-tool-footer"><span>Check Scorecard <i class="fa-solid fa-arrow-right"></i></span></div>
+                </div>
+
+                <div class="cc-tool-card" onclick="showPage('dataQuality')">
+                    <div class="cc-tool-top">
+                        <div class="cc-tool-icon icon-blue"><i class="fa-solid fa-database"></i></div>
+                        <span class="cc-tool-badge">Model 5</span>
+                    </div>
+                    <h4>5. Data Quality &amp; Health</h4>
+                    <p>Audit record counts, missingness %, duplicate rates, and data freshness across all core datasets.</p>
+                    <div class="cc-tool-footer"><span>Audit Data Health <i class="fa-solid fa-arrow-right"></i></span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ROLE 3: P10/P50/P90 FORECAST CURVES ================= -->
+        <section id="analystForecast" class="page">
+            <div class="page-heading">
+                <div>
+                    <h2>Freight Forecast Engine: Quantile Regression Curves</h2>
+                    <p>Three-model architecture (XGBoost P10, P50, P90) generating authentic confidence envelopes.</p>
+                </div>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <select id="anRouteSelect" class="charter-input" style="width: 200px; padding: 6px 10px;" onchange="loadAnalystForecast()">
+                        <option value="Australia-Paradip">Australia &rarr; Paradip</option>
+                        <option value="Indonesia-Paradip">Indonesia &rarr; Paradip</option>
+                        <option value="Australia-Vizag">Australia &rarr; Visakhapatnam</option>
+                    </select>
+                    <select id="anVesselSelect" class="charter-input" style="width: 140px; padding: 6px 10px;" onchange="loadAnalystForecast()">
+                        <option value="Panamax">Panamax</option>
+                        <option value="Supramax">Supramax</option>
+                        <option value="Capesize">Capesize</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- QUANTILE EXPLAINER ALERT -->
+            <div style="padding: 14px 18px; background: rgba(32,184,255,0.06); border-left: 4px solid var(--cyan); border-radius: 6px; margin-bottom: 20px;">
+                <strong style="color: var(--cyan);"><i class="fa-solid fa-circle-info"></i> Understanding Quantiles in Decision Support:</strong>
+                <p style="font-size: 12px; color: var(--muted); margin-top: 4px;">
+                    <strong>P10 (Downside Floor):</strong> 10% chance rates fall below this rate &bull; 
+                    <strong>P50 (Median Base Case):</strong> Central expected procurement benchmark &bull; 
+                    <strong>P90 (Upside Ceiling):</strong> 90% quantile high-rate risk case for budgeting volatility exposure.
+                </p>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <div>
+                        <h3>Forward Rate Trajectory &amp; Confidence Bands</h3>
+                        <p id="anForecastHorizonText">30-Day Forward Window &bull; Historical Observations + P10/P50/P90 Curves</p>
+                    </div>
+                    <div style="display: flex; gap: 6px;">
+                        <button type="button" class="btn-scenario active" id="btnHorizon30" onclick="switchForecastHorizon(30)">30 Days</button>
+                        <button type="button" class="btn-scenario" id="btnHorizon60" onclick="switchForecastHorizon(60)">60 Days</button>
+                        <button type="button" class="btn-scenario" id="btnHorizon90" onclick="switchForecastHorizon(90)">90 Days</button>
+                    </div>
+                </div>
+                <div style="height: 380px; position: relative;">
+                    <canvas id="analystForecastChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ROLE 3: BALTIC MARKET MONITOR ================= -->
+        <section id="balticMonitor" class="page">
+            <div class="page-heading">
+                <div>
+                    <h2>Baltic Exchange Dry Bulk Monitor</h2>
+                    <p>Daily, weekly, and monthly changes across primary dry bulk indices with freight correlation coefficients.</p>
+                </div>
+                <button class="btn-scenario" onclick="loadBalticMonitor()"><i class="fa-solid fa-rotate"></i> Refresh Indices</button>
+            </div>
+
+            <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
+                <div class="stat-card blue">
+                    <div class="stat-icon"><i class="fa-solid fa-water"></i></div>
+                    <div>
+                        <p>Baltic Dry Index (BDI)</p>
+                        <h2 id="bdiVal">2,042</h2>
+                        <span class="positive" id="bdiChange">+3.8% Daily &bull; +7.2% W/W</span>
+                        <small style="display: block; color: var(--muted); font-size: 11px; margin-top: 4px;">Correlation: <strong>0.89</strong></small>
+                    </div>
+                </div>
+
+                <div class="stat-card cyan">
+                    <div class="stat-icon"><i class="fa-solid fa-ship"></i></div>
+                    <div>
+                        <p>Baltic Capesize Index (BCI)</p>
+                        <h2 id="bciVal">3,280</h2>
+                        <span class="positive" id="bciChange">+6.1% Daily &bull; +11.4% W/W</span>
+                        <small style="display: block; color: var(--muted); font-size: 11px; margin-top: 4px;">Correlation: <strong>0.94</strong></small>
+                    </div>
+                </div>
+
+                <div class="stat-card teal">
+                    <div class="stat-icon"><i class="fa-solid fa-anchor"></i></div>
+                    <div>
+                        <p>Baltic Panamax Index (BPI)</p>
+                        <h2 id="bpiVal">1,815</h2>
+                        <span class="positive" id="bpiChange">+2.4% Daily &bull; +4.1% W/W</span>
+                        <small style="display: block; color: var(--muted); font-size: 11px; margin-top: 4px;">Correlation: <strong>0.87</strong></small>
+                    </div>
+                </div>
+
+                <div class="stat-card purple">
+                    <div class="stat-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
+                    <div>
+                        <p>Baltic Supramax Index (BSI)</p>
+                        <h2 id="bsiVal">1,390</h2>
+                        <span class="warning" id="bsiChange">-0.7% Daily &bull; +1.8% W/W</span>
+                        <small style="display: block; color: var(--muted); font-size: 11px; margin-top: 4px;">Correlation: <strong>0.81</strong></small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel" style="margin-top: 20px;">
+                <div class="panel-header">
+                    <div>
+                        <h3>Index-to-Corridor Freight Relationship</h3>
+                        <p>Empirical regression sensitivity of East Coast India import corridors to Baltic shifts.</p>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Index Name</th>
+                                <th>Latest Value</th>
+                                <th>Daily Delta</th>
+                                <th>Weekly Delta</th>
+                                <th>Monthly Delta</th>
+                                <th>Market Trend</th>
+                                <th>Freight Beta / Sensitivity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Baltic Dry Index (BDI)</strong></td>
+                                <td>2,042</td>
+                                <td class="text-teal">+3.8%</td>
+                                <td class="text-teal">+7.2%</td>
+                                <td class="text-teal">+14.5%</td>
+                                <td><span class="tier-pill low">BULLISH</span></td>
+                                <td>+$0.48 / MT per +100 BDI points</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Baltic Capesize Index (BCI)</strong></td>
+                                <td>3,280</td>
+                                <td class="text-teal">+6.1%</td>
+                                <td class="text-teal">+11.4%</td>
+                                <td class="text-teal">+22.8%</td>
+                                <td><span class="tier-pill low">BULLISH</span></td>
+                                <td>+$0.62 / MT per +100 BCI points</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Baltic Panamax Index (BPI)</strong></td>
+                                <td>1,815</td>
+                                <td class="text-teal">+2.4%</td>
+                                <td class="text-teal">+4.1%</td>
+                                <td class="text-teal">+8.9%</td>
+                                <td><span class="tier-pill low">BULLISH</span></td>
+                                <td>+$0.54 / MT per +100 BPI points</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Baltic Supramax Index (BSI)</strong></td>
+                                <td>1,390</td>
+                                <td class="text-rose">-0.7%</td>
+                                <td class="text-teal">+1.8%</td>
+                                <td class="text-teal">+3.2%</td>
+                                <td><span class="tier-pill medium">STABLE</span></td>
+                                <td>+$0.38 / MT per +100 BSI points</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ROLE 3: MACRO ANOMALY DETECTION ================= -->
+        <section id="macroAnomalies" class="page">
+            <div class="page-heading">
+                <div>
+                    <h2>Macroeconomic &amp; Freight Anomaly Detection</h2>
+                    <p>Real statistical anomaly monitoring (Z-Score &gt; 2.0, deviation &gt; 15%) across rates, bunker fuel, and port queues.</p>
+                </div>
+                <button class="btn-scenario" onclick="loadMacroAnomalies()"><i class="fa-solid fa-rotate"></i> Scan Now</button>
+            </div>
+
+            <div id="anomaliesContainer" style="display: flex; flex-direction: column; gap: 14px;">
+                <div style="padding: 24px; text-align: center; color: var(--muted);">
+                    <i class="fa-solid fa-spinner fa-spin"></i> Scanning historical distributions for statistical anomalies...
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ROLE 3: MODEL PERFORMANCE CENTER ================= -->
+        <section id="modelPerformance" class="page">
+            <div class="page-heading">
+                <div>
+                    <h2>Model Performance &amp; Diagnostic Validation</h2>
+                    <p>Production XGBoost Quantile Regressors evaluated against the Naive Persistence Benchmark on walk-forward test data.</p>
+                </div>
+                <div class="active-parcel-pill">
+                    <i class="fa-solid fa-microchip text-green"></i>
+                    <span>Model: xgboost-v1 &bull; Status: HEALTHY</span>
+                </div>
+            </div>
+
+            <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="stat-card blue">
+                    <div class="stat-icon"><i class="fa-solid fa-database"></i></div>
+                    <div>
+                        <p>Training Sample Size</p>
+                        <h2>43,820 <small>Rows</small></h2>
+                        <span class="positive">Train Split (&lt; 2025-01-01)</span>
+                    </div>
+                </div>
+                <div class="stat-card cyan">
+                    <div class="stat-icon"><i class="fa-solid fa-flask"></i></div>
+                    <div>
+                        <p>Validation Test Sample</p>
+                        <h2>15,004 <small>Rows</small></h2>
+                        <span class="positive">Test Split (&ge; 2025-01-01)</span>
+                    </div>
+                </div>
+                <div class="stat-card green">
+                    <div class="stat-icon"><i class="fa-solid fa-bullseye"></i></div>
+                    <div>
+                        <p>Quantile Coverage (P10–P90)</p>
+                        <h2>81.4%</h2>
+                        <span class="positive">Empirically Grounded</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COMPARATIVE SCORECARD -->
+            <div class="panel" style="margin-top: 20px;">
+                <div class="panel-header">
+                    <div>
+                        <h3>XGBoost Quantile Model vs Naive Persistence Baseline</h3>
+                        <p>Grounded in actual walk-forward temporal evaluation (zero future leakage).</p>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Model Architecture</th>
+                                <th>Mean Absolute Error (MAE)</th>
+                                <th>Root Mean Squared Error (RMSE)</th>
+                                <th>R&sup2; Score</th>
+                                <th>Pinball Quantile Loss</th>
+                                <th>Variance Reduction</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background: rgba(16,185,129,0.06);">
+                                <td><strong>XGBoost Quantile Forecaster (P10/P50/P90)</strong></td>
+                                <td class="text-teal"><strong>$1.28 / MT</strong></td>
+                                <td class="text-teal"><strong>$1.84 / MT</strong></td>
+                                <td class="text-teal"><strong>0.892</strong></td>
+                                <td>0.64 (Median)</td>
+                                <td><span class="tier-pill low">+47.8% Gain</span></td>
+                            </tr>
+                            <tr>
+                                <td>Naive Persistence Baseline (Lag-1 Benchmark)</td>
+                                <td class="text-muted">$2.45 / MT</td>
+                                <td class="text-muted">$3.62 / MT</td>
+                                <td class="text-muted">0.621</td>
+                                <td>1.22</td>
+                                <td><span class="tier-pill medium">Baseline</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TOP FEATURE IMPORTANCES -->
+            <div class="panel" style="margin-top: 20px;">
+                <div class="panel-header">
+                    <div>
+                        <h3>Feature Importance Spectrum (P50 Tree Explainer)</h3>
+                        <p>Relative weight contribution of exogenous and lag features in forward rate derivation.</p>
+                    </div>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+                            <span><strong>lag_1</strong> &bull; Prior day corridor benchmark</span>
+                            <span class="text-cyan">42.1%</span>
+                        </div>
+                        <div class="shap-bar-track"><div class="shap-bar-fill pos" style="width: 42.1%;"></div></div>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+                            <span><strong>rolling_mean_7</strong> &bull; 7-day backward moving average</span>
+                            <span class="text-cyan">21.8%</span>
+                        </div>
+                        <div class="shap-bar-track"><div class="shap-bar-fill pos" style="width: 21.8%;"></div></div>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+                            <span><strong>bdi</strong> &bull; Baltic Dry Index composite</span>
+                            <span class="text-cyan">12.4%</span>
+                        </div>
+                        <div class="shap-bar-track"><div class="shap-bar-fill pos" style="width: 12.4%;"></div></div>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+                            <span><strong>bunker_price</strong> &bull; VLSFO fuel price ($/MT)</span>
+                            <span class="text-cyan">8.9%</span>
+                        </div>
+                        <div class="shap-bar-track"><div class="shap-bar-fill pos" style="width: 8.9%;"></div></div>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+                            <span><strong>rolling_volatility</strong> &bull; 14-day standard deviation</span>
+                            <span class="text-cyan">6.2%</span>
+                        </div>
+                        <div class="shap-bar-track"><div class="shap-bar-fill pos" style="width: 6.2%;"></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ROLE 3: DATA QUALITY & HEALTH CENTER ================= -->
+        <section id="dataQuality" class="page">
+            <div class="page-heading">
+                <div>
+                    <h2>Data Quality &amp; Pipeline Freshness Center</h2>
+                    <p>Comprehensive health auditing across all core maritime datasets.</p>
+                </div>
+                <div class="active-parcel-pill">
+                    <i class="fa-solid fa-heart-pulse text-green"></i>
+                    <span>Pipeline Status: HEALTHY &bull; 98.6% Quality Score</span>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <div>
+                        <h3>Core Dataset Audit Report</h3>
+                        <p>Computed dynamically from source CSV and PostgreSQL operational tables.</p>
+                    </div>
+                    <button class="btn-scenario" onclick="loadDataQualityReport()"><i class="fa-solid fa-rotate"></i> Re-Audit</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Dataset Name</th>
+                                <th>Total Records</th>
+                                <th>Missing Values (%)</th>
+                                <th>Duplicate Records</th>
+                                <th>Data Freshness</th>
+                                <th>Health Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataQualityTableBody">
+                            <tr>
+                                <td><strong>freight_history.csv</strong></td>
+                                <td>58,824</td>
+                                <td>1.2% (Controlled)</td>
+                                <td>0 (0.0%)</td>
+                                <td>Today</td>
+                                <td><span class="tier-pill low">HEALTHY</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>vessels.csv</strong></td>
+                                <td>350</td>
+                                <td>0.4%</td>
+                                <td>0 (0.0%)</td>
+                                <td>Today</td>
+                                <td><span class="tier-pill low">HEALTHY</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>ports.csv</strong></td>
+                                <td>28</td>
+                                <td>0.0%</td>
+                                <td>0 (0.0%)</td>
+                                <td>Today</td>
+                                <td><span class="tier-pill low">HEALTHY</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>voyages.csv</strong></td>
+                                <td>60</td>
+                                <td>0.8%</td>
+                                <td>0 (0.0%)</td>
+                                <td>Today</td>
+                                <td><span class="tier-pill low">HEALTHY</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>risk_events.csv</strong></td>
+                                <td>240</td>
+                                <td>0.0%</td>
+                                <td>0 (0.0%)</td>
+                                <td>Today</td>
+                                <td><span class="tier-pill low">HEALTHY</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ROLE SWITCHER MODAL (VIVA & EVALUATION TESTING) -->
+        <div id="roleModal" class="role-modal-overlay" onclick="closeRoleModal(event)">
+            <div class="role-modal-card" onclick="event.stopPropagation()">
+                <div class="role-modal-header">
+                    <div>
+                        <span class="role-modal-tag"><i class="fa-solid fa-user-shield"></i> WORKSPACE ROLE SELECTOR</span>
+                        <h3>Switch Operational Persona</h3>
+                        <p>Select a persona to experience the tailored decision dashboard and access controls.</p>
+                    </div>
+                    <button type="button" class="role-modal-close" onclick="closeRoleModal()">&times;</button>
+                </div>
+
+                <div class="role-modal-options">
+                    <div class="role-modal-opt active" id="roleOptLogistics" onclick="switchUserRole('Logistics Manager')">
+                        <div class="role-opt-icon icon-cyan"><i class="fa-solid fa-boxes-packing"></i></div>
+                        <div class="role-opt-info">
+                            <div class="role-opt-title">
+                                <strong>Logistics Manager (Bulk Cargo Procurement)</strong>
+                                <span class="role-featured-tag">Active Primary Focus</span>
+                            </div>
+                            <p>Complete decision-support suite: Cargo Wizard, Ranked Vessel Recommendations, SHAP Feature Attribution, Port Constraint Explorer, and CoA-vs-Spot Simulator.</p>
+                        </div>
+                    </div>
+
+                    <div class="role-modal-opt" id="roleOptChartering" onclick="switchUserRole('Chartering Officer')">
+                        <div class="role-opt-icon icon-teal"><i class="fa-solid fa-ship"></i></div>
+                        <div class="role-opt-info">
+                            <div class="role-opt-title">
+                                <strong>Chartering Officer (Fleet &amp; Voyage Operations)</strong>
+                            </div>
+                            <p>Tonnage fixtures, under-keel clearance navigation safety, ballast/repositioning management, and maritime laycan contract execution.</p>
+                        </div>
+                    </div>
+
+                    <div class="role-modal-opt" id="roleOptAnalyst" onclick="switchUserRole('Market Analyst')">
+                        <div class="role-opt-icon icon-purple"><i class="fa-solid fa-chart-line"></i></div>
+                        <div class="role-opt-info">
+                            <div class="role-opt-title">
+                                <strong>Market Analyst (Freight Forecasting &amp; Data Science)</strong>
+                            </div>
+                            <p>XGBoost quantile regression curves (P10/P50/P90), econometric time-series models, Baltic Exchange indices (BDI/BCI/BPI), and macro anomaly detection.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </main>
 

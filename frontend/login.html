@@ -126,17 +126,61 @@
                     </h2>
 
                     <p>
-                        Access your maritime intelligence dashboard.
+                        Role-Based Maritime Logistics & Chartering Decision Support.
                     </p>
 
                 </div>
 
+                <!-- QUICK ROLE LOGIN FOR VIVA / EVALUATOR -->
+                <div class="quick-role-section">
+                    <span class="quick-role-label"><i class="fa-solid fa-bolt text-cyan"></i> QUICK DEMO SIGN IN BY ROLE</span>
+                    <div class="quick-role-grid">
+                        <button type="button" class="quick-role-card active" onclick="loginAsRole('Logistics Manager')">
+                            <div class="quick-role-icon"><i class="fa-solid fa-boxes-packing"></i></div>
+                            <div class="quick-role-text">
+                                <strong>Logistics Manager</strong>
+                                <small>Cargo Wizard, CoA, Ports, SHAP</small>
+                            </div>
+                            <span class="role-featured-pill">Primary</span>
+                        </button>
+
+                        <button type="button" class="quick-role-card" onclick="loginAsRole('Chartering Officer')">
+                            <div class="quick-role-icon"><i class="fa-solid fa-ship"></i></div>
+                            <div class="quick-role-text">
+                                <strong>Chartering Officer</strong>
+                                <small>Vessel Fixtures & Tonnage</small>
+                            </div>
+                        </button>
+
+                        <button type="button" class="quick-role-card" onclick="loginAsRole('Market Analyst')">
+                            <div class="quick-role-icon"><i class="fa-solid fa-chart-line"></i></div>
+                            <div class="quick-role-text">
+                                <strong>Market Analyst</strong>
+                                <small>Macro Rates & Time-Series</small>
+                            </div>
+                        </button>
+                    </div>
+                </div>
 
                 <form id="loginForm">
 
+                    <!-- ROLE SELECTION -->
+                    <div class="input-group">
+                        <label for="loginRole">
+                            Select Workspace Role
+                        </label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-user-shield"></i>
+                            <select id="loginRole" class="auth-select">
+                                <option value="Logistics Manager" selected>Logistics Manager (Bulk Cargo Procurement)</option>
+                                <option value="Chartering Officer">Chartering Officer (Fleet Operations)</option>
+                                <option value="Market Analyst">Market Analyst (Time Series & Forecasting)</option>
+                                <option value="Port Operations">Port Operations & Berth Authority</option>
+                            </select>
+                        </div>
+                    </div>
 
                     <!-- EMAIL -->
-
                     <div class="input-group">
 
                         <label>

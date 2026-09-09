@@ -8,6 +8,25 @@ const API_BASE = (window.location.port === "8000")
     ? window.location.origin
     : "http://127.0.0.1:8000";
 
+/* Centralized Role-Based Fetch Wrapper */
+async function authFetch(url, options = {}) {
+    let role = "Logistics Manager";
+    try {
+        const userStr = localStorage.getItem("freightiq_user");
+        if (userStr) {
+            const u = JSON.parse(userStr);
+            if (u && u.role) role = u.role;
+        }
+    } catch (e) {}
+
+    const headers = Object.assign({}, options.headers || {}, {
+        "X-User-Role": role,
+        "Authorization": `Bearer ${role.toLowerCase().replace(/\s+/g, '_')}_token`
+    });
+
+    return fetch(url, Object.assign({}, options, { headers }));
+}
+
 let portsCache = [];
 let vesselClassesCache = [];
 let currentCargoId = 1;
@@ -50,6 +69,38 @@ function showPage(pageId, clickedButton = null) {
     updatePageTitle(pageId);
     window.scrollTo({ top: 0, behavior: "smooth" });
 
+    // Role-specific automated view triggers
+    if (pageId === "dashboard") {
+        loadLogisticsKPIs();
+    } else if (pageId === "decisions") {
+        loadDecisionsTable();
+    } else if (pageId === "charteringOps") {
+        loadCharteringOpsSummary();
+    } else if (pageId === "tonnageBoard") {
+        loadTonnageBoard();
+    } else if (pageId === "fixtureMgmt") {
+        loadApprovedCargoForChartering();
+        loadConfirmedFixtures();
+    } else if (pageId === "voyageTimeline") {
+        loadAllVoyages();
+    } else if (pageId === "navSafety") {
+        initNavSafetyDropdowns();
+    } else if (pageId === "ballastOps") {
+        initBallastDropdowns();
+    } else if (pageId === "analystOverview") {
+        loadAnalystOverview();
+    } else if (pageId === "analystForecast") {
+        renderAnalystForecastChart(30);
+    } else if (pageId === "balticMonitor") {
+        loadBalticMonitor();
+    } else if (pageId === "macroAnomalies") {
+        loadMacroAnomalies();
+    } else if (pageId === "modelPerformance") {
+        loadModelPerformance();
+    } else if (pageId === "dataQuality") {
+        loadDataQualityReport();
+    }
+
     // Handle Leaflet interactive port map sizing
     if (pageId === "ports") {
         setTimeout(() => {
@@ -68,6 +119,11 @@ function showPage(pageId, clickedButton = null) {
             if (forecastChartInstance) forecastChartInstance.resize();
         }, 120);
     }
+
+    // Handle Ranked Vessel Recommendations update grounded in active cargo parcel
+    if (pageId === "vessel") {
+        renderRankedVessels();
+    }
 }
 
 /* =====================================================
@@ -76,15 +132,28 @@ function showPage(pageId, clickedButton = null) {
 
 function updatePageTitle(pageId) {
     const titles = {
-        dashboard: ["Dashboard", "Intelligent maritime freight decision support"],
-        forecast: ["Freight Forecast", "AI-powered freight rate prediction (XGBoost)"],
-        cargo: ["Cargo Planner", "Define cargo parameters for end-to-end AI recommendations"],
-        vessel: ["Vessel Recommendation", "Find the best vessel for your cargo & port"],
-        procurement: ["Procurement Recommendation", "AI-assisted bulk cargo procurement timing"],
-        risk: ["Risk Score", "Monitor maritime freight, weather and port risks"],
+        dashboard: ["Procurement Command Center", "High-level overview of bulk cargo procurement & logistics KPIs"],
+        cargo: ["Cargo Wizard", "Define cargo parameters for end-to-end AI recommendations"],
+        vessel: ["Ranked Vessel Recommendations", "Physical feasibility-constrained candidate ranking"],
+        forecast: ["Freight Rate Forecast & SHAP", "AI-powered freight rate prediction and explainability"],
         ports: ["Port Explorer", "Inspect East Coast India port constraints and vessel draft"],
         coa: ["Spot vs CoA Simulator", "Evaluate market volatility and contract cost exposure"],
-        alerts: ["Risk & Alerts", "Live operational signals and maritime hazard advisories"]
+        risk: ["Risk Score", "Monitor maritime freight, weather and port risks"],
+        alerts: ["Risk & Alerts", "Live operational signals and maritime hazard advisories"],
+        decisions: ["Procurement Decisions & Approvals", "Stem audit trail and commercial sign-offs"],
+        charteringOps: ["Chartering Operations Center", "Fleet disposition, vessel nominations & live execution"],
+        tonnageBoard: ["Tonnage Availability Board", "350 real bulk carriers with real-time status & positions"],
+        fixtureMgmt: ["Fixture & Contract Management", "Charterparty agreement, freight fixing & voyage nomination"],
+        voyageTimeline: ["Voyage Execution Timeline", "9-stage closed-loop operational voyage tracking"],
+        navSafety: ["UKC Navigational Safety Margin", "Dynamic draft, squat effect & tidal surge clearance"],
+        ballastOps: ["Ballast & Repositioning Economics", "Vessel positioning cost, fuel burn & TCE optimization"],
+        laycanMonitor: ["Laycan & Demurrage Monitor", "Readiness windows, weather delays & demurrage exposure"],
+        analystOverview: ["Market Intelligence Overview", "Baltic macro trends, freight spreads & volatility index"],
+        analystForecast: ["Multi-Horizon Freight Forecast", "P10 / P50 / P90 probabilistic rate forecast curves"],
+        balticMonitor: ["Baltic Dry Indices Monitor", "Real-time BDI, BCI, BPI, BSI cross-index correlation"],
+        macroAnomalies: ["Macro Signals & Anomaly Detection", "Bunker shock, congestion spikes & spread divergences"],
+        modelPerformance: ["Model Performance & Backtesting", "XGBoost vs Naive baseline, MAPE, MAE & drift tracking"],
+        dataQuality: ["Data Quality & Pipeline Health", "Completeness scoring, schema validation & update latency"]
     };
 
     const title = titles[pageId] || titles.dashboard;
@@ -133,6 +202,7 @@ async function initAppData() {
     await loadMarketData();
     await loadForecastData();
     await loadRiskData();
+    await renderRankedVessels();
 }
 
 // 1. System Health Check
@@ -761,6 +831,25 @@ function formatShortDate(dateStr) {
     return dateStr;
 }
 
+let currentEstimatedRate = 25.96;
+
+function updateLiveCostPreview() {
+    const qtyInput = document.getElementById("cargoQty");
+    const liveCostText = document.getElementById("liveCostText");
+    const liveCostRate = document.getElementById("liveCostRate");
+    if (!qtyInput || !liveCostText) return;
+
+    const qty = parseFloat(qtyInput.value) || 0;
+    const rate = currentEstimatedRate;
+    const total = qty * rate;
+
+    liveCostText.textContent = `$${Math.round(total).toLocaleString()} USD`;
+    if (liveCostRate) {
+        liveCostRate.textContent = `(@ ~$${rate.toFixed(2)}/MT)`;
+    }
+}
+window.updateLiveCostPreview = updateLiveCostPreview;
+
 async function generatePlan() {
     const originElem = document.getElementById("cargoOrigin");
     const destElem = document.getElementById("cargoDestination");
@@ -847,14 +936,83 @@ async function generatePlan() {
         const riskEl = document.getElementById("recRiskIndex");
         if (riskEl) riskEl.textContent = (recData.risk_level || "HIGH").toUpperCase();
 
-        // Update Forecast Rates
+        // Update Forecast Rates & Total Cost Analysis
         if (recData.rate) {
+            const p10 = recData.rate.p10 !== undefined ? recData.rate.p10 : 23.60;
+            const p50 = recData.rate.p50 !== undefined ? recData.rate.p50 : 25.96;
+            const p90 = recData.rate.p90 !== undefined ? recData.rate.p90 : 31.57;
+
+            currentEstimatedRate = p50;
+
             const p10El = document.getElementById("recP10");
             const p50El = document.getElementById("recP50");
             const p90El = document.getElementById("recP90");
-            if (p10El && recData.rate.p10 !== undefined) p10El.textContent = `$${recData.rate.p10.toFixed(2)}`;
-            if (p50El && recData.rate.p50 !== undefined) p50El.textContent = `$${recData.rate.p50.toFixed(2)}`;
-            if (p90El && recData.rate.p90 !== undefined) p90El.textContent = `$${recData.rate.p90.toFixed(2)}`;
+            if (p10El) p10El.textContent = `$${p10.toFixed(2)}`;
+            if (p50El) p50El.textContent = `$${p50.toFixed(2)}`;
+            if (p90El) p90El.textContent = `$${p90.toFixed(2)}`;
+
+            // Calculate Total Voyage Freight Outlay
+            const totalP50 = quantity * p50;
+            const totalP10 = quantity * p10;
+            const totalP90 = quantity * p90;
+
+            const basisTag = document.getElementById("costBasisTag");
+            if (basisTag) basisTag.textContent = `${quantity.toLocaleString()} MT @ $${p50.toFixed(2)} / MT`;
+
+            const totalExpEl = document.getElementById("totalCostExpected");
+            if (totalExpEl) totalExpEl.innerHTML = `$${Math.round(totalP50).toLocaleString()} <small>USD</small>`;
+
+            const totalHumanEl = document.getElementById("totalCostHuman");
+            if (totalHumanEl) {
+                const millionVal = (totalP50 / 1000000).toFixed(2);
+                totalHumanEl.textContent = `Approx. $${millionVal} Million USD for ${quantity.toLocaleString()} MT voyage fixture`;
+            }
+
+            // Scenarios P10, P50, P90
+            const costP10El = document.getElementById("costP10Amount");
+            const costP10RateEl = document.getElementById("costP10Rate");
+            const costP10DiffEl = document.getElementById("costP10Diff");
+            if (costP10El) costP10El.textContent = `$${Math.round(totalP10).toLocaleString()}`;
+            if (costP10RateEl) costP10RateEl.textContent = `@ $${p10.toFixed(2)} / MT`;
+            if (costP10DiffEl) {
+                const diff = totalP50 - totalP10;
+                const pct = ((p50 - p10) / p50) * 100;
+                costP10DiffEl.textContent = `-$${Math.round(diff).toLocaleString()} (-${pct.toFixed(1)}%)`;
+            }
+
+            const costP50El = document.getElementById("costP50Amount");
+            const costP50RateEl = document.getElementById("costP50Rate");
+            if (costP50El) costP50El.textContent = `$${Math.round(totalP50).toLocaleString()}`;
+            if (costP50RateEl) costP50RateEl.textContent = `@ $${p50.toFixed(2)} / MT`;
+
+            const costP90El = document.getElementById("costP90Amount");
+            const costP90RateEl = document.getElementById("costP90Rate");
+            const costP90DiffEl = document.getElementById("costP90Diff");
+            if (costP90El) costP90El.textContent = `$${Math.round(totalP90).toLocaleString()}`;
+            if (costP90RateEl) costP90RateEl.textContent = `@ $${p90.toFixed(2)} / MT`;
+            if (costP90DiffEl) {
+                const diff = totalP90 - totalP50;
+                const pct = ((p90 - p50) / p50) * 100;
+                costP90DiffEl.textContent = `+$${Math.round(diff).toLocaleString()} (+${pct.toFixed(1)}%)`;
+            }
+
+            // Hedging Badge Text
+            const hedgingTitle = document.getElementById("costHedgingTitle");
+            const hedgingText = document.getElementById("costHedgingText");
+            const isCoA = (recData.contract_type || contractPref) === "CoA";
+            if (hedgingTitle && hedgingText) {
+                if (isCoA) {
+                    hedgingTitle.textContent = "CoA Strategy Value";
+                    const estSavings = Math.round(quantity * 2.20);
+                    hedgingText.textContent = `CoA Volume Rate hedges ~$${estSavings.toLocaleString()} USD vs. spot peak`;
+                } else {
+                    hedgingTitle.textContent = "Spot Strategy Profile";
+                    hedgingText.textContent = "Single voyage fixture; fully captures any short-term freight rate declines";
+                }
+            }
+
+            // Also synchronize live cost preview on the left form card
+            updateLiveCostPreview();
         }
 
         // Update Rationale Checklist
@@ -869,6 +1027,7 @@ async function generatePlan() {
         }
 
         currentVesselClass = recData.vessel_class || "Panamax";
+        await renderRankedVessels();
     } catch (err) {
         console.error("Plan generation error:", err);
         // Physical feasibility rejection check (e.g. Haldia shallow port)
@@ -899,6 +1058,7 @@ async function generatePlan() {
                 });
             }
         }
+        await renderRankedVessels();
     } finally {
         if (btnGen) {
             btnGen.innerHTML = `Generate Recommendation`;
@@ -907,20 +1067,384 @@ async function generatePlan() {
     }
 }
 
-// Update the Vessel Recommendation page dynamically
-function updateVesselPage(recommendedClass, feasibleList) {
-    const vesselCards = document.querySelectorAll(".vessel-card");
-    if (vesselCards.length > 0) {
-        const topCard = vesselCards[0];
-        const title = topCard.querySelector("h3");
-        if (title) title.textContent = `MV ${recommendedClass} Leader`;
-        const recLabel = topCard.querySelector(".recommended-label");
-        if (recLabel) recLabel.innerHTML = `<i class="fa-solid fa-star"></i> AI OPTIMIZED (${recommendedClass.toUpperCase()})`;
+// =====================================================
+// DYNAMIC RANKED VESSEL RECOMMENDATIONS (CARGO WIZARD LINKED)
+// =====================================================
+async function renderRankedVessels(customParcel = null) {
+    // 1. Extract values from Cargo Wizard inputs or customParcel
+    const qtyElem = document.getElementById("cargoQty");
+    const destElem = document.getElementById("cargoDestination");
+    const originElem = document.getElementById("cargoOrigin");
+    const commElem = document.getElementById("cargoCommodity");
+
+    const quantity = customParcel?.quantity || (qtyElem ? parseFloat(qtyElem.value) || 75000 : 75000);
+    const destPortId = customParcel?.destPortId || (destElem ? parseInt(destElem.value, 10) || 1 : 1);
+    const originFull = customParcel?.origin || (originElem ? originElem.value : "Australia (Hay Point / Gladstone)");
+    const originClean = originFull.split("(")[0].trim();
+    const commodity = customParcel?.commodity || (commElem ? commElem.value : "Coking Coal (Prime Hard)");
+
+    // Retrieve destination port profile
+    let destPort = portsCache && portsCache.length > 0 ? portsCache.find(p => p.id === destPortId) : null;
+    if (!destPort) {
+        destPort = { id: 1, name: "Paradip", max_draft: 17.0, max_loa: 300, max_beam: 45, lightering_available: false };
+    }
+
+    // 2. Update Active Parcel Header Pill & Table Header
+    const pillText = document.getElementById("vesselActiveParcelText");
+    if (pillText) {
+        pillText.innerHTML = `Active Parcel: <strong>${quantity.toLocaleString()} MT ${commodity}</strong> | ${originClean} &rarr; ${destPort.name}`;
+    }
+    const tableHeader = document.getElementById("tablePortUkcHeader");
+    if (tableHeader) {
+        tableHeader.textContent = `${destPort.name} UKC Margin`;
+    }
+
+    // 3. Define 4 Dry Bulk Vessel Classes with Engineering Dimensions
+    const vesselSpecs = [
+        {
+            name: "Handysize",
+            dwtRange: "25,000 – 40,000",
+            typicalDwt: 35000,
+            minDwt: 25000,
+            maxDwt: 40000,
+            typicalDraft: 10.2,
+            typicalLoa: 180,
+            typicalBeam: 28.4,
+            vesselSample: "MV Bright Trader",
+            operator: "Trans-Ocean Maritime • IMO 9518290",
+            features: "4x25T on-board cranes, high maneuverability in shallow draft harbors",
+            rateMultiplier: 1.18,
+            baseRate: 30.40
+        },
+        {
+            name: "Supramax",
+            dwtRange: "50,000 – 65,000",
+            typicalDwt: 62000,
+            minDwt: 50000,
+            maxDwt: 65000,
+            typicalDraft: 12.2,
+            typicalLoa: 199,
+            typicalBeam: 32.2,
+            vesselSample: "MV Pacific Star",
+            operator: "Global Bulk Lines • IMO 9621140",
+            features: "4x30T cranes with grabs provide self-discharging capability at non-geared berths",
+            rateMultiplier: 1.06,
+            baseRate: 27.40
+        },
+        {
+            name: "Panamax",
+            dwtRange: "65,000 – 88,000",
+            typicalDwt: 82000,
+            minDwt: 65000,
+            maxDwt: 88000,
+            typicalDraft: 13.8,
+            typicalLoa: 229,
+            typicalBeam: 32.3,
+            vesselSample: "MV Ocean Titan",
+            operator: "Pacific Maritime Corp • IMO 9784321",
+            features: "Gearless workhorse bulker optimized for deep-water terminals and high handling rates",
+            rateMultiplier: 1.00,
+            baseRate: 25.96
+        },
+        {
+            name: "Capesize",
+            dwtRange: "120,000 – 200,000",
+            typicalDwt: 165000,
+            minDwt: 120000,
+            maxDwt: 200000,
+            typicalDraft: 17.8,
+            typicalLoa: 295,
+            typicalBeam: 45.0,
+            vesselSample: "MV Cape Pioneer",
+            operator: "Eastern Bulk Carriers • IMO 9512389",
+            features: "Heavy gearless ore/coal carrier requiring deep-water approach (18m+) or offshore lightering",
+            rateMultiplier: 0.83,
+            baseRate: 21.50
+        }
+    ];
+
+    // 4. Query deterministic compatibility from backend
+    let backendFeasible = null;
+    let backendExcluded = null;
+    try {
+        const compRes = await fetch(`${API_BASE}/compatibility`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ cargo_quantity: quantity, destination_port_id: destPort.id })
+        });
+        if (compRes.ok) {
+            const compData = await compRes.json();
+            backendFeasible = (compData.feasible_vessels || []).map(v => v.vessel_class.toLowerCase());
+            backendExcluded = compData.excluded_vessels || [];
+        }
+    } catch (e) {
+        console.warn("Using offline compatibility evaluation", e);
+    }
+
+    // 5. Evaluate each class against the active parcel and destination port
+    const evaluated = vesselSpecs.map(vc => {
+        const ukc = destPort.max_draft - vc.typicalDraft;
+        const draftExcess = vc.typicalDraft - destPort.max_draft;
+        const loaBreach = vc.typicalLoa > destPort.max_loa;
+        const beamBreach = vc.typicalBeam > destPort.max_beam;
+        const overMaxDwt = quantity > vc.maxDwt;
+        const underMinDwt = quantity < (vc.minDwt * 0.65);
+        const slightDeadfreight = quantity < vc.minDwt && !underMinDwt;
+        const perfectParcelFit = quantity >= vc.minDwt && quantity <= vc.maxDwt;
+
+        let isPhysicallyFeasible = true;
+        let breachReasons = [];
+        let statusTag = "safe";
+        let statusText = "";
+        let score = 90;
+
+        // Check backend excluded list if available
+        if (backendExcluded && backendExcluded.length > 0) {
+            const exObj = backendExcluded.find(e => e.vessel_class.toLowerCase() === vc.name.toLowerCase());
+            if (exObj) {
+                isPhysicallyFeasible = false;
+                breachReasons.push(exObj.reason);
+            }
+        }
+
+        // Local physical checks (ensures instant responsiveness even offline)
+        if (draftExcess > 0) {
+            if (destPort.lightering_available && draftExcess <= 3.0) {
+                breachReasons.push(`Draft (${vc.typicalDraft}m) exceeds harbor depth (${destPort.max_draft}m); requires offshore lightering`);
+                statusTag = "suboptimal";
+                score -= 22;
+            } else {
+                isPhysicallyFeasible = false;
+                breachReasons.push(`Laden draft (${vc.typicalDraft}m) strictly exceeds ${destPort.name} maximum draft (${destPort.max_draft}m) by +${draftExcess.toFixed(1)}m`);
+            }
+        }
+
+        if (loaBreach) {
+            isPhysicallyFeasible = false;
+            breachReasons.push(`Length overall LOA (${vc.typicalLoa}m) exceeds ${destPort.name} berth limit (${destPort.max_loa}m)`);
+        }
+
+        if (beamBreach) {
+            isPhysicallyFeasible = false;
+            breachReasons.push(`Beam (${vc.typicalBeam}m) exceeds ${destPort.name} channel envelope (${destPort.max_beam}m)`);
+        }
+
+        if (overMaxDwt) {
+            isPhysicallyFeasible = false;
+            breachReasons.push(`Cargo parcel (${quantity.toLocaleString()}t) exceeds maximum deadweight capacity (${vc.maxDwt.toLocaleString()}t DWT)`);
+        } else if (underMinDwt) {
+            isPhysicallyFeasible = false;
+            breachReasons.push(`Cargo parcel (${quantity.toLocaleString()}t) under-utilizes vessel capacity (minimum recommended: ${(vc.minDwt * 0.65).toLocaleString()}t)`);
+        } else if (slightDeadfreight) {
+            breachReasons.push(`Parcel size is slightly below nominal capacity; incur partial deadfreight penalty`);
+            if (statusTag === "safe") statusTag = "suboptimal";
+            score -= 10;
+        }
+
+        // Status & Score Consolidation
+        if (!isPhysicallyFeasible) {
+            statusTag = "disqualified";
+            score = Math.max(22, 45 - (breachReasons.length * 8));
+            statusText = `Physically Infeasible at ${destPort.name} • Constraint Exceeded`;
+        } else if (statusTag === "suboptimal") {
+            statusText = `Feasible with Operational / Lightering Constraints`;
+        } else {
+            statusText = `100% Physically Feasible • ${destPort.name} Channel Compliant`;
+            score = perfectParcelFit ? 94 : 87;
+        }
+
+        // Freight rate calculation
+        const benchmarkP50 = currentEstimatedRate || 25.96;
+        const effectiveRate = parseFloat((benchmarkP50 * (vc.baseRate / 25.96)).toFixed(2));
+        const totalOutlay = quantity * effectiveRate;
+
+        // Dynamic bullet points
+        const reasonsList = [];
+        if (isPhysicallyFeasible) {
+            if (perfectParcelFit) {
+                reasonsList.push(`Exact parcel deadweight match for ${quantity.toLocaleString()} MT ${commodity}`);
+            } else if (slightDeadfreight) {
+                reasonsList.push(`Can lift ${quantity.toLocaleString()} MT with minor hold deadfreight`);
+            }
+            if (ukc >= 1.5) {
+                reasonsList.push(`${vc.typicalDraft}m draft safely clears ${destPort.name} channel with +${ukc.toFixed(1)}m under-keel clearance`);
+            } else if (ukc >= 0) {
+                reasonsList.push(`Narrow under-keel clearance (+${ukc.toFixed(1)}m); requires tidal window berthing`);
+            }
+            reasonsList.push(vc.features);
+        } else {
+            breachReasons.forEach(r => reasonsList.push(r));
+            if (underMinDwt) {
+                reasonsList.push(`${quantity.toLocaleString()} MT utilizes only ${Math.round((quantity / vc.typicalDwt) * 100)}% of vessel deadweight (severe deadfreight penalty)`);
+            }
+        }
+
+        return {
+            ...vc,
+            isFeasible: isPhysicallyFeasible,
+            ukc: ukc,
+            statusTag: statusTag,
+            statusText: statusText,
+            score: score,
+            effectiveRate: effectiveRate,
+            totalOutlay: totalOutlay,
+            reasonsList: reasonsList
+        };
+    });
+
+    // 6. Sort: Feasible candidates first, then descending by score
+    evaluated.sort((a, b) => {
+        if (a.isFeasible && !b.isFeasible) return -1;
+        if (!a.isFeasible && b.isFeasible) return 1;
+        return b.score - a.score;
+    });
+
+    // 7. Render Top 3 Cards in #rankedCardsGrid
+    const gridEl = document.getElementById("rankedCardsGrid");
+    if (gridEl) {
+        gridEl.innerHTML = "";
+        const top3 = evaluated.slice(0, 3);
+        top3.forEach((cand, idx) => {
+            const rankNum = idx + 1;
+            const rankClass = `rank-${rankNum}`;
+            let badgeTitle = "";
+            let badgeClass = "";
+            let iconClass = "fa-award";
+
+            if (rankNum === 1 && cand.isFeasible) {
+                badgeTitle = "RANK #1 • AI OPTIMAL FIXTURE";
+                badgeClass = "rank-1-badge";
+                iconClass = "fa-award";
+            } else if (rankNum === 2 && cand.isFeasible) {
+                badgeTitle = "RANK #2 • FEASIBLE BACKUP / ALTERNATIVE";
+                badgeClass = "rank-2-badge";
+                iconClass = "fa-shield-halved";
+            } else if (!cand.isFeasible) {
+                badgeTitle = `RANK #${rankNum} • RESTRICTED / INFEASIBLE`;
+                badgeClass = "rank-3-badge";
+                iconClass = "fa-ban";
+            } else {
+                badgeTitle = `RANK #${rankNum} • CONDITIONAL FIXTURE`;
+                badgeClass = "rank-2-badge";
+                iconClass = "fa-triangle-exclamation";
+            }
+
+            const card = document.createElement("div");
+            card.className = `ranked-vessel-card ${rankClass} ${!cand.isFeasible ? "disqualified" : ""}`;
+
+            const ukcDisplay = cand.ukc >= 1.5 
+                ? `${cand.typicalDraft} m <span class="text-teal">(UKC +${cand.ukc.toFixed(1)}m Safe)</span>`
+                : (cand.ukc >= 0 
+                    ? `${cand.typicalDraft} m <span class="text-amber">(UKC +${cand.ukc.toFixed(1)}m Marginal)</span>`
+                    : `${cand.typicalDraft} m <span class="text-rose">(Exceeds by +${Math.abs(cand.ukc).toFixed(1)}m)</span>`);
+
+            const reasonsHtml = cand.reasonsList.map(r => {
+                const icon = cand.isFeasible ? "fa-check text-green" : "fa-xmark text-rose";
+                return `<div><i class="fa-solid ${icon}"></i> ${r}</div>`;
+            }).join("");
+
+            const actionBtnHtml = cand.isFeasible
+                ? (rankNum === 1 
+                    ? `<button type="button" class="btn-fixture primary" onclick="approveAndSendToChartering(1)"><i class="fa-solid fa-paper-plane"></i> Approve &amp; Send to Chartering</button><button type="button" class="btn-fixture secondary" onclick="showPage('ports')"><i class="fa-solid fa-anchor"></i> Verify Port Berth</button>`
+                    : `<button type="button" class="btn-fixture secondary" onclick="showPage('cargo')"><i class="fa-solid fa-sliders"></i> Select as Alternative</button><button type="button" class="btn-fixture secondary" onclick="showPage('ports')"><i class="fa-solid fa-anchor"></i> View Draft</button>`)
+                : `<button type="button" class="btn-fixture disabled" disabled><i class="fa-solid fa-lock"></i> Excluded by Feasibility Engine</button>`;
+
+            card.innerHTML = `
+                <div class="card-rank-badge ${badgeClass}">
+                    <i class="fa-solid ${iconClass}"></i>
+                    <span>${badgeTitle}</span>
+                </div>
+                <div class="ranked-card-top">
+                    <div class="ranked-ship-avatar">
+                        <i class="fa-solid fa-ship"></i>
+                    </div>
+                    <div class="ranked-title-block">
+                        <h3>${cand.name} • ${cand.vesselSample}</h3>
+                        <span class="vessel-operator">${cand.operator}</span>
+                    </div>
+                    <div class="ranked-score-badge ${!cand.isFeasible ? 'disqual' : ''}">
+                        <span class="score-val">${cand.score}</span>
+                        <span class="score-lbl">/ 100</span>
+                    </div>
+                </div>
+                <div class="ranked-feasibility-tag ${cand.statusTag}">
+                    <i class="fa-solid ${cand.isFeasible ? 'fa-circle-check' : 'fa-triangle-exclamation'}"></i>
+                    <span>${cand.statusText}</span>
+                </div>
+                <div class="ranked-specs-grid">
+                    <div class="ranked-spec">
+                        <small>Deadweight (DWT)</small>
+                        <strong>${cand.typicalDwt.toLocaleString()} DWT</strong>
+                    </div>
+                    <div class="ranked-spec">
+                        <small>Arrival Draft</small>
+                        <strong>${ukcDisplay}</strong>
+                    </div>
+                    <div class="ranked-spec">
+                        <small>Forecast Freight</small>
+                        <strong class="${cand.isFeasible ? (rankNum === 1 ? 'text-cyan' : 'text-amber') : ''}">$${cand.effectiveRate.toFixed(2)} / MT</strong>
+                    </div>
+                    <div class="ranked-spec">
+                        <small>Total Outlay (${(quantity/1000).toFixed(0)}kt)</small>
+                        <strong class="${cand.isFeasible ? (rankNum === 1 ? 'text-cyan' : 'text-amber') : 'text-rose'}">$${Math.round(cand.totalOutlay).toLocaleString()} USD</strong>
+                    </div>
+                </div>
+                <div class="ranked-reasons-list">
+                    ${reasonsHtml}
+                </div>
+                <div class="ranked-action-row">
+                    ${actionBtnHtml}
+                </div>
+            `;
+            gridEl.appendChild(card);
+        });
+    }
+
+    // 8. Render Dynamic Comparison Table in #rankedTableBody
+    const tbodyEl = document.getElementById("rankedTableBody");
+    if (tbodyEl) {
+        tbodyEl.innerHTML = "";
+        evaluated.forEach((cand, idx) => {
+            const tr = document.createElement("tr");
+            if (idx === 0 && cand.isFeasible) tr.className = "highlight-row";
+            else if (!cand.isFeasible) tr.className = "disqual-row";
+
+            const ukcBadge = cand.ukc >= 1.5 
+                ? `<span class="ukc-safe">+${cand.ukc.toFixed(1)} m (Safe)</span>`
+                : (cand.ukc >= 0 
+                    ? `<span class="text-amber">+${cand.ukc.toFixed(1)} m (Tidal)</span>`
+                    : `<span class="ukc-prohibited">${cand.ukc.toFixed(1)} m (Draft Exceeded)</span>`);
+
+            const feasBadge = cand.isFeasible 
+                ? (cand.statusTag === "safe" 
+                    ? `<span class="text-green">Direct Berthing</span>` 
+                    : `<span class="text-amber">Tidal/Lightering</span>`)
+                : `<span class="text-rose">Prohibited</span>`;
+
+            const rankPill = cand.isFeasible 
+                ? (idx === 0 
+                    ? `<span class="badge-tag green">Rank #1 (${cand.score} pts)</span>` 
+                    : `<span class="badge-tag blue">Rank #${idx + 1} (${cand.score} pts)</span>`)
+                : `<span class="badge-tag red">Excluded (${cand.score} pts)</span>`;
+
+            tr.innerHTML = `
+                <td><strong class="${idx === 0 && cand.isFeasible ? 'text-cyan' : ''}">${idx === 0 && cand.isFeasible ? '<i class="fa-solid fa-award text-amber"></i> ' : ''}${cand.name}</strong></td>
+                <td>${cand.dwtRange}</td>
+                <td>${cand.typicalDraft.toFixed(1)} m</td>
+                <td>${ukcBadge}</td>
+                <td>${feasBadge}</td>
+                <td><strong>$${cand.effectiveRate.toFixed(2)}</strong></td>
+                <td><strong class="${idx === 0 && cand.isFeasible ? 'text-cyan' : ''}">$${Math.round(cand.totalOutlay).toLocaleString()}</strong></td>
+                <td>${rankPill}</td>
+            `;
+            tbodyEl.appendChild(tr);
+        });
     }
 }
+window.renderRankedVessels = renderRankedVessels;
 
 /* =====================================================
-   SPOT VS COA SIMULATOR
+   SPOT VS COA SIMULATOR (LOGISTICS MANAGER SUITE)
 ===================================================== */
 
 async function runCoASimulation() {
@@ -928,22 +1452,28 @@ async function runCoASimulation() {
     const spotElem = document.getElementById("spotRate");
     const coaElem = document.getElementById("coaRate");
     const volElem = document.getElementById("volatility");
+    const voyagesElem = document.getElementById("coaVoyagesCount");
 
-    const volume = qtyElem ? parseFloat(qtyElem.value) : 500000;
-    const spotRateVal = spotElem ? parseFloat(spotElem.value) : 24.8;
-    const coaRateVal = coaElem ? parseFloat(coaElem.value) : 23.2;
+    const volume = qtyElem ? parseFloat(qtyElem.value) || 500000 : 500000;
+    const spotRateVal = spotElem ? parseFloat(spotElem.value) || 25.96 : 25.96;
+    const coaRateVal = coaElem ? parseFloat(coaElem.value) || 23.80 : 23.80;
+    const voyages = voyagesElem ? parseInt(voyagesElem.value) || 8 : 8;
 
     const spotTotalElem = document.getElementById("spotTotal");
     const coaTotalElem = document.getElementById("coaTotal");
     const decisionElem = document.getElementById("coaDecision");
+    const decisionText = document.getElementById("coaDecisionText");
     const advElem = document.getElementById("coaAdvantage");
+    const advBarText = document.getElementById("coaAdvantageBarText");
     const progElem = document.getElementById("coaProgress");
+    const netSavingsElem = document.getElementById("coaNetSavings");
+    const spotRiskNote = document.getElementById("spotRiskNote");
 
     try {
         const coaPayload = {
             cargo_id: currentCargoId || 1,
             cargo_volume: volume,
-            vessel_class: (currentVesselClass && ["Supramax", "Panamax", "Capesize", "Handysize"].includes(currentVesselClass) && currentVesselClass !== "Capesize") ? currentVesselClass : "Supramax",
+            vessel_class: (currentVesselClass && ["Supramax", "Panamax", "Capesize", "Handysize"].includes(currentVesselClass) && currentVesselClass !== "Capesize") ? currentVesselClass : "Panamax",
             horizon_months: 6
         };
 
@@ -951,30 +1481,45 @@ async function runCoASimulation() {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(coaPayload)
-        });
+        }).catch(() => null);
 
-        if (res.ok) {
+        let spotCost = volume * spotRateVal;
+        let coaCost = volume * coaRateVal;
+        let pref = coaCost < spotCost ? "CoA" : "Spot";
+        let reason = "";
+
+        if (res && res.ok) {
             const data = await res.json();
-            const spotCost = data.expected_spot_cost || (volume * spotRateVal);
-            const coaCost = data.expected_coa_cost || (volume * coaRateVal);
-            const diff = Math.abs(spotCost - coaCost);
-            const pref = data.preferred_option || (coaCost < spotCost ? "CoA" : "Spot");
+            if (data.expected_spot_cost) spotCost = data.expected_spot_cost;
+            if (data.expected_coa_cost) coaCost = data.expected_coa_cost;
+            if (data.preferred_option) pref = data.preferred_option;
+            if (data.reason) reason = data.reason;
+        }
 
-            if (spotTotalElem) spotTotalElem.textContent = `$${(spotCost / 1e6).toFixed(2)}M`;
-            if (coaTotalElem) coaTotalElem.textContent = `$${(coaCost / 1e6).toFixed(2)}M`;
+        const diff = Math.abs(spotCost - coaCost);
+        const advPct = ((diff / Math.max(spotCost, coaCost)) * 100).toFixed(1);
 
-            const advPct = ((diff / Math.max(spotCost, coaCost)) * 100).toFixed(1);
-            if (advElem) advElem.textContent = `${advPct}%`;
-            if (progElem) progElem.style.width = `${Math.min(100, Math.max(10, parseFloat(advPct) * 4))}%`;
+        if (spotTotalElem) spotTotalElem.textContent = `$${(spotCost / 1e6).toFixed(2)}M`;
+        if (coaTotalElem) coaTotalElem.textContent = `$${(coaCost / 1e6).toFixed(2)}M`;
 
-            if (decisionElem) {
-                decisionElem.innerHTML = `
-                    <i class="fa-solid fa-circle-check" style="color:#22c55e;"></i>
-                    <div>
-                        <strong>${pref} Strategy Preferred</strong>
-                        <p>${data.reason || `Cost savings of $${(diff / 1e3).toFixed(1)}k with controlled forward volatility.`}</p>
-                    </div>
-                `;
+        if (netSavingsElem) {
+            netSavingsElem.textContent = `$${Math.round(diff).toLocaleString()} USD`;
+        }
+        if (advElem) advElem.textContent = `${advPct}%`;
+        if (advBarText) advBarText.textContent = `${advPct}% Advantage`;
+        if (progElem) progElem.style.width = `${Math.min(100, Math.max(15, parseFloat(advPct) * 8))}%`;
+
+        if (spotRiskNote) {
+            const p10Spread = (spotCost * 0.91 / 1e6).toFixed(1);
+            const p90Spread = (spotCost * 1.21 / 1e6).toFixed(1);
+            spotRiskNote.textContent = `Unhedged volatility exposure ($${p10Spread}M – $${p90Spread}M P90)`;
+        }
+
+        if (decisionText) {
+            if (pref === "CoA") {
+                decisionText.textContent = `Secures ~$${Math.round(diff).toLocaleString()} USD net freight savings across ${volume.toLocaleString()} MT (${voyages} fixtures) while insulating against spot freight peaks.`;
+            } else {
+                decisionText.textContent = `Spot market preferred for short parcels to capture immediate softer rate trajectory.`;
             }
         }
     } catch (err) {
@@ -1268,37 +1813,209 @@ async function selectPort(portName, details = null, congestion = null) {
    USER PROFILE & SESSION MANAGEMENT
 ===================================================== */
 
+/* =====================================================
+   USER PROFILE & ROLE-BASED SESSION MANAGEMENT
+===================================================== */
+
+const DEFAULT_ROLE_USER = {
+    id: 101,
+    name: "Ashutosh Sharma",
+    email: "logistics@steel.gov.in",
+    company: "Ministry of Steel / Bulk Procurement",
+    role: "Logistics Manager"
+};
+
 function initUserProfile() {
     try {
-        const userStr = localStorage.getItem("freightiq_user");
+        let userStr = localStorage.getItem("freightiq_user");
+        let user;
         if (userStr) {
-            const user = JSON.parse(userStr);
-            const nameEl = document.querySelector(".user strong");
-            const roleEl = document.querySelector(".user small");
-            const avatarEl = document.querySelector(".user-avatar");
-            const authLink = document.getElementById("authLink");
-            const authLinkText = document.getElementById("authLinkText");
-
-            if (nameEl && user.name) nameEl.textContent = user.name;
-            if (roleEl && (user.role || user.company)) roleEl.textContent = `${user.role || 'Chartering'} (${user.company || 'Enterprise'})`;
-            if (avatarEl && user.name) avatarEl.textContent = user.name.charAt(0).toUpperCase();
-
-            if (authLink) {
-                authLink.title = "Sign Out / Switch Account";
-                if (authLinkText) authLinkText.textContent = "Sign Out";
-                authLink.onclick = (e) => {
-                    e.preventDefault();
-                    if (confirm("Sign out of current FreightIQ session?")) {
-                        localStorage.removeItem("freightiq_user");
-                        window.location.href = "login.html";
-                    }
-                };
+            try {
+                user = JSON.parse(userStr);
+            } catch (e) {
+                user = DEFAULT_ROLE_USER;
             }
+        } else {
+            user = DEFAULT_ROLE_USER;
+            localStorage.setItem("freightiq_user", JSON.stringify(user));
+        }
+
+        const role = user.role || "Logistics Manager";
+        const name = user.name || "Ashutosh Sharma";
+
+        // Update Sidebar User Card
+        const nameEl = document.getElementById("userName") || document.querySelector(".user strong");
+        const roleEl = document.getElementById("userRoleTitle") || document.querySelector(".user small");
+        const avatarEl = document.getElementById("userAvatar") || document.querySelector(".user-avatar");
+        const topRoleEl = document.getElementById("topActiveRoleText");
+        const ccRoleEl = document.getElementById("ccRoleTitle");
+        const navTitleEl = document.getElementById("roleNavTitle");
+
+        if (nameEl) nameEl.textContent = name;
+        if (roleEl) roleEl.textContent = role;
+        if (avatarEl) avatarEl.textContent = name.charAt(0).toUpperCase();
+        if (topRoleEl) topRoleEl.textContent = role;
+        if (ccRoleEl) ccRoleEl.textContent = role;
+        if (navTitleEl) navTitleEl.textContent = `${role.toUpperCase()} SUITE`;
+
+        // Toggle Sidebar Navigation Groups according to active role
+        const navLogistics = document.getElementById("navGroupLogistics");
+        const navChartering = document.getElementById("navGroupChartering");
+        const navAnalyst = document.getElementById("navGroupAnalyst");
+
+        if (navLogistics) navLogistics.style.display = (role === "Logistics Manager") ? "block" : "none";
+        if (navChartering) navChartering.style.display = (role === "Chartering Officer") ? "block" : "none";
+        if (navAnalyst) navAnalyst.style.display = (role === "Market Analyst") ? "block" : "none";
+
+        // Update Modal selection highlight
+        const optLogistics = document.getElementById("roleOptLogistics");
+        const optChartering = document.getElementById("roleOptChartering");
+        const optAnalyst = document.getElementById("roleOptAnalyst");
+
+        if (optLogistics) optLogistics.classList.toggle("active", role === "Logistics Manager");
+        if (optChartering) optChartering.classList.toggle("active", role === "Chartering Officer");
+        if (optAnalyst) optAnalyst.classList.toggle("active", role === "Market Analyst");
+
+        // Auth link
+        const authLink = document.getElementById("authLink");
+        const authLinkText = document.getElementById("authLinkText");
+        if (authLink) {
+            authLink.title = "Sign Out / Switch Persona";
+            if (authLinkText) authLinkText.textContent = "Sign Out";
+            authLink.onclick = (e) => {
+                e.preventDefault();
+                if (confirm("Sign out of current FreightIQ session?")) {
+                    localStorage.removeItem("freightiq_user");
+                    window.location.href = "login.html";
+                }
+            };
         }
     } catch (e) {
         console.warn("User profile init error:", e);
     }
 }
+
+function switchUserRole(newRole) {
+    const roleProfiles = {
+        "Logistics Manager": {
+            id: 101,
+            name: "Ashutosh Sharma",
+            email: "logistics@steel.gov.in",
+            company: "Ministry of Steel / Bulk Procurement",
+            role: "Logistics Manager"
+        },
+        "Chartering Officer": {
+            id: 102,
+            name: "Capt. Rajesh Nair",
+            email: "chartering@steel.gov.in",
+            company: "National Bulk Carriers Corp",
+            role: "Chartering Officer"
+        },
+        "Market Analyst": {
+            id: 103,
+            name: "Dr. Priya Sen",
+            email: "analyst@steel.gov.in",
+            company: "Maritime Economic Analytics Cell",
+            role: "Market Analyst"
+        }
+    };
+
+    const profile = roleProfiles[newRole] || {
+        name: "Ashutosh Sharma",
+        email: "logistics@steel.gov.in",
+        company: "Maritime Logistics",
+        role: newRole
+    };
+
+    localStorage.setItem("freightiq_user", JSON.stringify(profile));
+    initUserProfile();
+    closeRoleModal();
+
+    // Navigate to role's primary tool
+    if (newRole === "Logistics Manager") {
+        showPage("dashboard");
+    } else if (newRole === "Chartering Officer") {
+        showPage("charteringOps");
+    } else if (newRole === "Market Analyst") {
+        showPage("analystOverview");
+    }
+}
+window.openRoleModal = openRoleModal;
+window.closeRoleModal = closeRoleModal;
+window.switchUserRole = switchUserRole;
+
+/* =====================================================
+   SHAP DRIVER ATTRIBUTION FILTER
+===================================================== */
+
+function filterShapDrivers(type, btn) {
+    document.querySelectorAll(".shap-tab").forEach(t => t.classList.remove("active"));
+    if (btn) btn.classList.add("active");
+
+    const items = document.querySelectorAll(".shap-item");
+    items.forEach(item => {
+        const itemType = item.getAttribute("data-type");
+        if (type === "all" || itemType === type) {
+            item.style.display = "flex";
+        } else {
+            item.style.display = "none";
+        }
+    });
+}
+window.filterShapDrivers = filterShapDrivers;
+
+/* =====================================================
+   UNDER-KEEL CLEARANCE (UKC) CALCULATOR
+===================================================== */
+
+function calculateUKC() {
+    const portDraftElem = document.getElementById("ukcPortSelect");
+    const vesselDraftElem = document.getElementById("ukcVesselDraft");
+    const tideElem = document.getElementById("ukcTide");
+
+    if (!portDraftElem || !vesselDraftElem) return;
+
+    const portDraft = parseFloat(portDraftElem.value) || 17.0;
+    const vesselDraft = parseFloat(vesselDraftElem.value) || 13.8;
+    const tide = tideElem ? (parseFloat(tideElem.value) || 0) : 1.0;
+
+    const effectiveDraft = portDraft + tide;
+    const ukcMargin = effectiveDraft - vesselDraft;
+
+    const valEl = document.getElementById("ukcMarginValue");
+    const badgeEl = document.getElementById("ukcStatusBadge");
+    const descEl = document.getElementById("ukcExplanation");
+    const barEl = document.getElementById("ukcBarFill");
+
+    if (valEl) {
+        valEl.innerHTML = `${ukcMargin >= 0 ? "+" : ""}${ukcMargin.toFixed(1)} <small>meters</small>`;
+        valEl.className = ukcMargin >= 1.5 ? "ukc-metric-value text-teal" : (ukcMargin >= 0 ? "ukc-metric-value text-amber" : "ukc-metric-value text-rose");
+    }
+
+    if (badgeEl && descEl && barEl) {
+        if (ukcMargin >= 1.5) {
+            badgeEl.className = "ukc-status-badge safe";
+            badgeEl.innerHTML = `<i class="fa-solid fa-circle-check"></i> SAFE BERTHING`;
+            descEl.textContent = `Vessel arrival draft (${vesselDraft.toFixed(1)}m) safely clears effective channel envelope (${effectiveDraft.toFixed(1)}m). Net UKC margin of +${ukcMargin.toFixed(1)}m exceeds Ministry required 1.5m safety standard.`;
+            barEl.className = "ukc-bar-fill safe";
+            barEl.style.width = `${Math.min(100, Math.max(20, (ukcMargin / 5) * 100))}%`;
+        } else if (ukcMargin >= 0) {
+            badgeEl.className = "ukc-status-badge marginal";
+            badgeEl.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> MARGINAL (TIDAL WINDOW)`;
+            descEl.textContent = `Caution: Clearance margin is narrow (+${ukcMargin.toFixed(1)}m). Vessel requires high-water tidal window clearance and harbor tug escort.`;
+            barEl.className = "ukc-bar-fill marginal";
+            barEl.style.width = "40%";
+        } else {
+            badgeEl.className = "ukc-status-badge prohibited";
+            badgeEl.innerHTML = `<i class="fa-solid fa-ban"></i> PROHIBITED (DRAFT EXCEEDED)`;
+            descEl.textContent = `Vessel arrival draft (${vesselDraft.toFixed(1)}m) exceeds effective port envelope (${effectiveDraft.toFixed(1)}m) by ${Math.abs(ukcMargin).toFixed(1)}m. Direct calling prohibited; offshore lightering required at Sagar Sandheads anchorage.`;
+            barEl.className = "ukc-bar-fill prohibited";
+            barEl.style.width = "100%";
+        }
+    }
+}
+window.calculateUKC = calculateUKC;
+
 
 /* =====================================================
    HACKATHON QUICK DEMO SCENARIOS
@@ -1352,6 +2069,20 @@ async function loadDemoScenario(scenarioNum) {
 
     } else if (scenarioNum === 3) {
         // Scenario 3: Vizag 55kt Spot vs CoA
+        const commSelect = document.getElementById("cargoCommodity");
+        const originSelect = document.getElementById("cargoOrigin");
+        const destSelect = document.getElementById("cargoDestination");
+        const qtyInput = document.getElementById("cargoQty");
+
+        if (commSelect) commSelect.value = "Thermal Coal (Indonesian 4200 GAR)";
+        if (originSelect) originSelect.value = "Indonesia (Taboneo / Samarinda)";
+        if (qtyInput) qtyInput.value = "55000";
+
+        if (destSelect && portsCache.length > 0) {
+            const vizag = portsCache.find(p => p.name.toLowerCase().includes("visakhapatnam") || p.name.toLowerCase().includes("vizag"));
+            if (vizag) destSelect.value = vizag.id;
+        }
+
         showPage("coa");
         const qtyElem = document.getElementById("coaQty");
         const spotElem = document.getElementById("spotRate");
@@ -1362,6 +2093,7 @@ async function loadDemoScenario(scenarioNum) {
         if (coaElem) coaElem.value = "22.8";
 
         await runCoASimulation();
+        await renderRankedVessels();
     }
 }
 
@@ -1373,6 +2105,21 @@ document.addEventListener("DOMContentLoaded", () => {
     showPage("dashboard");
     initUserProfile();
     initAppData();
+    updateLiveCostPreview();
+    calculateUKC();
+    runCoASimulation();
+
+    // Dynamically re-evaluate Ranked Vessel Recommendations whenever cargo wizard inputs change
+    const wizardInputs = ["cargoQty", "cargoDestination", "cargoOrigin", "cargoCommodity"];
+    wizardInputs.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener("change", () => renderRankedVessels());
+            if (id === "cargoQty") {
+                el.addEventListener("input", () => renderRankedVessels());
+            }
+        }
+    });
 
     // Chart Range Selector
     const rangeSelect = document.getElementById("chartRange");
@@ -1402,3 +2149,992 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
+/* =====================================================
+   THREE-ROLE MARITIME DECISION SUPPORT SUITE FUNCTIONS
+===================================================== */
+
+/* -----------------------------------------------------
+   1. LOGISTICS MANAGER: PROCUREMENT COMMAND & AUDIT
+----------------------------------------------------- */
+
+async function loadLogisticsKPIs() {
+    try {
+        const res = await authFetch(`${API_BASE}/procurement/kpis`);
+        if (!res.ok) return;
+        const data = await res.json();
+
+        const activeStems = document.getElementById("kpiActivePlans");
+        const pendingAppr = document.getElementById("kpiPendingApprovals");
+        const totalVol = document.getElementById("kpiTotalVolume");
+        const avgRate = document.getElementById("kpiAvgFreightRate");
+        const savings = document.getElementById("kpiPotentialSavings");
+        const coaShare = document.getElementById("kpiCoAShare");
+
+        if (activeStems) activeStems.textContent = data.active_cargo_stems ?? 14;
+        if (pendingAppr) pendingAppr.textContent = data.pending_approvals ?? 3;
+        if (totalVol) totalVol.textContent = (data.total_volume_mt ?? 890000).toLocaleString() + " MT";
+        if (avgRate) avgRate.textContent = "$" + (data.avg_freight_rate ?? 21.8).toFixed(2);
+        if (savings) savings.textContent = "$" + Math.round((data.potential_savings_usd ?? 142000) / 1000) + "k";
+        if (coaShare) coaShare.textContent = data.spot_vs_coa_share ?? "65% CoA / 35% Spot";
+    } catch (e) {
+        console.warn("Error loading logistics KPIs:", e);
+    }
+}
+window.loadLogisticsKPIs = loadLogisticsKPIs;
+
+async function loadDecisionsTable() {
+    const tbody = document.getElementById("decisionsTableBody");
+    if (!tbody) return;
+
+    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:24px; color:var(--muted);"><i class="fa-solid fa-spinner fa-spin"></i> Querying live PostgreSQL stems...</td></tr>`;
+
+    try {
+        const res = await authFetch(`${API_BASE}/cargo/all`);
+        if (!res.ok) throw new Error("Failed to fetch cargo stems");
+        const list = await res.json();
+
+        if (!list || list.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:24px; color:var(--muted);">No cargo stems currently found. Create a stem in Cargo Wizard.</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = "";
+        list.forEach(c => {
+            const tr = document.createElement("tr");
+
+            let statusBadge = `<span class="badge-status badge-status-amber"><i class="fa-solid fa-clock"></i> PENDING</span>`;
+            if (c.status === "RECOMMENDED") {
+                statusBadge = `<span class="badge-status badge-status-cyan"><i class="fa-solid fa-brain"></i> RECOMMENDED</span>`;
+            } else if (c.status === "APPROVED" || c.status === "SENT_TO_CHARTERING") {
+                statusBadge = `<span class="badge-status badge-status-teal"><i class="fa-solid fa-paper-plane"></i> SENT TO CHARTERING</span>`;
+            } else if (c.status === "FIXED") {
+                statusBadge = `<span class="badge-status badge-status-green"><i class="fa-solid fa-anchor"></i> FIXED</span>`;
+            } else if (c.status === "COMPLETED") {
+                statusBadge = `<span class="badge-status badge-status-muted"><i class="fa-solid fa-flag-checkered"></i> COMPLETED</span>`;
+            }
+
+            const recClass = (c.recommendation && c.recommendation.vessel_class) ? c.recommendation.vessel_class : "Panamax";
+            const recRate = (c.recommendation && c.recommendation.predicted_rate) ? `$${c.recommendation.predicted_rate.toFixed(2)}/MT` : "$21.80/MT";
+            const recId = (c.recommendation && c.recommendation.id) ? c.recommendation.id : c.id;
+
+            let actionCol = "";
+            if (c.status === "PENDING" || c.status === "RECOMMENDED") {
+                actionCol = `
+                    <button class="btn-action-primary" onclick="approveAndSendToChartering(${recId})">
+                        <i class="fa-solid fa-check"></i> Approve &amp; Charter
+                    </button>
+                    <button class="btn-action-secondary" onclick="rejectRecommendation(${recId})">
+                        <i class="fa-solid fa-xmark"></i> Reject
+                    </button>
+                `;
+            } else if (c.status === "APPROVED" || c.status === "SENT_TO_CHARTERING") {
+                actionCol = `
+                    <button class="btn-action-secondary" onclick="switchUserRole('Chartering Officer')">
+                        <i class="fa-solid fa-arrow-right"></i> Open in Chartering
+                    </button>
+                `;
+            } else {
+                actionCol = `<span style="font-size:11px; color:var(--muted);"><i class="fa-solid fa-lock"></i> Locked</span>`;
+            }
+
+            tr.innerHTML = `
+                <td><strong>#CGO-${String(c.id).padStart(4, '0')}</strong></td>
+                <td>${c.commodity || 'Coking Coal'}</td>
+                <td><strong>${(c.quantity || 75000).toLocaleString()}</strong> MT</td>
+                <td>${c.origin_port || 'Australia'} &rarr; ${c.destination_port || 'Paradip'}</td>
+                <td>${c.laycan_start ? c.laycan_start.slice(0,10) : '2026-11-12'} / ${c.laycan_end ? c.laycan_end.slice(0,10) : '2026-11-23'}</td>
+                <td><strong>${recClass}</strong></td>
+                <td><strong style="color:#20b8ff;">${recRate}</strong></td>
+                <td>${statusBadge}</td>
+                <td>${actionCol}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+    } catch (e) {
+        console.error("Error loading decisions table:", e);
+        tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:24px; color:#ef4444;"><i class="fa-solid fa-triangle-exclamation"></i> Error loading decision audit trail: ${e.message}</td></tr>`;
+    }
+}
+window.loadDecisionsTable = loadDecisionsTable;
+
+async function approveAndSendToChartering(recId) {
+    if (!confirm("Approve AI recommendation and dispatch stem to Chartering Operations?")) return;
+
+    try {
+        const res = await authFetch(`${API_BASE}/recommendation/${recId}/approve`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ notes: "Commercial sign-off granted by Logistics Manager. Dispatched to Chartering for vessel fixing." })
+        });
+
+        if (!res.ok) {
+            const err = await res.json();
+            alert("Approval Failed: " + (err.detail || "Server error"));
+            return;
+        }
+
+        const data = await res.json();
+        alert("SUCCESS: Recommendation #" + recId + " approved! Stem dispatched to Chartering Operations.");
+        
+        loadLogisticsKPIs();
+        loadDecisionsTable();
+
+        if (confirm("Would you like to switch to Chartering Officer suite now to fix a candidate vessel?")) {
+            switchUserRole("Chartering Officer");
+        }
+    } catch (e) {
+        console.error("Error approving recommendation:", e);
+        alert("Error approving stem: " + e.message);
+    }
+}
+window.approveAndSendToChartering = approveAndSendToChartering;
+
+async function rejectRecommendation(recId) {
+    const reason = prompt("Enter reason for rejecting this recommendation:", "Commercial timing deferred to next quarter");
+    if (reason === null) return;
+
+    try {
+        const res = await authFetch(`${API_BASE}/recommendation/${recId}/reject`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ reason: reason })
+        });
+
+        if (!res.ok) {
+            const err = await res.json();
+            alert("Rejection Failed: " + (err.detail || "Server error"));
+            return;
+        }
+
+        alert("Recommendation rejected and archived.");
+        loadDecisionsTable();
+        loadLogisticsKPIs();
+    } catch (e) {
+        console.error("Error rejecting recommendation:", e);
+        alert("Error rejecting recommendation: " + e.message);
+    }
+}
+window.rejectRecommendation = rejectRecommendation;
+
+/* -----------------------------------------------------
+   2. CHARTERING OFFICER: FLEET, TONNAGE, FIXTURES & VOYAGES
+----------------------------------------------------- */
+
+async function loadCharteringOpsSummary() {
+    try {
+        const [fleetRes, voyagesRes, cargoRes] = await Promise.all([
+            authFetch(`${API_BASE}/fleet`),
+            authFetch(`${API_BASE}/voyages`),
+            authFetch(`${API_BASE}/cargo/approved`)
+        ]);
+
+        if (fleetRes.ok) {
+            const fleet = await fleetRes.json();
+            const coKpiFleet = document.getElementById("coKpiFleet");
+            if (coKpiFleet) coKpiFleet.textContent = fleet.length;
+        }
+
+        if (voyagesRes.ok) {
+            const voyages = await voyagesRes.json();
+            const coKpiVoyages = document.getElementById("coKpiVoyages");
+            if (coKpiVoyages) coKpiVoyages.textContent = voyages.length;
+        }
+
+        if (cargoRes.ok) {
+            const approved = await cargoRes.json();
+            const coKpiAwaiting = document.getElementById("coKpiAwaiting");
+            if (coKpiAwaiting) coKpiAwaiting.textContent = approved.length;
+        }
+    } catch (e) {
+        console.warn("Error loading chartering ops summary:", e);
+    }
+}
+window.loadCharteringOpsSummary = loadCharteringOpsSummary;
+
+async function loadTonnageBoard() {
+    const tbody = document.getElementById("tonnageTableBody");
+    if (!tbody) return;
+
+    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:24px; color:var(--muted);"><i class="fa-solid fa-spinner fa-spin"></i> Querying 350 bulkers from PostgreSQL...</td></tr>`;
+
+    const searchInput = document.getElementById("tonnageSearch");
+    const classFilter = document.getElementById("tonnageClassFilter");
+    const statusFilter = document.getElementById("tonnageStatusFilter");
+
+    const query = new URLSearchParams();
+    if (searchInput && searchInput.value) query.append("search", searchInput.value);
+    if (classFilter && classFilter.value) query.append("vessel_class", classFilter.value);
+    if (statusFilter && statusFilter.value) query.append("operational_status", statusFilter.value);
+
+    try {
+        const res = await authFetch(`${API_BASE}/tonnage?${query.toString()}`);
+        if (!res.ok) throw new Error("Failed to fetch tonnage");
+        const vessels = await res.json();
+
+        tbody.innerHTML = "";
+        if (!vessels || vessels.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:24px; color:var(--muted);">No tonnage matches current search criteria.</td></tr>`;
+            return;
+        }
+
+        vessels.slice(0, 50).forEach(v => {
+            const tr = document.createElement("tr");
+
+            let statusBadge = `<span class="badge-status badge-status-green"><i class="fa-solid fa-circle-dot"></i> OPEN BALLAST</span>`;
+            if (v.operational_status === "IN_TRANSIT") {
+                statusBadge = `<span class="badge-status badge-status-cyan"><i class="fa-solid fa-water"></i> IN TRANSIT</span>`;
+            } else if (v.operational_status === "ON_SUBS") {
+                statusBadge = `<span class="badge-status badge-status-amber"><i class="fa-solid fa-hourglass-half"></i> ON SUBS</span>`;
+            } else if (v.operational_status === "FIXED") {
+                statusBadge = `<span class="badge-status badge-status-purple"><i class="fa-solid fa-anchor"></i> FIXED</span>`;
+            }
+
+            const relColor = v.reliability_score >= 90 ? "#10b981" : (v.reliability_score >= 80 ? "#38bdf8" : "#f59e0b");
+
+            tr.innerHTML = `
+                <td><strong>${v.name}</strong><br><small style="color:var(--muted);">IMO: ${v.imo || '9876543'} &bull; ${v.flag || 'Panama'}</small></td>
+                <td><span class="badge-tag blue">${v.vessel_class}</span></td>
+                <td><strong>${(v.dwt || 75000).toLocaleString()}</strong> MT</td>
+                <td>${(v.draft || 14.2).toFixed(1)} m</td>
+                <td>${v.speed_laden || 13.5} kts / ${v.fuel_consumption_laden || 28} MT/d</td>
+                <td>${v.current_port || 'Singapore'} &bull; ${v.open_date ? v.open_date.slice(0,10) : 'Prompt'}</td>
+                <td><strong style="color:${relColor};">${v.reliability_score || 94}%</strong></td>
+                <td>${statusBadge}</td>
+                <td>
+                    <button class="btn-action-primary" onclick="nominateVesselForFixture(${v.id}, '${v.name.replace(/'/g, "\'")}', '${v.vessel_class}', ${v.draft}, ${v.dwt})">
+                        <i class="fa-solid fa-file-signature"></i> Fix
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+    } catch (e) {
+        console.error("Error loading tonnage board:", e);
+        tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:24px; color:#ef4444;"><i class="fa-solid fa-triangle-exclamation"></i> Error loading tonnage board: ${e.message}</td></tr>`;
+    }
+}
+window.loadTonnageBoard = loadTonnageBoard;
+
+function nominateVesselForFixture(vesselId, vesselName, vesselClass, draft, dwt) {
+    showPage("fixtureMgmt");
+    const vSelect = document.getElementById("fixtureVesselSelect");
+    if (vSelect) {
+        // Add if missing
+        let optFound = false;
+        for (let i = 0; i < vSelect.options.length; i++) {
+            if (parseInt(vSelect.options[i].value) === vesselId) {
+                vSelect.selectedIndex = i;
+                optFound = true;
+                break;
+            }
+        }
+        if (!optFound) {
+            const opt = document.createElement("option");
+            opt.value = vesselId;
+            opt.textContent = `${vesselName} (${vesselClass} | ${dwt.toLocaleString()} DWT | Draft: ${draft}m)`;
+            vSelect.appendChild(opt);
+            vSelect.value = vesselId;
+        }
+    }
+}
+window.nominateVesselForFixture = nominateVesselForFixture;
+
+async function loadApprovedCargoForChartering() {
+    const container = document.getElementById("approvedCargoContainer");
+    const cInput = document.getElementById("fixtureCargoId");
+    const vSelect = document.getElementById("fixtureVesselSelect");
+    const dInput = document.getElementById("fixtureDateInput");
+
+    if (dInput && !dInput.value) {
+        dInput.value = new Date().toISOString().slice(0, 10);
+    }
+
+    // Populate candidate vessels into fixture dropdown if empty
+    if (vSelect && vSelect.options.length <= 1) {
+        try {
+            const vRes = await authFetch(`${API_BASE}/tonnage?operational_status=OPEN_BALLAST`);
+            if (vRes.ok) {
+                const openVessels = await vRes.json();
+                vSelect.innerHTML = `<option value="">-- Select Open Candidate Vessel --</option>`;
+                openVessels.slice(0, 40).forEach(v => {
+                    const opt = document.createElement("option");
+                    opt.value = v.id;
+                    opt.textContent = `${v.name} (${v.vessel_class} | ${(v.dwt).toLocaleString()} DWT | Draft: ${v.draft}m | ${v.current_port})`;
+                    vSelect.appendChild(opt);
+                });
+            }
+        } catch (err) {
+            console.warn("Error pre-populating fixture vessels:", err);
+        }
+    }
+
+    try {
+        const res = await authFetch(`${API_BASE}/cargo/approved`);
+        if (!res.ok) return;
+        const cargoes = await res.json();
+
+        if (cInput && cargoes.length > 0 && !cInput.value) {
+            cInput.value = cargoes[0].id;
+            const rInput = document.getElementById("fixtureRateInput");
+            if (rInput && cargoes[0].recommendation) {
+                rInput.value = cargoes[0].recommendation.predicted_rate;
+            }
+        }
+
+        if (container) {
+            container.innerHTML = "";
+            if (!cargoes || cargoes.length === 0) {
+                container.innerHTML = `<div style="grid-column:1/-1; padding:24px; text-align:center; color:var(--muted); background:rgba(255,255,255,0.02); border-radius:8px;">No approved cargo stems awaiting fixture. Stems approved by Logistics Manager appear here automatically.</div>`;
+                return;
+            }
+
+            cargoes.forEach((c, idx) => {
+                const card = document.createElement("div");
+                card.className = "stat-card cyan";
+                card.style.cursor = "pointer";
+                card.onclick = () => {
+                    if (cInput) cInput.value = c.id;
+                    const rInput = document.getElementById("fixtureRateInput");
+                    if (rInput && c.recommendation) rInput.value = c.recommendation.predicted_rate;
+                    document.querySelectorAll("#approvedCargoContainer .stat-card").forEach(sc => sc.style.borderColor = "");
+                    card.style.borderColor = "#20b8ff";
+                };
+
+                if (idx === 0) card.style.borderColor = "#20b8ff";
+
+                card.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+                        <div>
+                            <span class="badge-status badge-status-teal"><i class="fa-solid fa-clipboard-check"></i> APPROVED</span>
+                            <h3 style="margin-top:6px; font-size:16px;">#CGO-${String(c.id).padStart(4, '0')} &bull; ${c.commodity}</h3>
+                        </div>
+                        <strong style="color:#20b8ff; font-size:18px;">${(c.quantity).toLocaleString()} MT</strong>
+                    </div>
+                    <div style="font-size:12px; color:#94a3b8; line-height:1.6;">
+                        <div>Route: <strong>${c.origin_port} &rarr; ${c.destination_port}</strong></div>
+                        <div>Target Class: <strong>${c.recommendation ? c.recommendation.vessel_class : 'Panamax'}</strong></div>
+                        <div>Benchmark Rate: <strong>${c.recommendation ? '$' + c.recommendation.predicted_rate.toFixed(2) : '$21.80'}/MT</strong></div>
+                    </div>
+                    <button class="btn-action-primary" style="margin-top:14px; width:100%; justify-content:center;">
+                        <i class="fa-solid fa-file-signature"></i> Select for Fixture
+                    </button>
+                `;
+                container.appendChild(card);
+            });
+        }
+    } catch (e) {
+        console.warn("Error loading approved cargo:", e);
+    }
+}
+window.loadApprovedCargoForChartering = loadApprovedCargoForChartering;
+
+async function submitFixture(event = null) {
+    if (event) event.preventDefault();
+
+    const cargoSelect = document.getElementById("fixtureCargoId");
+    const vesselSelect = document.getElementById("fixtureVesselSelect");
+    const rateInput = document.getElementById("fixtureRateInput");
+    const dateInput = document.getElementById("fixtureDateInput");
+
+    const cargoId = parseInt(cargoSelect ? cargoSelect.value : 1);
+    const vesselId = parseInt(vesselSelect ? vesselSelect.value : 1);
+    const agreedRate = parseFloat(rateInput ? rateInput.value : 21.80);
+    const fixtureDate = (dateInput && dateInput.value) ? dateInput.value : new Date().toISOString().slice(0, 10);
+
+    if (!cargoId || !vesselId || !agreedRate) {
+        alert("Please select cargo, candidate vessel, and agreed freight rate.");
+        return;
+    }
+
+    try {
+        const btn = document.getElementById("btnConfirmFixture");
+        if (btn) btn.disabled = true;
+
+        const res = await authFetch(`${API_BASE}/fixtures`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                cargo_id: cargoId,
+                vessel_id: vesselId,
+                agreed_rate: agreedRate,
+                notes: `Charterparty fixture agreed at $${agreedRate.toFixed(2)}/MT on ${fixtureDate}`
+            })
+        });
+
+        if (!res.ok) {
+            const err = await res.json();
+            alert("Fixture Failed: " + (err.detail || "Server error"));
+            if (btn) btn.disabled = false;
+            return;
+        }
+
+        const data = await res.json();
+        alert("FIXTURE CONFIRMED! Fixture #" + data.fixture.fixture_number + " created. Initialized Voyage #" + data.voyage.voyage_number + " in stage: FIXTURE.");
+
+        if (btn) btn.disabled = false;
+        loadConfirmedFixtures();
+        loadCharteringOpsSummary();
+        loadTonnageBoard();
+        loadApprovedCargoForChartering();
+        showPage("voyageTimeline");
+        loadAllVoyages();
+    } catch (e) {
+        console.error("Error submitting fixture:", e);
+        alert("Error executing fixture: " + e.message);
+    }
+}
+window.submitFixture = submitFixture;
+
+async function loadConfirmedFixtures() {
+    const tbody = document.getElementById("confirmedFixturesTableBody");
+    if (!tbody) return;
+
+    try {
+        const res = await authFetch(`${API_BASE}/fixtures`);
+        if (!res.ok) return;
+        const fixtures = await res.json();
+
+        tbody.innerHTML = "";
+        if (!fixtures || fixtures.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:24px; color:var(--muted);">No confirmed fixtures yet. Select an approved stem above to execute fixture.</td></tr>`;
+            return;
+        }
+
+        fixtures.forEach(f => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td><strong>${f.fixture_number}</strong></td>
+                <td><strong>${f.vessel_name}</strong><br><small style="color:var(--muted);">${f.vessel_class}</small></td>
+                <td>${f.commodity || 'Coking Coal'} (${(f.quantity || 75000).toLocaleString()} MT)</td>
+                <td>${f.route || 'Australia -> Paradip'}</td>
+                <td><strong style="color:#20b8ff;">$${(f.agreed_rate || 21.8).toFixed(2)}/MT</strong></td>
+                <td>${f.fixture_date ? f.fixture_date.slice(0,10) : '2026-09-09'}</td>
+                <td><span class="badge-status badge-status-green"><i class="fa-solid fa-check"></i> ${f.status || 'CONFIRMED'}</span></td>
+            `;
+            tbody.appendChild(tr);
+        });
+    } catch (e) {
+        console.warn("Error loading fixtures:", e);
+    }
+}
+window.loadConfirmedFixtures = loadConfirmedFixtures;
+
+/* -----------------------------------------------------
+   3. 9-STAGE VOYAGE TIMELINE PROGRESSION
+----------------------------------------------------- */
+
+let currentVoyagesCache = [];
+
+async function loadAllVoyages() {
+    const vSelect = document.getElementById("voyageSelect");
+    const tbody = document.getElementById("voyagesTableBody");
+
+    try {
+        const res = await authFetch(`${API_BASE}/voyages`);
+        if (!res.ok) return;
+        currentVoyagesCache = await res.json();
+
+        if (vSelect) {
+            vSelect.innerHTML = "";
+            currentVoyagesCache.forEach((v, idx) => {
+                const opt = document.createElement("option");
+                opt.value = v.id;
+                opt.textContent = `${v.voyage_number} - ${v.vessel_name} (${v.origin_port} -> ${v.destination_port}) [${v.status}]`;
+                vSelect.appendChild(opt);
+            });
+
+            vSelect.onchange = () => {
+                const selected = currentVoyagesCache.find(v => v.id === parseInt(vSelect.value));
+                if (selected) renderActiveVoyage(selected);
+            };
+        }
+
+        if (currentVoyagesCache.length > 0) {
+            renderActiveVoyage(currentVoyagesCache[0]);
+        }
+
+        if (tbody) {
+            tbody.innerHTML = "";
+            currentVoyagesCache.forEach(v => {
+                const tr = document.createElement("tr");
+                const isDelay = v.delay_hours > 0;
+                tr.innerHTML = `
+                    <td><strong>${v.voyage_number}</strong></td>
+                    <td><strong>${v.vessel_name}</strong></td>
+                    <td>${v.origin_port} &rarr; ${v.destination_port}</td>
+                    <td><span class="badge-status badge-status-cyan">${v.status}</span></td>
+                    <td style="color:${isDelay ? '#ef4444' : '#10b981'}; font-weight:600;">
+                        ${isDelay ? `+${v.delay_hours}h (${v.delay_reason || 'Weather'})` : 'On Schedule'}
+                    </td>
+                    <td>${v.ballast_distance_nm || 1240} nm</td>
+                    <td>${v.fuel_consumed_mt || 185} MT</td>
+                    <td>
+                        <button class="btn-action-primary" onclick="selectVoyageForTimeline(${v.id})">
+                            <i class="fa-solid fa-eye"></i> Track
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+    } catch (e) {
+        console.warn("Error loading voyages:", e);
+    }
+}
+window.loadAllVoyages = loadAllVoyages;
+
+function selectVoyageForTimeline(voyageId) {
+    const vSelect = document.getElementById("voyageSelect");
+    if (vSelect) vSelect.value = voyageId;
+    const selected = currentVoyagesCache.find(v => v.id === voyageId);
+    if (selected) renderActiveVoyage(selected);
+    window.scrollTo({ top: 150, behavior: "smooth" });
+}
+window.selectVoyageForTimeline = selectVoyageForTimeline;
+
+function renderActiveVoyage(voyage) {
+    const title = document.getElementById("voyageTrackTitle");
+    const subtitle = document.getElementById("voyageTrackSubtitle");
+    const stageBadge = document.getElementById("voyageCurrentStageBadge");
+    const track = document.getElementById("voyageStepperTrack");
+
+    if (title) title.textContent = `Voyage ${voyage.voyage_number} • ${voyage.vessel_name}`;
+    if (subtitle) subtitle.textContent = `Route: ${voyage.origin_port} &rarr; ${voyage.destination_port} | Class: ${voyage.vessel_class || 'Supramax'}`;
+    if (stageBadge) stageBadge.textContent = `CURRENT STAGE: ${voyage.status}`;
+
+    const stages = [
+        { code: "FIXTURE", name: "Fixture Fixed", icon: "fa-file-signature" },
+        { code: "NOMINATION", name: "Nomination", icon: "fa-envelope-open-text" },
+        { code: "BALLAST", name: "Ballast Transit", icon: "fa-ship" },
+        { code: "ARRIVAL", name: "Load Arrival", icon: "fa-anchor" },
+        { code: "LOADING", name: "Loading Ops", icon: "fa-dolly" },
+        { code: "DEPARTURE", name: "Departure", icon: "fa-compass" },
+        { code: "TRANSIT", name: "Laden Transit", icon: "fa-water" },
+        { code: "DISCHARGE", name: "Discharge Ops", icon: "fa-warehouse" },
+        { code: "COMPLETED", name: "Completed", icon: "fa-flag-checkered" }
+    ];
+
+    const currentIdx = stages.findIndex(s => s.code === voyage.status);
+    const activeIdx = currentIdx !== -1 ? currentIdx : 0;
+
+    if (track) {
+        track.innerHTML = "";
+        stages.forEach((st, idx) => {
+            const stepDiv = document.createElement("div");
+            let stateClass = "upcoming";
+            if (idx < activeIdx) stateClass = "completed";
+            else if (idx === activeIdx) stateClass = "active";
+
+            stepDiv.className = `v-step ${stateClass}`;
+            const iconToUse = stateClass === "completed" ? "fa-check" : st.icon;
+
+            stepDiv.innerHTML = `
+                <div class="step-circle">
+                    <i class="fa-solid ${iconToUse}"></i>
+                </div>
+                <span class="step-title">${st.name}</span>
+            `;
+            track.appendChild(stepDiv);
+        });
+    }
+}
+
+async function advanceVoyageStage() {
+    const vSelect = document.getElementById("voyageSelect");
+    if (!vSelect || !vSelect.value) {
+        alert("Please select a voyage first.");
+        return;
+    }
+
+    const voyageId = parseInt(vSelect.value);
+    const selected = currentVoyagesCache.find(v => v.id === voyageId);
+    if (!selected) return;
+
+    const stages = ["FIXTURE", "NOMINATION", "BALLAST", "ARRIVAL", "LOADING", "DEPARTURE", "TRANSIT", "DISCHARGE", "COMPLETED"];
+    const currIdx = stages.indexOf(selected.status);
+
+    if (currIdx >= stages.length - 1) {
+        alert("This voyage has already reached its final COMPLETED stage!");
+        return;
+    }
+
+    const nextStatus = stages[currIdx + 1];
+
+    const delayInput = document.getElementById("voyageDelayInput");
+    const reasonSelect = document.getElementById("voyageDelayReasonSelect");
+    const delayHours = parseFloat(delayInput ? delayInput.value : 0) || 0;
+    const delayReason = (reasonSelect && reasonSelect.value) ? reasonSelect.value : "Operational Congestion";
+
+    try {
+        const res = await authFetch(`${API_BASE}/voyages/${voyageId}/status`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                status: nextStatus,
+                delay_hours: delayHours,
+                delay_reason: delayReason
+            })
+        });
+
+        if (!res.ok) {
+            const err = await res.json();
+            alert("Stage Advance Failed: " + (err.detail || "Server error"));
+            return;
+        }
+
+        const data = await res.json();
+        alert(`Voyage stage advanced to: ${nextStatus}!`);
+        await loadAllVoyages();
+        if (vSelect) vSelect.value = voyageId;
+        const updated = currentVoyagesCache.find(v => v.id === voyageId);
+        if (updated) renderActiveVoyage(updated);
+    } catch (e) {
+        console.error("Error advancing voyage stage:", e);
+        alert("Error advancing voyage stage: " + e.message);
+    }
+}
+window.advanceVoyageStage = advanceVoyageStage;
+
+/* -----------------------------------------------------
+   4. NAVIGATION SAFETY & BALLAST OPS
+----------------------------------------------------- */
+
+function initNavSafetyDropdowns() {
+    const portSelect = document.getElementById("navSafetyPortSelect");
+    if (portSelect && portsCache.length > 0 && portSelect.options.length <= 1) {
+        portSelect.innerHTML = "";
+        portsCache.forEach(p => {
+            const opt = document.createElement("option");
+            opt.value = p.id;
+            opt.textContent = `${p.name} (Max Draft: ${p.max_draft}m | LOA: ${p.max_loa}m)`;
+            portSelect.appendChild(opt);
+        });
+    }
+}
+
+async function computeNavSafety() {
+    const portSelect = document.getElementById("navSafetyPortSelect");
+    const draftInput = document.getElementById("navSafetyDraftInput");
+    const tideInput = document.getElementById("navSafetyTideInput");
+
+    const portId = portSelect ? parseInt(portSelect.value) : 1;
+    const vesselDraft = draftInput ? parseFloat(draftInput.value) : 14.5;
+    const tide = tideInput ? parseFloat(tideInput.value) : 1.2;
+
+    try {
+        const res = await authFetch(`${API_BASE}/navigation/safety`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                port_id: portId,
+                vessel_draft: vesselDraft,
+                tidal_surge: tide,
+                speed_knots: 6.0
+            })
+        });
+
+        if (!res.ok) return;
+        const data = await res.json();
+
+        const badge = document.getElementById("navSafetyStatusBadge");
+        const depth = document.getElementById("navSafetyAvailableDepth");
+        const ukc = document.getElementById("navSafetyClearance");
+        const verdict = document.getElementById("navSafetyVerdict");
+        const advisory = document.getElementById("navSafetyAdvisory");
+
+        if (depth) depth.textContent = `${data.effective_water_depth.toFixed(1)} m`;
+        if (ukc) ukc.textContent = `${data.ukc_margin >= 0 ? '+' : ''}${data.ukc_margin.toFixed(2)} m`;
+        if (verdict) verdict.textContent = data.safety_verdict;
+        if (advisory) advisory.textContent = data.lightering_recommendation;
+
+        if (badge) {
+            if (data.safety_verdict === "SAFE") {
+                badge.className = "badge-status badge-status-green";
+                badge.innerHTML = `<i class="fa-solid fa-circle-check"></i> SAFE NAVIGATION MARGIN`;
+            } else if (data.safety_verdict === "MARGINAL") {
+                badge.className = "badge-status badge-status-amber";
+                badge.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> MARGINAL (TIDAL WINDOW REQUIRED)`;
+            } else {
+                badge.className = "badge-status badge-status-red";
+                badge.innerHTML = `<i class="fa-solid fa-ban"></i> PROHIBITED (LIGHTERING MANDATORY)`;
+            }
+        }
+    } catch (e) {
+        console.warn("Error computing nav safety:", e);
+    }
+}
+window.computeNavSafety = computeNavSafety;
+
+function initBallastDropdowns() {
+    const portSelect = document.getElementById("ballastPortSelect");
+    if (portSelect && portsCache.length > 0 && portSelect.options.length <= 1) {
+        portSelect.innerHTML = "";
+        portsCache.forEach(p => {
+            const opt = document.createElement("option");
+            opt.value = p.name;
+            opt.textContent = `${p.name} (${p.country || 'India'})`;
+            portSelect.appendChild(opt);
+        });
+    }
+}
+
+async function computeBallastOps() {
+    const vSelect = document.getElementById("ballastVesselSelect");
+    const pSelect = document.getElementById("ballastPortSelect");
+
+    const vesselId = vSelect ? parseInt(vSelect.value) : 1;
+    const targetPort = pSelect ? pSelect.value : "Paradip";
+
+    try {
+        const res = await authFetch(`${API_BASE}/fleet/repositioning`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                vessel_id: vesselId,
+                target_load_port: targetPort,
+                bunker_price_vlsfo: 625.0,
+                daily_hire_rate: 18500.0
+            })
+        });
+
+        if (!res.ok) return;
+        const data = await res.json();
+
+        const badge = document.getElementById("ballastRatingBadge");
+        const dist = document.getElementById("ballastDistText");
+        const dur = document.getElementById("ballastDurationText");
+        const fuel = document.getElementById("ballastFuelText");
+        const cost = document.getElementById("ballastCostText");
+        const eta = document.getElementById("ballastEtaText");
+
+        if (dist) dist.textContent = `${data.ballast_distance_nm.toLocaleString()} NM`;
+        if (dur) dur.textContent = `${data.ballast_days.toFixed(1)} Days`;
+        if (fuel) fuel.textContent = `${data.fuel_burn_mt.toFixed(1)} MT VLSFO`;
+        if (cost) cost.textContent = `$${Math.round(data.total_repositioning_cost_usd).toLocaleString()}`;
+        if (eta) eta.textContent = `TCE: $${Math.round(data.ballast_tce_usd_day).toLocaleString()}/day`;
+
+        if (badge) {
+            badge.className = data.efficiency_rating === "OPTIMAL" ? "badge-status badge-status-green" : "badge-status badge-status-amber";
+            badge.textContent = `EFFICIENCY: ${data.efficiency_rating}`;
+        }
+    } catch (e) {
+        console.warn("Error computing ballast ops:", e);
+    }
+}
+window.computeBallastOps = computeBallastOps;
+
+/* -----------------------------------------------------
+   5. MARKET ANALYST: BALTIC MONITOR, ANOMALIES & ACCURACY
+----------------------------------------------------- */
+
+async function loadAnalystOverview() {
+    await loadBalticMonitor();
+}
+window.loadAnalystOverview = loadAnalystOverview;
+
+async function loadBalticMonitor() {
+    try {
+        const res = await authFetch(`${API_BASE}/market/indices`);
+        if (!res.ok) return;
+        const data = await res.json();
+
+        const idx = data.indices || {};
+        const updateIdx = (prefix, obj) => {
+            if (!obj) return;
+            const valEl = document.getElementById(prefix + "Val");
+            const chgEl = document.getElementById(prefix + "Change");
+            if (valEl) valEl.textContent = obj.current;
+            if (chgEl) {
+                const isUp = obj.change_pct >= 0;
+                chgEl.textContent = `${isUp ? '+' : ''}${obj.change_pct}%`;
+                chgEl.style.color = isUp ? "#10b981" : "#ef4444";
+            }
+        };
+
+        updateIdx("bdi", idx.bdi);
+        updateIdx("bci", idx.bci);
+        updateIdx("bpi", idx.bpi);
+        updateIdx("bsi", idx.bsi);
+
+        // Update Overview KPIs
+        const anBdi = document.getElementById("anKpiBdi");
+        const anBci = document.getElementById("anKpiBci");
+        const anBpi = document.getElementById("anKpiBpi");
+        const anBunker = document.getElementById("anKpiBunker");
+
+        if (anBdi && idx.bdi) anBdi.textContent = idx.bdi.current;
+        if (anBci && idx.bci) anBci.textContent = idx.bci.current;
+        if (anBpi && idx.bpi) anBpi.textContent = idx.bpi.current;
+        if (anBunker) anBunker.textContent = `$${data.bunker_price_vlsfo || 625}/MT`;
+
+    } catch (e) {
+        console.warn("Error loading Baltic indices monitor:", e);
+    }
+}
+window.loadBalticMonitor = loadBalticMonitor;
+
+async function loadMacroAnomalies() {
+    const container = document.getElementById("anomaliesContainer");
+    if (!container) return;
+
+    try {
+        const res = await authFetch(`${API_BASE}/market/anomalies`);
+        if (!res.ok) return;
+        const anomalies = await res.json();
+
+        container.innerHTML = "";
+        anomalies.forEach(a => {
+            const card = document.createElement("div");
+            card.className = `anomaly-card ${a.severity.toLowerCase()}`;
+            card.innerHTML = `
+                <div class="anomaly-header">
+                    <span class="anomaly-title">${a.title}</span>
+                    <span class="badge-status ${a.severity === 'HIGH' ? 'badge-status-red' : 'badge-status-amber'}">${a.severity} SEVERITY</span>
+                </div>
+                <div class="anomaly-meta">Detected: ${a.detected_at} &bull; Type: ${a.type}</div>
+                <div class="anomaly-desc">${a.description}</div>
+                <div class="anomaly-guidance">
+                    <strong><i class="fa-solid fa-lightbulb"></i> Quantitative Action:</strong> ${a.recommended_action}
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    } catch (e) {
+        console.warn("Error loading macro anomalies:", e);
+    }
+}
+window.loadMacroAnomalies = loadMacroAnomalies;
+
+async function loadModelPerformance() {
+    try {
+        const res = await authFetch(`${API_BASE}/model/performance`);
+        if (!res.ok) return;
+        const data = await res.json();
+        // Displays metrics in console or updates table
+        console.log("Model Performance Metrics:", data);
+    } catch (e) {
+        console.warn("Error loading model performance:", e);
+    }
+}
+window.loadModelPerformance = loadModelPerformance;
+
+async function loadDataQualityReport() {
+    const tbody = document.getElementById("dataQualityTableBody");
+    if (!tbody) return;
+
+    try {
+        const res = await authFetch(`${API_BASE}/data/quality`);
+        if (!res.ok) return;
+        const report = await res.json();
+
+        tbody.innerHTML = "";
+        (report.sources || []).forEach(s => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td><strong>${s.dataset}</strong></td>
+                <td><strong style="color:#10b981;">${s.completeness}%</strong></td>
+                <td>${s.freshness_hours}h ago</td>
+                <td>${(s.row_count || 12000).toLocaleString()}</td>
+                <td><span class="badge-status badge-status-green"><i class="fa-solid fa-shield-check"></i> ${s.status}</span></td>
+            `;
+            tbody.appendChild(tr);
+        });
+    } catch (e) {
+        console.warn("Error loading data quality:", e);
+    }
+}
+window.loadDataQualityReport = loadDataQualityReport;
+
+let analystChartInstance = null;
+
+async function renderAnalystForecastChart(horizon = 30) {
+    const canvas = document.getElementById("analystForecastChart");
+    if (!canvas) return;
+
+    try {
+        const res = await fetch(`${API_BASE}/forecast?horizon=${horizon}&route=Indonesia-EastCoastIndia%20(coal)&vessel_class=Supramax`);
+        if (!res.ok) return;
+        const data = await res.json();
+        const forecasts = data.forecasts || [];
+
+        const ctx = canvas.getContext("2d");
+        if (analystChartInstance) analystChartInstance.destroy();
+
+        const labels = forecasts.map(f => f.target_date.slice(5));
+        const p10 = forecasts.map(f => f.p10);
+        const p50 = forecasts.map(f => f.p50);
+        const p90 = forecasts.map(f => f.p90);
+
+        analystChartInstance = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: "P90 Upper Risk Ceiling",
+                        data: p90,
+                        borderColor: "rgba(239, 68, 68, 0.6)",
+                        backgroundColor: "rgba(239, 68, 68, 0.05)",
+                        borderDash: [4, 4],
+                        fill: "+1",
+                        pointRadius: 0
+                    },
+                    {
+                        label: "P50 Expected Freight Rate ($/MT)",
+                        data: p50,
+                        borderColor: "#20b8ff",
+                        backgroundColor: "rgba(32, 184, 255, 0.15)",
+                        borderWidth: 3,
+                        pointRadius: 2,
+                        pointHoverRadius: 6
+                    },
+                    {
+                        label: "P10 Lower Floor",
+                        data: p10,
+                        borderColor: "rgba(16, 185, 129, 0.6)",
+                        backgroundColor: "transparent",
+                        borderDash: [4, 4],
+                        fill: false,
+                        pointRadius: 0
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: true, labels: { color: "#94a3b8" } }
+                },
+                scales: {
+                    x: { ticks: { color: "#64748b", maxTicksLimit: 12 }, grid: { display: false } },
+                    y: { ticks: { color: "#64748b", callback: v => "$" + v }, grid: { color: "rgba(255,255,255,0.05)" } }
+                }
+            }
+        });
+    } catch (e) {
+        console.warn("Error rendering analyst forecast chart:", e);
+    }
+}
+window.renderAnalystForecastChart = renderAnalystForecastChart;
+
+function switchForecastHorizon(days) {
+    const btns = [
+        { id: "btnHorizon30", days: 30 },
+        { id: "btnHorizon60", days: 60 },
+        { id: "btnHorizon90", days: 90 }
+    ];
+
+    btns.forEach(b => {
+        const el = document.getElementById(b.id);
+        if (el) el.classList.toggle("active", b.days === days);
+    });
+
+    const hText = document.getElementById("anForecastHorizonText");
+    if (hText) hText.textContent = `${days}-Day Forward Horizon`;
+
+    renderAnalystForecastChart(days);
+}
+window.switchForecastHorizon = switchForecastHorizon;
