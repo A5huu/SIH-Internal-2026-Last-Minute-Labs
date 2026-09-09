@@ -315,9 +315,9 @@
                         </div>
 
                         <select id="chartRange">
-                            <option>30 Days</option>
-                            <option>60 Days</option>
-                            <option>90 Days</option>
+                            <option value="30" selected>30 Days</option>
+                            <option value="60">60 Days</option>
+                            <option value="90">90 Days</option>
                         </select>
 
                     </div>
@@ -491,6 +491,14 @@
                             <option value="Panamax">Panamax (65k-85k DWT)</option>
                             <option value="Capesize">Capesize (120k-200k DWT)</option>
                             <option value="Handysize">Handysize (25k-40k DWT)</option>
+                        </select>
+                    </div>
+                    <div class="fc-filter-item">
+                        <label><i class="fa-solid fa-calendar-days" style="color:var(--primary)"></i> Horizon:</label>
+                        <select id="forecastHorizonSelect" onchange="onForecastFilterChanged()">
+                            <option value="30" selected>30 Days</option>
+                            <option value="60">60 Days</option>
+                            <option value="90">90 Days</option>
                         </select>
                     </div>
                 </div>
@@ -1188,11 +1196,17 @@
 
             <div class="page-heading">
 
-                <h2>Risk Score</h2>
+                <div>
+                    <h2>Risk Score</h2>
+                    <p>
+                        AI-generated multivariate assessment of freight, maritime, and procurement risks.
+                    </p>
+                </div>
 
-                <p>
-                    AI-generated assessment of freight and procurement risks.
-                </p>
+                <div class="risk-meta-badge" id="riskMetaBadge">
+                    <span class="pulse-dot"></span>
+                    <span id="riskModelStatus">Real-Time Risk Engine Active</span>
+                </div>
 
             </div>
 
@@ -1201,23 +1215,28 @@
 
                 <div class="panel risk-score-panel">
 
-                    <div class="risk-circle">
+                    <div class="risk-circle" id="riskCircleGauge">
 
                         <div class="circle-content">
 
-                            <strong>32</strong>
+                            <strong id="riskScoreValue">32</strong>
                             <span>/100</span>
 
                         </div>
 
                     </div>
 
-                    <h2>Low Risk</h2>
+                    <h2 id="riskLevelHeading">Low Risk</h2>
 
-                    <p>
+                    <p id="riskLevelDescription">
                         Current conditions indicate a relatively
                         stable procurement environment.
                     </p>
+
+                    <div class="risk-badge-row">
+                        <span class="risk-micro-badge"><i class="fa-solid fa-shield-halved"></i> Gated Spot Fixtures</span>
+                        <span class="risk-micro-badge"><i class="fa-solid fa-clock"></i> 30-Day Outlook</span>
+                    </div>
 
                 </div>
 
@@ -1227,92 +1246,337 @@
                     <div class="panel-header">
 
                         <div>
-                            <h3>Risk Factors</h3>
-                            <p>Current risk contribution</p>
+                            <h3>Active Risk Contribution</h3>
+                            <p>Weighted breakdown across 4 analytical pillars</p>
                         </div>
+
+                        <span class="risk-factor-count-badge" id="activeRiskEventCount"><i class="fa-solid fa-triangle-exclamation"></i> Monitored Live</span>
 
                     </div>
 
 
-                    <div class="risk-factor">
+                    <div class="risk-factor" id="factorVolatility">
 
                         <div class="risk-name">
                             <i class="fa-solid fa-chart-line"></i>
 
                             <div>
                                 <strong>Freight Rate Volatility</strong>
-                                <small>Moderate</small>
+                                <small id="volatilitySeverity">Weight: 35% • Momentum &amp; Variance</small>
                             </div>
                         </div>
 
                         <div class="risk-bar">
-                            <div style="width:45%"></div>
+                            <div id="barVolatility" style="width:45%; background: linear-gradient(90deg, #20b8ff, #0284c7);"></div>
                         </div>
 
-                        <span>45%</span>
+                        <span id="pctVolatility">45%</span>
 
                     </div>
 
 
-                    <div class="risk-factor">
-
-                        <div class="risk-name">
-                            <i class="fa-solid fa-cloud"></i>
-
-                            <div>
-                                <strong>Weather Risk</strong>
-                                <small>Low</small>
-                            </div>
-                        </div>
-
-                        <div class="risk-bar">
-                            <div style="width:25%"></div>
-                        </div>
-
-                        <span>25%</span>
-
-                    </div>
-
-
-                    <div class="risk-factor">
+                    <div class="risk-factor" id="factorGeopolitical">
 
                         <div class="risk-name">
                             <i class="fa-solid fa-earth-asia"></i>
 
                             <div>
-                                <strong>Geopolitical Risk</strong>
-                                <small>Moderate</small>
+                                <strong>Geopolitical &amp; Bunker Fuel</strong>
+                                <small id="geopoliticalSeverity">Weight: 25% • Tariffs, Sanctions &amp; VLSFO</small>
                             </div>
                         </div>
 
                         <div class="risk-bar">
-                            <div style="width:38%"></div>
+                            <div id="barGeopolitical" style="width:38%; background: linear-gradient(90deg, #8b5cf6, #7c3aed);"></div>
                         </div>
 
-                        <span>38%</span>
+                        <span id="pctGeopolitical">38%</span>
 
                     </div>
 
 
-                    <div class="risk-factor">
+                    <div class="risk-factor" id="factorCongestion">
 
                         <div class="risk-name">
                             <i class="fa-solid fa-anchor"></i>
 
                             <div>
-                                <strong>Port Congestion</strong>
-                                <small>Low</small>
+                                <strong>Port Congestion &amp; Draft</strong>
+                                <small id="congestionSeverity">Weight: 20% • Berth Queues &amp; UKC</small>
                             </div>
                         </div>
 
                         <div class="risk-bar">
-                            <div style="width:20%"></div>
+                            <div id="barCongestion" style="width:20%; background: linear-gradient(90deg, #f59e0b, #d97706);"></div>
                         </div>
 
-                        <span>20%</span>
+                        <span id="pctCongestion">20%</span>
 
                     </div>
 
+
+                    <div class="risk-factor" id="factorWeather">
+
+                        <div class="risk-name">
+                            <i class="fa-solid fa-cloud-bolt"></i>
+
+                            <div>
+                                <strong>Weather &amp; Cyclonic Activity</strong>
+                                <small id="weatherSeverity">Weight: 20% • Bay of Bengal &amp; Monsoons</small>
+                            </div>
+                        </div>
+
+                        <div class="risk-bar">
+                            <div id="barWeather" style="width:25%; background: linear-gradient(90deg, #06b6d4, #0891b2);"></div>
+                        </div>
+
+                        <span id="pctWeather">25%</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ================= CALCULATION SUMMARY & METHODOLOGY ================= -->
+            <div class="panel risk-calc-summary-panel">
+
+                <div class="panel-header calc-header">
+                    <div>
+                        <div class="calc-header-title">
+                            <i class="fa-solid fa-calculator"></i>
+                            <h3>How the Risk Score is Calculated</h3>
+                        </div>
+                        <p>FreightIQ quantifies chartering risk by fusing statistical rate anomalies, port turnaround constraints, meteorological models, and geopolitical telemetry into a Composite Risk Index (CRI).</p>
+                    </div>
+                    <div class="calc-header-tag">
+                        <i class="fa-solid fa-code-branch"></i>
+                        <span>Multivariate Fusion Model</span>
+                    </div>
+                </div>
+
+                <!-- FORMULA BANNER -->
+                <div class="risk-formula-box">
+                    <div class="formula-top">
+                        <span class="formula-badge"><i class="fa-solid fa-square-root-variable"></i> Composite Risk Formula</span>
+                        <span class="formula-norm">Score Range: 0 (Ultra-Safe) to 100 (Critical Disruption)</span>
+                    </div>
+                    <div class="formula-equation">
+                        <code>Composite Risk Score = (0.35 × Volatility) + (0.25 × Geopolitical) + (0.20 × Port Congestion) + (0.20 × Weather)</code>
+                    </div>
+                    <div class="formula-weights-visual">
+                        <div class="weight-segment w-vol" style="width: 35%;"><span>Freight Volatility (35%)</span></div>
+                        <div class="weight-segment w-geo" style="width: 25%;"><span>Geopolitical &amp; Fuel (25%)</span></div>
+                        <div class="weight-segment w-port" style="width: 20%;"><span>Port Congestion (20%)</span></div>
+                        <div class="weight-segment w-wx" style="width: 20%;"><span>Weather Risk (20%)</span></div>
+                    </div>
+                </div>
+
+                <!-- 4 PILLARS EXPLANATION GRID -->
+                <div class="risk-pillars-grid">
+
+                    <!-- Pillar 1 -->
+                    <div class="risk-pillar-card">
+                        <div class="pillar-card-header">
+                            <div class="pillar-icon vol"><i class="fa-solid fa-chart-line"></i></div>
+                            <div>
+                                <h4>1. Freight Rate Volatility</h4>
+                                <span class="pillar-weight-badge vol">35% Weight</span>
+                            </div>
+                        </div>
+                        <div class="pillar-body">
+                            <div class="pillar-metric">
+                                <strong>Core Metrics:</strong>
+                                <span>7-Day Rate Momentum (Δ7d) &amp; 30-Day Rolling Volatility (CV = σ / μ)</span>
+                            </div>
+                            <div class="pillar-formula">
+                                <code>Δ7d = (R_current - R_7d_ago) / R_7d_ago</code>
+                            </div>
+                            <div class="pillar-rule">
+                                <strong>Detection Thresholds:</strong>
+                                <ul>
+                                    <li><span class="dot red"></span> <strong>High (&gt;75 pts):</strong> 7-day rate surge &gt; 12% or CV &gt; 15% (90th percentile historical spike).</li>
+                                    <li><span class="dot orange"></span> <strong>Medium (40–74 pts):</strong> Moderate upward momentum (Δ7d between +6% and +12%).</li>
+                                    <li><span class="dot green"></span> <strong>Low (&lt;40 pts):</strong> Fluctuations contained within normal trading bands.</li>
+                                </ul>
+                            </div>
+                            <div class="pillar-source">
+                                <i class="fa-solid fa-database"></i> <em>Sources: Baltic Exchange (BDI/BSI/BPI) &amp; Daily Spot Corridor Fixtures</em>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pillar 2 -->
+                    <div class="risk-pillar-card">
+                        <div class="pillar-card-header">
+                            <div class="pillar-icon geo"><i class="fa-solid fa-earth-asia"></i></div>
+                            <div>
+                                <h4>2. Geopolitical &amp; Fuel Shocks</h4>
+                                <span class="pillar-weight-badge geo">25% Weight</span>
+                            </div>
+                        </div>
+                        <div class="pillar-body">
+                            <div class="pillar-metric">
+                                <strong>Core Metrics:</strong>
+                                <span>VLSFO/MGO Bunker Price Spikes, Trade Sanctions &amp; Chokepoint Deviations</span>
+                            </div>
+                            <div class="pillar-formula">
+                                <code>S_geo = max(Bunker_Shock, Sanction_Verification, Route_Deviation_Days)</code>
+                            </div>
+                            <div class="pillar-rule">
+                                <strong>Detection Thresholds:</strong>
+                                <ul>
+                                    <li><span class="dot red"></span> <strong>High (&gt;75 pts):</strong> Active trade restrictions, Red Sea/Suez diversions (+14 days via Cape), or bunker price jumps &gt; $25/MT.</li>
+                                    <li><span class="dot orange"></span> <strong>Medium (40–74 pts):</strong> Export tariff adjustments or compliance tightening on origin coal flows.</li>
+                                    <li><span class="dot green"></span> <strong>Low (&lt;40 pts):</strong> Standard open navigation and stable marine fuel benchmarks.</li>
+                                </ul>
+                            </div>
+                            <div class="pillar-source">
+                                <i class="fa-solid fa-newspaper"></i> <em>Sources: Lloyd's List Maritime Bulletins &amp; Singapore/Fujairah 0.5% VLSFO</em>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pillar 3 -->
+                    <div class="risk-pillar-card">
+                        <div class="pillar-card-header">
+                            <div class="pillar-icon port"><i class="fa-solid fa-anchor"></i></div>
+                            <div>
+                                <h4>3. Port Congestion &amp; Draft</h4>
+                                <span class="pillar-weight-badge port">20% Weight</span>
+                            </div>
+                        </div>
+                        <div class="pillar-body">
+                            <div class="pillar-metric">
+                                <strong>Core Metrics:</strong>
+                                <span>Pre-Berthing Anchorage Wait Time (T_wait) &amp; Under-Keel Clearance (UKC)</span>
+                            </div>
+                            <div class="pillar-formula">
+                                <code>UKC = Berth_Draft_Envelope - Vessel_Arrival_Draft</code>
+                            </div>
+                            <div class="pillar-rule">
+                                <strong>Detection Thresholds:</strong>
+                                <ul>
+                                    <li><span class="dot red"></span> <strong>High (&gt;75 pts):</strong> T_wait &gt; 48 hours, mechanical conveyor breakdowns, or UKC margin &lt; 0.5m.</li>
+                                    <li><span class="dot orange"></span> <strong>Medium (40–74 pts):</strong> Queue buildup (24–48h wait) or compulsory lightering required at anchorage.</li>
+                                    <li><span class="dot green"></span> <strong>Low (&lt;40 pts):</strong> Direct berthing available within 24h of EOSP (End of Sea Passage).</li>
+                                </ul>
+                            </div>
+                            <div class="pillar-source">
+                                <i class="fa-solid fa-ship"></i> <em>Sources: Port Authority Circulars (Paradip, Haldia, Vizag) &amp; Live AIS Terminal Feeds</em>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pillar 4 -->
+                    <div class="risk-pillar-card">
+                        <div class="pillar-card-header">
+                            <div class="pillar-icon wx"><i class="fa-solid fa-cloud-bolt"></i></div>
+                            <div>
+                                <h4>4. Weather &amp; Cyclonic Risk</h4>
+                                <span class="pillar-weight-badge wx">20% Weight</span>
+                            </div>
+                        </div>
+                        <div class="pillar-body">
+                            <div class="pillar-metric">
+                                <strong>Core Metrics:</strong>
+                                <span>Bay of Bengal Depression Alerts, Significant Wave Height (Hs) &amp; Wind Force</span>
+                            </div>
+                            <div class="pillar-formula">
+                                <code>S_wx = f(Cyclone_Category, Hs &gt; 2.5m, Beaufort_Force &gt; 7)</code>
+                            </div>
+                            <div class="pillar-rule">
+                                <strong>Detection Thresholds:</strong>
+                                <ul>
+                                    <li><span class="dot red"></span> <strong>High (&gt;75 pts):</strong> IMD Cyclone Alert, port operations suspended, or Hs &gt; 2.5m stopping discharge.</li>
+                                    <li><span class="dot orange"></span> <strong>Medium (40–74 pts):</strong> Seasonal monsoon depressions (SW/NE) causing minor anchorage swells.</li>
+                                    <li><span class="dot green"></span> <strong>Low (&lt;40 pts):</strong> Calm sea state (Beaufort scale 1–3), no meteorological advisories.</li>
+                                </ul>
+                            </div>
+                            <div class="pillar-source">
+                                <i class="fa-solid fa-satellite"></i> <em>Sources: India Meteorological Department (IMD) &amp; Global Marine Routing Forecasts</em>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- THRESHOLD TIERS & DECISION ACTION MATRIX -->
+                <div class="risk-decision-matrix">
+                    <div class="matrix-title">
+                        <i class="fa-solid fa-diagram-project"></i>
+                        <h4>Risk Scale Classification &amp; Decision Action Matrix</h4>
+                    </div>
+                    <div class="matrix-cards-grid">
+                        <div class="matrix-card low">
+                            <div class="matrix-card-header">
+                                <span class="tier-pill low">0 – 39: Low Risk</span>
+                                <h5>Favorable Chartering Climate</h5>
+                            </div>
+                            <p>Market movements are stable within historical volatility envelopes; East Coast India discharge berths operate smoothly.</p>
+                            <div class="matrix-action">
+                                <strong>Decision Recommendation:</strong>
+                                <span>Spot market fixture optimal. Rely on Market Entry Timing Advisor to capture projected short-term freight dips.</span>
+                            </div>
+                        </div>
+
+                        <div class="matrix-card medium">
+                            <div class="matrix-card-header">
+                                <span class="tier-pill medium">40 – 69: Medium Risk</span>
+                                <h5>Guarded Market Conditions</h5>
+                            </div>
+                            <p>Moderate freight momentum (+6% to +12%), localized port delays (2–4 days wait), or seasonal Bay of Bengal swell warnings.</p>
+                            <div class="matrix-action">
+                                <strong>Decision Recommendation:</strong>
+                                <span>Fix early within laycan window. Consider partial CoA volume hedging (30–50%) to cap freight budget volatility.</span>
+                            </div>
+                        </div>
+
+                        <div class="matrix-card high">
+                            <div class="matrix-card-header">
+                                <span class="tier-pill high">70 – 100: High Risk</span>
+                                <h5>Critical Disruption Regime</h5>
+                            </div>
+                            <p>Severe rate spikes exceeding 90th percentile volatility, active cyclonic port closures, or major route sanctions.</p>
+                            <div class="matrix-action">
+                                <strong>Decision Recommendation:</strong>
+                                <span>Prioritize Long-Term Contract of Affreightment (CoA). Lock in indexed rate guarantees to insulate against spot surges.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DECISION SUPPORT PIPELINE -->
+                <div class="risk-pipeline-banner">
+                    <div class="pipeline-title">
+                        <i class="fa-solid fa-arrows-split-up-and-left"></i>
+                        <span>How the Risk Score Connects Across FreightIQ</span>
+                    </div>
+                    <div class="pipeline-steps">
+                        <div class="pipeline-step">
+                            <div class="step-num">1</div>
+                            <div class="step-content">
+                                <strong>Timing Advisor Integration</strong>
+                                <p>High risk penalizes waiting strategies; narrows recommended fixture window to avoid approaching rate spikes.</p>
+                            </div>
+                        </div>
+                        <div class="pipeline-step-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="pipeline-step">
+                            <div class="step-num">2</div>
+                            <div class="step-content">
+                                <strong>Spot vs. CoA Simulator</strong>
+                                <p>Quantifies upside price exposure (P90 - P10 spread); automatically flags CoA cost savings under high volatility.</p>
+                            </div>
+                        </div>
+                        <div class="pipeline-step-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="pipeline-step">
+                            <div class="step-num">3</div>
+                            <div class="step-content">
+                                <strong>Charter Recommendation Engine</strong>
+                                <p>Contributes 10% weight to the 100-point composite score: Feasibility (30%) + Economics (30%) + Timing (20%) + <strong>Risk (10%)</strong> + Contract (10%).</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
