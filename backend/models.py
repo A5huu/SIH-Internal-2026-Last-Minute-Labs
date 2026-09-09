@@ -55,11 +55,13 @@ class Cargo(Base):
     laycan_start = Column(Date, nullable=False)
     laycan_end = Column(Date, nullable=False)
     contract_preference = Column(String(20), nullable=False)  # Spot | CoA
+    status = Column(String(50), nullable=False, default="PENDING")  # PENDING | RECOMMENDED | APPROVED | SENT_TO_CHARTERING | FIXED | COMPLETED
     created_at = Column(DateTime(timezone=True), default=datetime.utcnow)
 
     # Relationships
     destination_port = relationship("Port", back_populates="cargos")
     recommendations = relationship("Recommendation", back_populates="cargo")
+    fixtures = relationship("Fixture", back_populates="cargo")
 
 class FreightHistory(Base):
     __tablename__ = "freight_history"
@@ -123,10 +125,78 @@ class Recommendation(Base):
     score = Column(Float, nullable=False)
     reason = Column(Text, nullable=False)
     reasons = Column(JSON, nullable=True)
+    status = Column(String(50), nullable=False, default="RECOMMENDED")  # RECOMMENDED | APPROVED | REJECTED | SENT_TO_CHARTERING
     created_at = Column(DateTime(timezone=True), default=datetime.utcnow)
 
     # Relationships
     cargo = relationship("Cargo", back_populates="recommendations")
+
+class Vessel(Base):
+    __tablename__ = "vessels"
+
+    id = Column(String(30), primary_key=True, index=True)  # V0001
+    name = Column(String(150), nullable=False)
+    vessel_class = Column(String(50), nullable=False, index=True)  # Handysize, Supramax, Panamax, Capesize
+    dwt = Column(Float, nullable=False)
+    draft = Column(Float, nullable=False)
+    loa = Column(Float, nullable=False)
+    beam = Column(Float, nullable=False)
+    current_port_id = Column(Integer, ForeignKey("ports.id"), nullable=True)
+    current_location = Column(String(150), nullable=True)
+    operational_status = Column(String(50), nullable=False, default="AVAILABLE", index=True)  # AVAILABLE | NOMINATED | FIXED | ON BALLAST | LOADING | IN TRANSIT | DISCHARGING | COMPLETED
+    availability_date = Column(Date, nullable=True)
+    owner_operator = Column(String(150), nullable=True)
+    fuel_consumption = Column(Float, nullable=True)
+    cruising_speed = Column(Float, nullable=True)
+    reliability_score = Column(Float, nullable=True)
+    updated_at = Column(DateTime(timezone=True), default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    # Relationships
+    fixtures = relationship("Fixture", back_populates="vessel")
+    voyages = relationship("Voyage", back_populates="vessel")
+
+class Fixture(Base):
+    __tablename__ = "fixtures"
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    cargo_id = Column(Integer, ForeignKey("cargo.id"), nullable=False, index=True)
+    vessel_id = Column(String(30), ForeignKey("vessels.id"), nullable=False, index=True)
+    fixture_date = Column(Date, nullable=False)
+    agreed_rate = Column(Float, nullable=False)
+    status = Column(String(30), nullable=False, default="FIXED")  # NOMINATED | FIXED | CANCELLED
+    created_at = Column(DateTime(timezone=True), default=datetime.utcnow)
+
+    # Relationships
+    cargo = relationship("Cargo", back_populates="fixtures")
+    vessel = relationship("Vessel", back_populates="fixtures")
+    voyages = relationship("Voyage", back_populates="fixture")
+
+class Voyage(Base):
+    __tablename__ = "voyages"
+
+    id = Column(String(50), primary_key=True, index=True)  # VOY_000001
+    fixture_id = Column(Integer, ForeignKey("fixtures.id"), nullable=True, index=True)
+    vessel_id = Column(String(30), ForeignKey("vessels.id"), nullable=False, index=True)
+    cargo_id = Column(Integer, ForeignKey("cargo.id"), nullable=True, index=True)
+    origin_port = Column(String(100), nullable=False)
+    destination_port = Column(String(100), nullable=False)
+    planned_departure = Column(DateTime(timezone=True), nullable=True)
+    actual_departure = Column(DateTime(timezone=True), nullable=True)
+    planned_arrival = Column(DateTime(timezone=True), nullable=True)
+    actual_arrival = Column(DateTime(timezone=True), nullable=True)
+    eta = Column(DateTime(timezone=True), nullable=True)
+    status = Column(String(50), nullable=False, default="FIXTURE", index=True)  # FIXTURE | NOMINATION | BALLAST | ARRIVAL | LOADING | DEPARTURE | TRANSIT | DISCHARGE | COMPLETED
+    distance_nm = Column(Float, nullable=True)
+    fuel_estimate = Column(Float, nullable=True)
+    ballast_distance = Column(Float, nullable=True)
+    delay_hours = Column(Float, default=0.0)
+    delay_reason = Column(String(100), nullable=True)
+    created_at = Column(DateTime(timezone=True), default=datetime.utcnow)
+
+    # Relationships
+    vessel = relationship("Vessel", back_populates="voyages")
+    fixture = relationship("Fixture", back_populates="voyages")
+    cargo = relationship("Cargo")
 
 class User(Base):
     __tablename__ = "users"

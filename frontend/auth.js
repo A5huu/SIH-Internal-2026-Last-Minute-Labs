@@ -278,6 +278,44 @@ if (signupForm) {
             }
 
 
+// ==========================================
+// ROLE-BASED ONE-CLICK DEMO LOGIN (VIVA / PRESENTATION)
+// ==========================================
+
+function loginAsRole(role) {
+    const roleProfiles = {
+        "Logistics Manager": {
+            id: 101,
+            name: "Ashutosh Sharma",
+            email: "logistics@steel.gov.in",
+            company: "Ministry of Steel / Bulk Procurement",
+            role: "Logistics Manager",
+            token: "demo-jwt-logistics-mgr"
+        },
+        "Chartering Officer": {
+            id: 102,
+            name: "Capt. Rajesh Nair",
+            email: "chartering@steel.gov.in",
+            company: "National Bulk Carriers Corp",
+            role: "Chartering Officer",
+            token: "demo-jwt-chartering-off"
+        },
+        "Market Analyst": {
+            id: 103,
+            name: "Dr. Priya Sen",
+            email: "analyst@steel.gov.in",
+            company: "Maritime Economic Analytics Cell",
+            role: "Market Analyst",
+            token: "demo-jwt-market-analyst"
+        }
+    };
+
+    const user = roleProfiles[role] || roleProfiles["Logistics Manager"];
+    localStorage.setItem("freightiq_user", JSON.stringify(user));
+    window.location.href = "main.html";
+}
+window.loginAsRole = loginAsRole;
+
             // Backend registration
             const submitBtn = signupForm.querySelector("button[type='submit']");
             const origText = submitBtn ? submitBtn.innerHTML : "Create Account";
@@ -285,6 +323,9 @@ if (signupForm) {
                 submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Creating account...`;
                 submitBtn.disabled = true;
             }
+
+            const roleSelect = document.getElementById("signupRole");
+            const userRole = roleSelect ? roleSelect.value : "Logistics Manager";
 
             fetch(`${API_BASE}/auth/signup`, {
                 method: "POST",
@@ -294,7 +335,7 @@ if (signupForm) {
                     email: email,
                     password: password,
                     company: "Maritime Freight Operations",
-                    role: "Chartering Manager"
+                    role: userRole
                 })
             })
             .then(async res => {
@@ -305,6 +346,7 @@ if (signupForm) {
                 return res.json();
             })
             .then(data => {
+                data.role = userRole;
                 localStorage.setItem("freightiq_user", JSON.stringify(data));
                 window.location.href = "main.html";
             })
@@ -361,6 +403,8 @@ if (loginForm) {
 
             }
 
+            const roleSelect = document.getElementById("loginRole");
+            const chosenRole = roleSelect ? roleSelect.value : "Logistics Manager";
 
             const submitBtn = loginForm.querySelector("button[type='submit']");
             const origText = submitBtn ? submitBtn.innerHTML : "Sign In";
@@ -385,6 +429,7 @@ if (loginForm) {
                 return res.json();
             })
             .then(data => {
+                data.role = chosenRole || data.role || "Logistics Manager";
                 localStorage.setItem("freightiq_user", JSON.stringify(data));
                 window.location.href = "main.html";
             })
@@ -400,7 +445,6 @@ if (loginForm) {
         }
     );
 }
-
 
 // ==========================================
 // BUTTON HOVER EFFECT

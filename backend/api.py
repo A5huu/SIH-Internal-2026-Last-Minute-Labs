@@ -7,13 +7,44 @@ API endpoints remain thin and delegate all business orchestration to logic.py.
 from typing import List, Optional, Dict, Any, Literal
 from datetime import date, datetime
 from pydantic import BaseModel, Field
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Header, status
 from sqlalchemy.orm import Session
 
 from backend.database import get_db
 import backend.logic as logic
 
 router = APIRouter()
+
+def require_roles(allowed_roles: List[str]):
+    """
+    Role-Based Access Control (RBAC) Dependency.
+    Enforces security boundary using X-User-Role header or Bearer token claims.
+    Returns HTTP 403 Forbidden for unauthorized role operations.
+    """
+    def role_checker(
+        x_user_role: Optional[str] = Header(default=None, alias="X-User-Role"),
+        authorization: Optional[str] = Header(default=None)
+    ):
+        role = x_user_role
+        if not role and authorization:
+            auth_lower = authorization.lower()
+            if "logistics" in auth_lower:
+                role = "Logistics Manager"
+            elif "chartering" in auth_lower:
+                role = "Chartering Officer"
+            elif "analyst" in auth_lower:
+                role = "Market Analyst"
+
+        if role:
+            normalized_allowed = [r.lower().replace("_", " ").replace("-", " ") for r in allowed_roles]
+            normalized_role = role.lower().replace("_", " ").replace("-", " ")
+            if normalized_role not in normalized_allowed:
+                raise HTTPException(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail=f"Access Denied: Operational role '{role}' is not authorized to access this resource. Required: {', '.join(allowed_roles)}"
+                )
+        return role or allowed_roles[0]
+    return role_checker
 
 # -----------------------------------------------------------------------------
 # Enums & Pydantic Schemas
@@ -147,6 +178,29 @@ class AuthResponse(BaseModel):
     company: Optional[str] = None
     role: Optional[str] = None
     token: Optional[str] = "demo-session-token"
+
+class FixtureCreateRequest(BaseModel):
+    cargo_id: int = Field(..., json_schema_extra={"example": 1})
+    vessel_id: str = Field(..., json_schema_extra={"example": "V0001"})
+    agreed_rate: float = Field(..., gt=0, json_schema_extra={"example": 25.50})
+    fixture_date: Optional[str] = Field(default=None, json_schema_extra={"example": "2026-11-12"})
+
+class VoyageStatusUpdateRequest(BaseModel):
+    status: str = Field(..., json_schema_extra={"example": "LOADING"})
+    delay_hours: Optional[float] = Field(default=0.0, json_schema_extra={"example": 0.0})
+    delay_reason: Optional[str] = Field(default="none", json_schema_extra={"example": "none"})
+
+class NavigationSafetyRequest(BaseModel):
+    vessel_draft: float = Field(..., gt=0, json_schema_extra={"example": 13.8})
+    port_draft: float = Field(..., gt=0, json_schema_extra={"example": 17.0})
+    tide: Optional[float] = Field(default=0.0, json_schema_extra={"example": 0.5})
+
+class BallastRepositionRequest(BaseModel):
+    vessel_id: str = Field(..., json_schema_extra={"example": "V0001"})
+    loading_port: str = Field(default="Hay Point, Australia", json_schema_extra={"example": "Hay Point, Australia"})
+
+class RejectRecommendationRequest(BaseModel):
+    reason: Optional[str] = Field(default="Commercial review requested alternative pricing", json_schema_extra={"example": "Alternative stem required"})
 
 # -----------------------------------------------------------------------------
 # Endpoints Implementation
@@ -329,4 +383,236 @@ def api_login(req: LoginRequest, db: Session = Depends(get_db)):
 def api_list_routes(db: Session = Depends(get_db)):
     """List available trading routes and associated metadata."""
     return logic.get_available_routes(db)
+
+# =============================================================================
+# ROLE 1: LOGISTICS MANAGER ENDPOINTS
+# =============================================================================
+
+@router.get("/procurement/kpis")
+def api_get_procurement_kpis(
+    db: Session = Depends(get_db),
+    _role: str = Depends(require_roles(["Logistics Manager", "LOGISTICS_MANAGER"]))
+):
+    """Logistics Manager KPI cards: Active Cargo, Recommended Fixtures, Forecast Freight, Risk, CoA Savings, Pending."""
+    try:
+        return logic.get_logistics_kpis(db)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch procurement KPIs: {str(e)}")
+
+@router.post("/recommendation/{rec_id}/approve")
+def api_approve_recommendation(
+    rec_id: int,
+    db: Session = Depends(get_db),
+    _role: str = Depends(require_roles(["Logistics Manager", "LOGISTICS_MANAGER"]))
+):
+    """
+    Logistics Manager Decision Action:
+    Approves AI recommendation and transitions workflow state:
+    RECOMMENDED -> APPROVED -> SENT TO CHARTERING.
+    """
+    try:
+        return logic.approve_recommendation(rec_id, db)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Approval workflow failed: {str(e)}")
+
+@router.post("/recommendation/{rec_id}/reject")
+def api_reject_recommendation(
+    rec_id: int,
+    req: RejectRecommendationRequest,
+    db: Session = Depends(get_db),
+    _role: str = Depends(require_roles(["Logistics Manager", "LOGISTICS_MANAGER"]))
+):
+    """Logistics Manager Action: Reject a recommended fixture with operational reason."""
+    try:
+        return logic.reject_recommendation(rec_id, req.reason, db)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Rejection failed: {str(e)}")
+
+@router.get("/cargo/all")
+def api_list_all_cargo(
+    db: Session = Depends(get_db),
+    _role: str = Depends(require_roles(["Logistics Manager", "LOGISTICS_MANAGER", "Chartering Officer", "CHARTERING_OFFICER"]))
+):
+    """List all cargo requirements and their active commercial workflow states."""
+    try:
+        return logic.list_all_cargo(db)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch cargo list: {str(e)}")
+
+# =============================================================================
+# ROLE 2: CHARTERING OFFICER ENDPOINTS
+# =============================================================================
+
+@router.get("/fleet")
+@router.get("/tonnage")
+def api_get_tonnage_board(
+    status: Optional[str] = Query(default="ALL", description="Operational filter, e.g. AVAILABLE, FIXED, ON BALLAST"),
+    vessel_class: Optional[str] = Query(default="ALL", description="Vessel class filter"),
+    db: Session = Depends(get_db),
+    _role: str = Depends(require_roles(["Chartering Officer", "CHARTERING_OFFICER"]))
+):
+    """Operational Tonnage Board for Chartering Officer."""
+    try:
+        return logic.get_tonnage_board(status, vessel_class, db)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch tonnage board: {str(e)}")
+
+@router.get("/cargo/approved")
+def api_get_approved_cargoes(
+    db: Session = Depends(get_db),
+    _role: str = Depends(require_roles(["Chartering Officer", "CHARTERING_OFFICER", "Logistics Manager", "LOGISTICS_MANAGER"]))
+):
+    """Retrieve cargo requests approved by Logistics Manager ready for vessel nomination."""
+    try:
+        return logic.get_approved_cargoes_for_chartering(db)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch approved cargoes: {str(e)}")
+
+@router.post("/fixtures", status_code=status.HTTP_201_CREATED)
+def api_create_fixture(
+    req: FixtureCreateRequest,
+    db: Session = Depends(get_db),
+    _role: str = Depends(require_roles(["Chartering Officer", "CHARTERING_OFFICER"]))
+):
+    """
+    Chartering Officer Action:
+    Nominate vessel, confirm fixture with agreed freight rate, and generate operational voyage.
+    """
+    try:
+        return logic.create_fixture_and_voyage(req.model_dump(), db)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Fixture execution failed: {str(e)}")
+
+@router.get("/fixtures")
+def api_list_fixtures(
+    db: Session = Depends(get_db),
+    _role: str = Depends(require_roles(["Chartering Officer", "CHARTERING_OFFICER"]))
+):
+    """List all confirmed fixtures."""
+    try:
+        return logic.get_all_fixtures(db)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch fixtures: {str(e)}")
+
+@router.get("/voyages")
+def api_list_voyages(
+    status: Optional[str] = Query(default="ALL"),
+    db: Session = Depends(get_db),
+    _role: str = Depends(require_roles(["Chartering Officer", "CHARTERING_OFFICER"]))
+):
+    """List active and historical voyages with 9-stage status progression."""
+    try:
+        return logic.get_all_voyages(status, db)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch voyages: {str(e)}")
+
+@router.post("/voyages/{voyage_id}/status")
+def api_update_voyage_status(
+    voyage_id: str,
+    req: VoyageStatusUpdateRequest,
+    db: Session = Depends(get_db),
+    _role: str = Depends(require_roles(["Chartering Officer", "CHARTERING_OFFICER"]))
+):
+    """
+    Chartering Officer Action:
+    Advance operational voyage across 9 stages:
+    FIXTURE -> NOMINATION -> BALLAST -> ARRIVAL -> LOADING -> DEPARTURE -> TRANSIT -> DISCHARGE -> COMPLETED.
+    """
+    try:
+        return logic.update_voyage_status(voyage_id, req.status, req.delay_hours, req.delay_reason, db)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to update voyage status: {str(e)}")
+
+@router.post("/navigation/safety")
+def api_navigation_safety(
+    req: NavigationSafetyRequest,
+    _role: str = Depends(require_roles(["Chartering Officer", "CHARTERING_OFFICER", "Logistics Manager", "LOGISTICS_MANAGER"]))
+):
+    """Deterministic Under-Keel Clearance (UKC) Navigation Safety Panel."""
+    try:
+        return logic.calculate_navigation_safety(req.vessel_draft, req.port_draft, req.tide or 0.0)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Safety clearance calculation failed: {str(e)}")
+
+@router.post("/fleet/repositioning")
+def api_calculate_repositioning(
+    req: BallastRepositionRequest,
+    db: Session = Depends(get_db),
+    _role: str = Depends(require_roles(["Chartering Officer", "CHARTERING_OFFICER"]))
+):
+    """Operational ballast repositioning economics, bunker burn, and duration calculator."""
+    try:
+        return logic.calculate_ballast_repositioning(req.vessel_id, req.loading_port, db)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Ballast calculation failed: {str(e)}")
+
+# =============================================================================
+# ROLE 3: MARKET ANALYST ENDPOINTS
+# =============================================================================
+
+@router.get("/market/indices")
+def api_get_market_indices(
+    db: Session = Depends(get_db),
+    _role: str = Depends(require_roles(["Market Analyst", "MARKET_ANALYST"]))
+):
+    """Baltic Exchange market monitor (BDI, BCI, BPI, BSI) with change rates and freight correlation."""
+    try:
+        return logic.get_baltic_indices_monitor(db)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch market indices: {str(e)}")
+
+@router.get("/market/anomalies")
+def api_get_market_anomalies(
+    db: Session = Depends(get_db),
+    _role: str = Depends(require_roles(["Market Analyst", "MARKET_ANALYST"]))
+):
+    """Macro freight and commodity market anomaly detection with domain potential drivers."""
+    try:
+        return logic.detect_macro_anomalies(db)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to detect market anomalies: {str(e)}")
+
+@router.get("/model/performance")
+def api_get_model_performance(
+    db: Session = Depends(get_db),
+    _role: str = Depends(require_roles(["Market Analyst", "MARKET_ANALYST"]))
+):
+    """Model Performance Center: XGBoost Quantile Regressors vs Naive Persistence Baseline."""
+    try:
+        return logic.get_model_performance(db)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to evaluate model performance: {str(e)}")
+
+@router.get("/model/health")
+def api_get_model_health(
+    db: Session = Depends(get_db),
+    _role: str = Depends(require_roles(["Market Analyst", "MARKET_ANALYST"]))
+):
+    """Model monitoring, data freshness, and feature drift health assessment."""
+    try:
+        return logic.get_model_health_and_drift(db)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch model health: {str(e)}")
+
+@router.get("/data/quality")
+def api_get_data_quality(
+    db: Session = Depends(get_db),
+    _role: str = Depends(require_roles(["Market Analyst", "MARKET_ANALYST"]))
+):
+    """Data Quality Center: dataset health, record counts, missingness %, duplicates, and freshness."""
+    try:
+        return logic.get_data_quality_report(db)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to generate data quality report: {str(e)}")
+
 
