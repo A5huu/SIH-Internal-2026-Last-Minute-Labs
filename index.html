@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FreightIQ — Maritime Freight Forecasting & Chartering Decision Support</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <!-- Top Navigation -->
+  <header class="app-header">
+    <div class="header-inner container">
+      <div class="brand-group">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 20a2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1 2.4 2.4 0 0 1 2-1 2.4 2.4 0 0 1 2 1 2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1 2.4 2.4 0 0 1 2-1 2.4 2.4 0 0 1 2 1 2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1"></path>
+            <path d="M4 18l-1-5 18-2-2 7"></path>
+            <path d="M6 13V7a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v6"></path>
+            <path d="M12 4v9"></path>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title">Freight<span>IQ</span></div>
+          <div class="brand-subtitle">AI Chartering Intelligence • SIH PS 26006 • Ministry of Steel</div>
+        </div>
+      </div>
+
+      <!-- Quick Preset Scenarios for Judges -->
+      <div class="header-actions">
+        <div class="demo-pills">
+          <span class="pill-label">Demo Scenarios:</span>
+          <button type="button" class="btn-scenario active" id="btnScenario1" title="Test Paradip: Capesize draft constrained, Panamax selected">1. Paradip 75kt Coal</button>
+          <button type="button" class="btn-scenario" id="btnScenario2" title="Test Haldia: Capesize/Panamax draft rejected">2. Haldia Shallow Port</button>
+          <button type="button" class="btn-scenario" id="btnScenario3" title="Test Vizag: Volatility favors CoA">3. Vizag 55kt Spot vs CoA</button>
+        </div>
+        <div class="system-status">
+          <span class="status-dot"></span>
+          <span class="status-text" id="systemStatusText">PostgreSQL • XGBoost-v1</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Notice Banner -->
+  <aside class="notice-bar">
+    <div class="container notice-inner">
+      <span class="notice-tag">AUTHENTIC PROTOCOL</span>
+      <span class="notice-desc">Engineered for realistic East Coast India port constraints, Baltic indices, and walk-forward XGBoost quantile forecasts. Feasibility rules strictly override ML predictions.</span>
+    </div>
+  </aside>
+
+  <!-- Main Dashboard Grid -->
+  <main class="container dashboard-layout">
+    
+    <!-- LEFT COLUMN: Cargo Input & Compatibility -->
+    <section class="planner-column">
+      
+      <!-- Cargo Requirement Card -->
+      <div class="card panel-cargo">
+        <div class="card-header">
+          <div class="card-title-group">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            <h2>Cargo Planning & Charter Requirement</h2>
+          </div>
+          <span class="badge-step">Step 1</span>
+        </div>
+        <div class="card-body">
+          <form id="cargoForm" class="form-grid">
+            <div class="form-group">
+              <label for="cargoType">Cargo Commodity</label>
+              <select id="cargoType" required>
+                <option value="Coking Coal" selected>Coking Coal (Prime Hard)</option>
+                <option value="Thermal Coal">Thermal Coal</option>
+                <option value="Iron Ore Pellets">Iron Ore Pellets</option>
+                <option value="Limestone">Limestone / Flux</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="cargoQuantity">Parcel Quantity (MT)</label>
+              <div class="input-with-unit">
+                <input type="number" id="cargoQuantity" value="75000" min="5000" max="250000" step="1000" required>
+                <span class="unit-tag">Tonnes</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="cargoOrigin">Origin Hub</label>
+              <select id="cargoOrigin" required>
+                <option value="Australia" selected>Australia (Hay Point / Gladstone)</option>
+                <option value="Indonesia">Indonesia (Samarinda / Taboneo)</option>
+                <option value="US_East_Coast">US East Coast (Hampton Roads)</option>
+                <option value="Mozambique">Mozambique (Maputo / Beira)</option>
+                <option value="Russia_Far_East">Russia Far East (Vostochny)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="destinationPort">Destination Port (India East Coast)</label>
+              <select id="destinationPort" required>
+                <!-- Populated dynamically via GET /ports -->
+                <option value="1" selected>Paradip Port (Max Draft: 17.1m)</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group half">
+                <label for="laycanStart">Laycan Window Start</label>
+                <input type="date" id="laycanStart" required>
+              </div>
+              <div class="form-group half">
+                <label for="laycanEnd">Laycan Window End</label>
+                <input type="date" id="laycanEnd" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="contractPref">Procurement Contract Preference</label>
+              <div class="radio-pill-group">
+                <label class="radio-pill">
+                  <input type="radio" name="contractPreference" value="CoA" checked>
+                  <span>CoA (Contract of Affreightment)</span>
+                </label>
+                <label class="radio-pill">
+                  <input type="radio" name="contractPreference" value="Spot">
+                  <span>Spot (Single Voyage)</span>
+                </label>
+              </div>
+            </div>
+
+            <button type="submit" id="btnSubmitPlan" class="btn btn-primary btn-block">
+              <span class="btn-text">Generate Recommendation</span>
+              <div class="spinner" id="submitSpinner"></div>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Feasibility & Constraint Engine Card -->
+      <div class="card panel-compat">
+        <div class="card-header">
+          <div class="card-title-group">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            <h2>Vessel–Port Feasibility Matrix</h2>
+          </div>
+          <span class="badge-tag info">Rule Engine</span>
+        </div>
+        <div class="card-body">
+          <p class="section-desc">Deterministic physical feasibility verification against harbor draft, LOA, beam, and parcel capacity limits.</p>
+          
+          <div class="compat-status-container" id="compatResults">
+            <!-- Populated dynamically -->
+            <div class="loading-placeholder">Submit cargo plan to evaluate physical compatibility...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Port Explorer & Admin Quick View -->
+      <div class="card panel-port-explorer">
+        <div class="card-header">
+          <div class="card-title-group">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+            <h2>Port Constraints & Admin</h2>
+          </div>
+          <button type="button" class="btn-icon" id="btnOpenPortAdmin" title="Edit Port Constraints">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+            Edit
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="port-specs-grid" id="currentPortSpecs">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- RIGHT COLUMN: Recommendation Hero & Analytics -->
+    <section class="results-column">
+
+      <!-- THE CORE RECOMMENDATION HERO CARD -->
+      <div class="card hero-recommendation" id="heroRecCard">
+        <div class="hero-glow"></div>
+        <div class="hero-header">
+          <div class="hero-badge">
+            <span class="badge-dot"></span>
+            FREIGHTIQ CHARTERING DIRECTIVE
+          </div>
+          <div class="hero-score-badge" id="recScoreBadge">
+            <span class="score-num" id="recScoreVal">--</span>
+            <span class="score-label">/ 100 SCORE</span>
+          </div>
+        </div>
+
+        <div class="hero-body">
+          <div class="hero-highlight-row">
+            <div class="highlight-item">
+              <span class="hl-label">Recommended Vessel</span>
+              <div class="hl-value-large" id="recVesselClass">Select Cargo</div>
+              <span class="hl-sub" id="recVesselSub">Feasibility Verified</span>
+            </div>
+
+            <div class="highlight-item">
+              <span class="hl-label">Optimal Fixture Window</span>
+              <div class="hl-value-large text-cyan" id="recFixtureWindow">--</div>
+              <span class="hl-sub" id="recLaycanAdherence">Strictly within Cargo Laycan</span>
+            </div>
+
+            <div class="highlight-item">
+              <span class="hl-label">Procurement Strategy</span>
+              <div class="hl-value-large text-emerald" id="recContractType">--</div>
+              <span class="hl-sub" id="recContractSub">Volatility Hedged</span>
+            </div>
+
+            <div class="highlight-item">
+              <span class="hl-label">Route Risk Index</span>
+              <div class="hl-value-large" id="recRiskLevel">--</div>
+              <span class="hl-sub" id="recRiskSub">Anomaly Monitored</span>
+            </div>
+          </div>
+
+          <!-- Forecast Rate Quantiles Box -->
+          <div class="forecast-quantiles-box">
+            <div class="fq-title">
+              <span>XGBoost Freight Rate Forecast (USD / Metric Tonne)</span>
+              <span class="model-tag" id="recModelVersion">Model: xgboost-v1</span>
+            </div>
+            <div class="fq-grid">
+              <div class="fq-card p10">
+                <span class="fq-label">P10 (Optimistic Lower)</span>
+                <span class="fq-value" id="recP10">$--</span>
+                <span class="fq-sub">10% probability below</span>
+              </div>
+              <div class="fq-card p50 active-median">
+                <span class="fq-label">P50 (Expected Rate)</span>
+                <span class="fq-value" id="recP50">$--</span>
+                <span class="fq-sub">Central median expectation</span>
+              </div>
+              <div class="fq-card p90">
+                <span class="fq-label">P90 (Conservative Ceiling)</span>
+                <span class="fq-value" id="recP90">$--</span>
+                <span class="fq-sub">90% probability below</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Explainability & Rationales -->
+          <div class="reasons-container">
+            <div class="reasons-title">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              Transparent Recommendation Rationale
+            </div>
+            <ul class="reasons-list" id="recReasonsList">
+              <li>Configure your cargo requirements and click "Generate Recommendation" to initiate the decision pipeline.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- FORECAST CHART & UNCERTAINTY BAND -->
+      <div class="card panel-chart">
+        <div class="card-header">
+          <div class="card-title-group">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            <h2>30-Day Freight Trajectory & Quantile Uncertainty Band</h2>
+          </div>
+          <div class="chart-legend-custom">
+            <span class="legend-item"><span class="legend-swatch p50-swatch"></span> Expected (P50)</span>
+            <span class="legend-item"><span class="legend-swatch band-swatch"></span> P10–P90 Confidence Fan</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="chart-wrapper">
+            <canvas id="forecastChart"></canvas>
+          </div>
+          <!-- Model Drivers / SHAP Insights -->
+          <div class="drivers-bar">
+            <span class="drivers-label">Key ML Drivers:</span>
+            <div class="drivers-pills" id="featureDriversPills">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SPOT VS COA & RISK FEED (Side-by-Side) -->
+      <div class="two-col-grid">
+        
+        <!-- Spot vs CoA Strategy Card -->
+        <div class="card panel-coa">
+          <div class="card-header">
+            <div class="card-title-group">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7.5" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+              <h2>Spot vs. CoA Strategy Comparison</h2>
+            </div>
+            <span class="badge-tag purple" id="coaStrategyBadge">Strategy</span>
+          </div>
+          <div class="card-body">
+            <div class="cost-comparison-grid">
+              <div class="cost-card spot">
+                <span class="cost-label">Expected Spot Cost</span>
+                <span class="cost-val" id="coaExpectedSpot">$--</span>
+                <span class="cost-note">Unhedged rate volatility</span>
+              </div>
+              <div class="cost-card coa highlight">
+                <span class="cost-label">Negotiated CoA Cost</span>
+                <span class="cost-val" id="coaExpectedCoa">$--</span>
+                <span class="cost-note" id="coaDiscountNote">Committed parcel discount</span>
+              </div>
+            </div>
+            <div class="savings-callout" id="coaSavingsCallout">
+              <span class="savings-text">Estimated Net Differential: <strong id="coaSavingsVal">$--</strong></span>
+              <p class="savings-desc" id="coaReasonText">Run recommendation to evaluate procurement strategy.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Risk & Early Warning Feed -->
+        <div class="card panel-risk">
+          <div class="card-header">
+            <div class="card-title-group">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+              <h2>Risk & Anomaly Alert Feed</h2>
+            </div>
+            <span class="badge-tag alert" id="riskFeedBadge">Active Feed</span>
+          </div>
+          <div class="card-body">
+            <div class="risk-feed-list" id="riskEventsList">
+              <div class="loading-placeholder">Loading route risk intelligence...</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- BALTIC EXCHANGE INDICES & MARKET OVERVIEW -->
+      <div class="card panel-market">
+        <div class="card-header">
+          <div class="card-title-group">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <h2>Baltic Exchange Benchmark Indices (BDI / BCI / BPI / BSI)</h2>
+          </div>
+          <span class="badge-tag secondary">Macro Indicators</span>
+        </div>
+        <div class="card-body">
+          <div class="market-chart-wrapper">
+            <canvas id="marketChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- Admin Port Edit Modal -->
+  <div class="modal-backdrop" id="portModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Edit Port Navigational Constraints</h3>
+        <button type="button" class="btn-close" id="btnCloseModal">&times;</button>
+      </div>
+      <form id="portEditForm" class="modal-body form-grid">
+        <input type="hidden" id="editPortId">
+        <div class="form-group">
+          <label for="editPortName">Port Name</label>
+          <input type="text" id="editPortName" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group half">
+            <label for="editMaxDraft">Max Draft (meters)</label>
+            <input type="number" id="editMaxDraft" step="0.1" required>
+          </div>
+          <div class="form-group half">
+            <label for="editMaxLoa">Max Berth LOA (meters)</label>
+            <input type="number" id="editMaxLoa" step="1.0" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group half">
+            <label for="editMaxBeam">Max Beam (meters)</label>
+            <input type="number" id="editMaxBeam" step="0.1" required>
+          </div>
+          <div class="form-group half">
+            <label for="editHandlingRate">Handling Rate (t/day)</label>
+            <input type="number" id="editHandlingRate" step="1000" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="editLightering">
+            <span>Offshore Lightering Available</span>
+          </label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="btnCancelModal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Constraints</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="appToast">
+    <span class="toast-msg" id="toastMsg">Notification</span>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
